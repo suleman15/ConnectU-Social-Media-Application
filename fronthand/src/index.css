@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* @font-face {
+font-family: "Gordita";
+src: local("Gordita"),
+ url("../src/Font/Gordita-Font/Gordita-Regular.otf") format("truetype");
+  font-weight: bold;
+}
+@font-face {
+font-family: "Gordita-Bold";
+src: local("Gordita"),
+ url("../src/Font/Gordita-Font/Gordita-Black.otf") format("truetype");
+  font-weight: bold;
+}
+
+
+:root {
+  font-family: "Gordita";
+} */
+
+
+:root {
+  font-family: poppins;
+}
