@@ -16,7 +16,7 @@ const TopBar = () => {
   return (
     <div className="flex justify-between items-center py-2  bg-white my-2 rounded p-3 ">
       <Link to={"/"}>
-        <img className="h-8" src="public/logo.png?url" alt="" />
+        <img className="h-8" src="logo.png" alt="" />
       </Link>
       <div className="flex items-stretch gap-2 ">
         <InputField
