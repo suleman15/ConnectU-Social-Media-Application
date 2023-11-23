@@ -4,6 +4,7 @@ import CustomButton from "./CustomButton";
 import { BiBell, BiMoon } from "react-icons/bi";
 import { SetTheme } from "../features/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import logoImage from "/logo.png";
 
 const TopBar = () => {
   const { theme } = useSelector((state) => state.theme);
@@ -16,7 +17,7 @@ const TopBar = () => {
   return (
     <div className="flex justify-between items-center py-2  bg-white my-2 rounded p-3 ">
       <Link to={"/"}>
-        <img className="h-8" src="/logo.png" alt="" />
+        <img className="h-8" src={logoImage} alt="" />
       </Link>
       <div className="flex items-stretch gap-2 ">
         <InputField
