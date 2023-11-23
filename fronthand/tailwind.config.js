@@ -14,6 +14,7 @@ module.exports = {
       },
       Clr: "#1e8fffbe",
       Clrhv: "#1e8fff",
+      do: "#4B32C3",
     },
     screens: {
       sm: "640px",
