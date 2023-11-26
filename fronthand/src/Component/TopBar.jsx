@@ -16,16 +16,16 @@ const TopBar = () => {
   return (
     <div className="flex justify-between items-center py-2  bg-white my-2 rounded p-3 ">
       <Link to={"/"}>
-        <img className="h-8" src="logo.png" alt="" />
+        <img className="h-8" src="/logo.png" alt="" />
       </Link>
-      <div className="flex items-stretch gap-2 ">
+      <form className="flex items-stretch gap-2 ">
         <InputField
           styles={` h-full w-[250px]`}
           type={"text"}
           placeholder="...."
         />
-        <CustomButton title={"Search"} />
-      </div>
+        <CustomButton type={"submit"} title={"Search"} />
+      </form>
       <div className="flex gap-3 text-xl ">
         <BiMoon
           onClick={() => handleTheme()}
