@@ -1,5 +1,5 @@
 import Users from "../Models/userModel.js";
-import { hashString, compareString } from "../Utils/index.js";
+import { hashString, compareString, createJWT } from "../Utils/index.js";
 
 import { sendVerificationEmail } from "../Utils/sendEmail.js";
 
@@ -45,13 +45,13 @@ export const Login = async (req, res, next) => {
       next("Invalid email or password");
       return;
     }
-    console.log("Runnign");
     if (!user?.verified) {
       next(
         "User email is not verified. Check your email account and verify your email"
       );
       return;
     }
+    console.log("Suleman Ahmed");
     const isMatch = await compareString(password, user?.password);
     if (!isMatch) {
       next("Invalid email or password");

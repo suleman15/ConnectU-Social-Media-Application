@@ -15,6 +15,7 @@ const __dirname = path.resolve(path.dirname(""));
 const app = express();
 
 app.use(express.static(path.join(__dirname, "views/build")));
+app.use(express.static("js"));
 
 const PORT = process.env.PORT || 8800;
 

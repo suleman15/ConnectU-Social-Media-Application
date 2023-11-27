@@ -4,13 +4,26 @@
     <title>Verification</title>
     <meta
       http-equiv="Content-Security-Policy"
-      content="script-src 'unsafe-inline' 'self'"
+      script-src="http: 'unsafe-inline'"
     />
     <style>
+      body {
+        width: 100%;
+        height: 100vh;
+        background-color: gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
       .card {
-        background-color: dodgerblue;
+        background-color: white;
+        padding: 10px;
       }
     </style>
+    <script>
+      console.log("THis is working");
+    </script>
   </head>
   <body>
     <div class="card">
@@ -20,6 +33,39 @@
       <div id="statusMessage"></div>
       <a href="http://localhost:8800/login" id="Btn">Login</a>
     </div>
-    <script src="./main.js"></script>
+    <script type="module">
+      // Get the params
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get("message");
+      const status = urlParams.get("status");
+
+      //alpha
+      const card = document.querySelector(".card");
+      const statusIcon = document.querySelector("#statusIcon");
+      const statusMessage = document.querySelector("#statusMessage");
+      const btn = document.querySelector("#Btn ");
+      console.log(status);
+      if (status == "success") {
+        statusIcon.innerHTML = "✔️✔️✔️";
+        statusMessage.textContent = message;
+        card.classList.add("success");
+        statusIcon.classList.add("success");
+        statusMessage.classList.add("success");
+        btn.classList.add("showBtn");
+      } else if (status == "error") {
+        statusIcon.innerHTML = "❌❌❌";
+        statusMessage.textContent = message;
+        card.classList.add("error");
+        statusIcon.classList.add("error");
+        statusMessage.classList.add("error");
+        btn.classList.add("hideBtn");
+      } else {
+        statusIcon.innerHTML = "❓";
+        card.classList.add("notFound");
+        statusIcon.classList.add("error");
+        statusMessage.classList.add("error");
+        btn.classList.add("showBtn");
+      }
+    </script>
   </body>
 </html>

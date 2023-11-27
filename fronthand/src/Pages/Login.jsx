@@ -49,7 +49,7 @@ export default function Login() {
         <div className="lg:w-1/2 w-full p-10 flex gap-3  md:w-full  flex-col">
           <Link to={"/"}>
             {" "}
-            <img className="h-8" src="../../public/logo.png" />
+            <img className="h-8" src="/logo.png" />
           </Link>
           <p>Login in to your account</p>
           <span className="text-xs text-[gray]">Welcome Back.</span>

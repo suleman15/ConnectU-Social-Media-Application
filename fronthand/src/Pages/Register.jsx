@@ -11,7 +11,6 @@ import {
   BiWifi,
 } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
-import img from "../../public/tg.jpg";
 
 export default function Register() {
   let {
@@ -51,7 +50,7 @@ export default function Register() {
         <div className="w-1/2  p-5 flex gap-3 flex-col">
           <Link to={"/"}>
             {" "}
-            <img className="h-8" src="../../public/logo.png" />{" "}
+            <img className="h-8" src="/logo.png" />{" "}
           </Link>
           <p>Register your account</p>
           <form
