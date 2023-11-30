@@ -9,6 +9,6 @@ const requestSchema = Schema(
   { timestamps: true }
 );
 
-const Request = model("FriendRequest", requestSchema);
+const FriendRequest = model("FriendRequest", requestSchema);
 
-export default Request;
+export default FriendRequest;

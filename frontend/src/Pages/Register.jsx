@@ -65,19 +65,15 @@ export default function Register() {
                 register={register("firstName", {
                   required: "First Name is required",
                 })}
-                styles=""
-                LabelStyle=""
                 error={errors.firstName ? errors.firstName.message : ""}
               />
               <InputField
-                type="email"
+                type="text"
                 placeholder="Last Name"
                 label="Last Name: "
                 register={register("lastName", {
                   required: "Last Name is required",
                 })}
-                styles=""
-                LabelStyle=""
                 error={errors.lastName ? errors.lastName.message : ""}
               />
             </div>
@@ -88,8 +84,6 @@ export default function Register() {
               register={register("email", {
                 required: "Email Address is required",
               })}
-              styles=""
-              LabelStyle=""
               error={errors.email ? errors.email.message : ""}
             />
             <div className="flex gap-2">
@@ -100,8 +94,6 @@ export default function Register() {
                 register={register("password", {
                   required: "Password  is required",
                 })}
-                styles=""
-                LabelStyle=""
                 error={errors.password ? errors.password.message : ""}
               />
               <InputField
@@ -116,8 +108,6 @@ export default function Register() {
                     }
                   },
                 })}
-                styles=""
-                LabelStyle=""
                 error={
                   errors.cPassword && errors.cPassword.type === "validate"
                     ? errors.cPassword?.message

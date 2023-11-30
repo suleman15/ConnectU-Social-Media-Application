@@ -38,5 +38,6 @@ app.use(router);
 app.use(errorMiddleware);
 
 app.listen(8800, () => {
+  console.clear();
   console.log("This server is running on the port 8800");
 });

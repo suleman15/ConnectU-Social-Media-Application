@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Verification</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+      body {
+        font-family: Poppins;
+        margin: 0px;
+        width: 100%;
+        height: 100vh;
+        background-color: gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 300px;
+        background-color: white;
+        padding: 40px;
+        border-radius: 10px;
+      }
+      input {
+        padding: 10px;
+        outline: none;
+        border: 3px solid #37baee;
+      }
+      button {
+        background-color: #37baee;
+        color: white;
+        padding: 10px;
+        border: none;
+      }
+
+      .card {
+        background-color: white;
+        padding: 20px 50px;
+        border-radius: 10px;
+      }
+      .card.success {
+        color: green;
+      }
+      #statusIcon {
+        font-size: xx-large;
+        text-align: center;
+      }
+      #statusMessage {
+        text-align: center;
+      }
+      a {
+        text-decoration: none;
+        text-align: center;
+        display: block;
+        background-color: green;
+        color: white;
+        text-transform: uppercase;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="module">
+      // Get the params
+      const root = document.querySelector("#root");
+      const urlParams = new URLSearchParams(window.location.search);
+      const type = urlParams.get("type");
+      const id = urlParams.get("id");
+      const message = urlParams.get("message");
+      const status = urlParams.get("status");
+
+      if (type == "reset") {
+        root.innerHTML = `<form id="submitId">
+          <h1>Reset Password</h1>
+          <input type="password" name="password" id="password" />
+          <input type="password" name="cpassword" id="cpassword" />
+          <div class="error"></div>
+          <button type="submit">Reset Password</button>
+          <div class="success"></div>
+        </form>`;
+        const userId = urlParams.get("id");
+        let pass1 = document.querySelector("#password");
+        let pass2 = document.querySelector("#cpassword");
+        pass2.addEventListener("input", (e) => {
+          console.log("this is working");
+          if (e.target.value == pass1.value) {
+            errorBox.innerHTML = "Password Match";
+          } else {
+            errorBox.innerHTML = "";
+          }
+        });
+
+        let form = document.querySelector("#submitId");
+        const formData = new FormData(form);
+
+        let errorBox = document.querySelector(".error");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (pass1.value != pass2.value) {
+            return (errorBox.innerHTML = "Password Doesn,t match");
+          }
+          console.log(formData);
+          fetch("http://localhost:8800/users/password-reset", {
+            method: "Post",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ pass1, userId: id }),
+          })
+            .then((res) => res.json())
+            .catch((err) => console.log(err.message));
+        });
+      } else if (status == "error") {
+        root.innerHTML = `<div class="card">
+        <div>
+          <div class="icon">
+            <div id="statusIcon">❌❌❌</div>
+          </div>
+          <div id="statusMessage">${message}</div>
+        </div>
+      </div>`;
+      }
+    </script>
+  </body>
+</html>

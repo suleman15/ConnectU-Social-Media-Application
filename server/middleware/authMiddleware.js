@@ -12,6 +12,7 @@ export const userAuth = async (req, res, next) => {
     req.body.user = {
       userId: userToken.userId,
     };
+    next();
   } catch (err) {
     console.log(err);
     next("Authentication Failed");
