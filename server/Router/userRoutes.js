@@ -27,7 +27,7 @@ router.post("/password-reset", changePassword); // @{Working Fine} change the us
 
 //user routes
 router.post("/get-user/:id?", userAuth, getUser);
-router.post("/update-user", userAuth, updateUser);
+router.put("/update-user", userAuth, updateUser);
 
 //friendrequest route
 router.post("/friend-request", userAuth, friendRequest);

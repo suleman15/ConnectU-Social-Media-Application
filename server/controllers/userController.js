@@ -198,7 +198,7 @@ export const updateUser = async (req, res, next) => {
       next("Please Provide all required Field");
       return;
     }
-    const { userId } = req.params.user;
+    const { userId } = req.params;
     const updatedUser = {
       _id: userId,
       firstName,
