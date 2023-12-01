@@ -24,13 +24,13 @@ let userScheme = new mongoose.Schema(
     location: { type: String },
     profileUrl: { type: String },
     profession: { type: String },
-    friends: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "users" }],
     views: [{ type: String }],
     verified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-const Users = mongoose.model("Users", userScheme);
+const Users = mongoose.model("users", userScheme);
 
 export default Users;

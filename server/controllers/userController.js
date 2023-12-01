@@ -198,7 +198,7 @@ export const updateUser = async (req, res, next) => {
       next("Please Provide all required Field");
       return;
     }
-    const { userId } = req.params;
+    const { userId } = req.body.user;
     const updatedUser = {
       _id: userId,
       firstName,
@@ -210,6 +210,7 @@ export const updateUser = async (req, res, next) => {
     const user = await Users.findByIdAndUpdate(userId, updatedUser, {
       new: true,
     });
+    console.log(user);
     await user.populate({ path: "friends", select: "-password" });
     const token = createJWT(user?._id);
 
@@ -326,22 +327,22 @@ export const acceptRequest = async (req, res, next) => {
 
 export const profileView = async (res, req, next) => {
   try {
-    const { userId } = req.body.user;
-    const { id } = req.body;
-    const user = await Users.findById(id);
-
-    user.views.push(userId);
-    await user.save();
-
-    res.status(201).json({
+    res.json({
       success: true,
-      message: "Successfully",
     });
+    // const { userId } = req.body.user;
+    // const { id } = req.body;
+    // const user = await Users.findById(id);
+    // console.log("user" + user);
+    // user.views.push(userId);
+    // await user.save();
+    // res.status(201).json({
+    //   success: true,
+    //   message: "Successfully",
+    // });
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .json({ message: "Auth Error", success: false, error: err.message });
+    res.json({ message: "Auth Error", success: false, error: err.message });
   }
 };
 

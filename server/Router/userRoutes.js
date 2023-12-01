@@ -14,6 +14,7 @@ import {
   profileView,
 } from "../controllers/userController.js";
 import { userAuth } from "../middleware/authMiddleware.js";
+import scriptMiddleware from "../middleware/scriptMiddleware.js";
 
 const router = express.Router();
 const __dirname = path.resolve(path.dirname(""));
@@ -42,21 +43,11 @@ router.post("/profile-view", userAuth, profileView);
 //Suggest Friend
 router.post("/suggested-friends", userAuth, suggestedFriends);
 
-router.get("/verified", (req, res) => {
-  res
-    .set(
-      "Content-Security-Policy",
-      "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
-    )
-    .sendFile(path.join(__dirname, "views/build", "/verifiedPage.html"));
+router.get("/verified", scriptMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "views/build", "/verifiedPage.html"));
 }); //@{Working Fine}
-router.get("/resetpassword", (req, res) => {
-  res
-    .set(
-      "Content-Security-Policy",
-      "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
-    )
-    .sendFile(path.join(__dirname, "views/build", "/resetPage.html"));
+router.get("/resetpassword", scriptMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "views/build", "/resetPage.html"));
 }); //@{not full set}
 
 export default router;
