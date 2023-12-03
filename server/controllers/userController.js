@@ -271,15 +271,15 @@ export const getFriendRequest = async (req, res, next) => {
     const request = await FriendRequest.find({
       requestTo: userId,
       requestStatus: "Pending",
-    })
-      .populate({
-        path: "requestFrom",
-        select: "firstName lastName profileUrl profession -password",
-      })
-      .limit(10)
-      .sort({
-        _id: -1,
-      });
+    }).populate({
+      path: "requestFrom",
+      select: "firstName lastName profileURL profession -password",
+    });
+    // .limit(10)
+    // .sort({
+    //   _id: -1,
+    // });
+    console.log(request);
     res.status(200).json({
       success: true,
       data: request,
@@ -293,7 +293,8 @@ export const getFriendRequest = async (req, res, next) => {
 };
 export const acceptRequest = async (req, res, next) => {
   try {
-    const id = req.body.user.userId;
+    const _id = req.body.user.userId;
+    console.log(req.body.user.userId);
     const { rid, status } = req.body;
     const requestExist = await FriendRequest.findById(rid);
     if (!requestExist) {
@@ -304,9 +305,8 @@ export const acceptRequest = async (req, res, next) => {
       { _id: rid },
       { requestStatus: status }
     );
-
     if (status == "Accepted") {
-      const user = await Users.findById(id);
+      const user = await Users.findById(_id);
       user.friends.push(newRes?.requestFrom);
       await user.save();
       const friend = await Users.findById(newRes?.requestFrom);
@@ -325,24 +325,30 @@ export const acceptRequest = async (req, res, next) => {
   }
 };
 
-export const profileView = async (res, req, next) => {
+export const viewProfile = async (req, res, next) => {
   try {
-    res.json({
-      success: true,
+    const { userId } = req.body.user;
+    const { id } = req.body;
+    const user = await Users.findById(id);
+    if (user) {
+      user.views.push(userId);
+      await user.save();
+      return res.status(201).json({
+        success: true,
+        message: "Successfully",
+      });
+    }
+    res
+      .status(401)
+      .json({ success: false, message: "id is not defined in body" });
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+    res.status(500).json({
+      message: "auth error",
+      success: false,
+      error: error.message,
     });
-    // const { userId } = req.body.user;
-    // const { id } = req.body;
-    // const user = await Users.findById(id);
-    // console.log("user" + user);
-    // user.views.push(userId);
-    // await user.save();
-    // res.status(201).json({
-    //   success: true,
-    //   message: "Successfully",
-    // });
-  } catch (err) {
-    console.log(err);
-    res.json({ message: "Auth Error", success: false, error: err.message });
   }
 };
 

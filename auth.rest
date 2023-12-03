@@ -1,0 +1,46 @@
+POST  http://localhost:8800/auth/register 
+content-type: application/json
+
+{
+    "firstName" : "Suleman Ahmed",
+    "lastName": "Rajput",
+    "email": "sulemanahmed27048@gmail.com",
+    "password": "newHased"
+}
+
+###
+
+POST  http://localhost:8800/auth/register 
+content-type: application/json
+
+{
+    "firstName" : "Suleman ",
+    "lastName": "Rajput",
+    "email": "sulemanahmed2704@gmail.com",
+    "password": "newHased"
+}
+
+###
+### WORKING FINE
+
+
+POST  http://localhost:8800/auth/login 
+content-type: application/json
+
+{
+    "email": "sulemanahmed27048@gmail.com",
+    "password": "newHased"
+}
+
+###
+### WORKING FINE
+
+POST  http://localhost:8800/auth/login 
+content-type: application/json
+
+{
+    "email": "sulemanahmed2704@gmail.com",
+    "password": "newHased"
+}
+
+###

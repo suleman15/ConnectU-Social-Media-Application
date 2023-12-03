@@ -1,0 +1,93 @@
+###  RESET PASSWORD EMAIL 
+###WORKING FINE
+POST http://localhost:8800/users/request-resetpassword
+content-type: application/json
+
+{
+    "email": "sulemanahmed2704@gmail.com"
+}
+
+### Reset Password // and redirect to specific page
+###WORKING FINE
+
+POST http://localhost:8800/users/password-reset
+Content-Type: application/json
+
+{
+    "userId": "65694d039d62f9a4c7be2e2f", 
+    "password" : "5047"
+}
+
+### Getting the user with the help of token
+###WORKING FINE
+
+POST http://localhost:8800/users/get-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTkxNDYsImV4cCI6MTcwMTYwNTU0Nn0.5gcBq00XJYSba2Ad_E-hUKF6kfsTd9HmZeWM_qXAjlQ
+### 2704 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhZWY3MzM4NDM4ZGQ3MTNmYjZmNGYiLCJpYXQiOjE3MDE1MTcwNDMsImV4cCI6MTcwMTYwMzQ0M30.prkjmx0ST11mGuCe-39pqpPJeXs8DuAtTiuai2T4bYE
+###27048 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTY5NzUsImV4cCI6MTcwMTYwMzM3NX0.DAG6bCbWmomseLk1uVL9J9UsliO2sMI6FM9QrwNiUx4
+
+
+### Updating the user 
+### WORKING FINE
+
+
+PUT  http://localhost:8800/users/update-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTkxNDYsImV4cCI6MTcwMTYwNTU0Nn0.5gcBq00XJYSba2Ad_E-hUKF6kfsTd9HmZeWM_qXAjlQ
+Content-Type: application/json
+
+{
+     "firstName": "Suleman 27048 UPdated",
+     "lastName": "Ahmed",
+     "location": "Pakistan",
+     "profileUrl": "alpha",
+     "profession": "Student"
+}
+
+
+###ViewProfile 
+
+
+POST http://localhost:8800/users/profile-view
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTkxNDYsImV4cCI6MTcwMTYwNTU0Nn0.5gcBq00XJYSba2Ad_E-hUKF6kfsTd9HmZeWM_qXAjlQ
+Content-Type: application/json 
+
+{
+    "id": "656aef7338438dd713fb6f4f"
+}
+
+###
+
+POST http://localhost:8800/users/friend-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTkxNDYsImV4cCI6MTcwMTYwNTU0Nn0.5gcBq00XJYSba2Ad_E-hUKF6kfsTd9HmZeWM_qXAjlQ
+Content-Type: application/json
+
+{
+    "requestTo": "656aef7338438dd713fb6f4f"
+}
+
+### WORKING FINE SOME PROBLEM WHILE FETCHING DATA FROM ANOTHER SCHEMA TO ANOTHER ONE 
+ 
+ POST http://localhost:8800/users/get-friend-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhZWY3MzM4NDM4ZGQ3MTNmYjZmNGYiLCJpYXQiOjE3MDE1MTk0MzQsImV4cCI6MTcwMTYwNTgzNH0.8rbHnrFVcnwIYtYFMiTLVub2o-fNsVv-Sa9Y0kr0B48
+Content-Type: application/json
+
+
+
+ 
+###
+ 
+ POST http://localhost:8800/users/accept-request
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE1MTkxNDYsImV4cCI6MTcwMTYwNTU0Nn0.5gcBq00XJYSba2Ad_E-hUKF6kfsTd9HmZeWM_qXAjlQ
+Content-Type: application/json
+
+{
+    "rid": "656b1804e80d0c8690b53e50",
+    "status": "Accepted"
+}
+
+
+
+ 
+
+ ###
+ ### SULEMAN 2704 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE0OTg2MTQsImV4cCI6MTcwMTU4NTAxNH0.w8Z0mIyLl5hO_2FBCUjGgX3uorgfJUXdDdukLFA_Zxs

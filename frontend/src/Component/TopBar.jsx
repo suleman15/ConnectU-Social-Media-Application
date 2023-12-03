@@ -18,13 +18,17 @@ const TopBar = () => {
       <Link to={"/"}>
         <img className="h-8" src="/logo.png" alt="" />
       </Link>
-      <form className="flex items-stretch gap-2 ">
+      <form className=" h-auto flex items-stretch rounded-2xl overflow-hidden border-2 border-Clr hover:border-Clrhv focus-within:border-Clrhv ">
         <InputField
-          styles={` h-full w-[250px]`}
+          styles={`   w-[350px] border-none rounded-none`}
           type={"text"}
-          placeholder="...."
+          placeholder="Search.."
         />
-        <CustomButton type={"submit"} title={"Search"} />
+        <CustomButton
+          styles={`py-0 rounded-none`}
+          type={"submit"}
+          title={"Search"}
+        />
       </form>
       <div className="flex gap-3 text-xl ">
         <BiMoon

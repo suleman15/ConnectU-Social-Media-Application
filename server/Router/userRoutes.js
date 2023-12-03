@@ -11,7 +11,7 @@ import {
   getFriendRequest,
   acceptRequest,
   suggestedFriends,
-  profileView,
+  viewProfile,
 } from "../controllers/userController.js";
 import { userAuth } from "../middleware/authMiddleware.js";
 import scriptMiddleware from "../middleware/scriptMiddleware.js";
@@ -38,7 +38,7 @@ router.post("/get-friend-request", userAuth, getFriendRequest);
 router.post("/accept-request", userAuth, acceptRequest);
 
 //View Profile
-router.post("/profile-view", userAuth, profileView);
+router.post("/profile-view", userAuth, viewProfile);
 
 //Suggest Friend
 router.post("/suggested-friends", userAuth, suggestedFriends);

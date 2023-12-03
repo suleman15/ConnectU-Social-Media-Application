@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-let userScheme = new mongoose.Schema(
+let UserSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -24,13 +24,13 @@ let userScheme = new mongoose.Schema(
     location: { type: String },
     profileUrl: { type: String },
     profession: { type: String },
-    friends: [{ type: Schema.Types.ObjectId, ref: "users" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     views: [{ type: String }],
     verified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-const Users = mongoose.model("users", userScheme);
+const Users = mongoose.model("Users", UserSchema);
 
 export default Users;

@@ -26,14 +26,14 @@ export default function Register() {
   let onSubmit = async (data) => {};
 
   return (
-    <div className="bg-bgColor w-full h-screen flex p-6 justify-center items-center ">
-      <div className="  bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
+    <div className="bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center ">
+      <div className=" flex-col  bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex md:flex-col lg:flex-row ">
         {/* LEFT */}
-        <div className="w-1/2 h-auto bg-[#1e8fffbe] relative   bg-black px-20 flex justify-center items-center">
+        <div className="lg:w-1/2 h-auto bg-[#1e8fffbe] relative   bg-black px-20 flex justify-center items-center">
           <div
             className={` shrink-0  bg-tg w-[200px] h-[200px] rounded-full bg-cover bg-center mx-10`}
           ></div>
-          <div className="absolute   top-5 left-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute   top-3/5 left-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg  ">
             <BiShareAlt />
             <span>Share</span>
           </div>
@@ -47,7 +47,7 @@ export default function Register() {
           </div>
         </div>
         {/* RIGHT */}
-        <div className="w-1/2  p-5 flex gap-3 flex-col">
+        <div className="lg:w-1/2  p-5 flex gap-3 flex-col">
           <Link to={"/"}>
             {" "}
             <img className="h-8" src="/logo.png" />{" "}
@@ -57,7 +57,7 @@ export default function Register() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex gap-3 flex-col"
           >
-            <div className="flex gap-2 ">
+            <div className="flex gap-2 flex-col md:flex-row">
               <InputField
                 type="text"
                 placeholder="First Name"
@@ -86,7 +86,7 @@ export default function Register() {
               })}
               error={errors.email ? errors.email.message : ""}
             />
-            <div className="flex gap-2">
+            <div className="flex-col flex gap-2 md:flex-row">
               <InputField
                 type="password"
                 placeholder="Password"
