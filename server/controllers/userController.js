@@ -3,9 +3,10 @@ import FriendRequest from "../Models/friendRequest.js";
 import Users from "../Models/userModel.js";
 import { compareString, createJWT, hashString } from "../Utils/index.js";
 import { resetPasswordLink } from "../Utils/sendEmail.js";
+import Async from "../middleware/Async.js";
 import Verification from "../models/emailVerificationModel.js";
 
-export const verifyEmail = async (req, res) => {
+export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
 
   try {
@@ -71,9 +72,9 @@ export const verifyEmail = async (req, res) => {
     console.log(err);
     res.redirect(`/users/verified?message=`);
   }
-};
+});
 
-export const requestPasswordReset = async (req, res) => {
+export const requestPasswordReset = Async(async (req, res) => {
   try {
     const { email } = req.body;
     const user = await Users.findOne({ email });
@@ -99,9 +100,9 @@ export const requestPasswordReset = async (req, res) => {
     console.log(error);
     res.status(404).json({ message: error.message });
   }
-};
+});
 
-export const resetPassword = async (req, res) => {
+export const resetPassword = Async(async (req, res) => {
   const { userId, token } = req.params;
   try {
     const user = await Users.findById(userId);
@@ -137,9 +138,9 @@ export const resetPassword = async (req, res) => {
     console.log(error);
     res.status(404).json({ message: error.message });
   }
-};
+});
 
-export const changePassword = async (req, res) => {
+export const changePassword = Async(async (req, res) => {
   try {
     const { userId, password } = req.body;
     const hashedPassword = await hashString(password);
@@ -160,9 +161,9 @@ export const changePassword = async (req, res) => {
     console.log("error");
     res.status(404).send({ message: error.message });
   }
-};
+});
 
-export const getUser = async (req, res, next) => {
+export const getUser = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { id } = req.params;
@@ -188,8 +189,8 @@ export const getUser = async (req, res, next) => {
       error: error.message,
     });
   }
-};
-export const updateUser = async (req, res, next) => {
+});
+export const updateUser = Async(async (req, res, next) => {
   try {
     const { firstName, lastName, location, profileUrl, profession } = req.body;
     if (!(firstName || lastName || location || profileUrl || profession)) {
@@ -223,9 +224,9 @@ export const updateUser = async (req, res, next) => {
     console.log(err);
     res.status(404).json({ message: err.message });
   }
-};
+});
 
-export const friendRequest = async (req, res, next) => {
+export const friendRequest = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { requestTo } = req.body;
@@ -261,8 +262,8 @@ export const friendRequest = async (req, res, next) => {
       .status(500)
       .json({ message: "Auth Error", success: false, error: err.message });
   }
-};
-export const getFriendRequest = async (req, res, next) => {
+});
+export const getFriendRequest = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const request = await FriendRequest.find({
@@ -287,8 +288,8 @@ export const getFriendRequest = async (req, res, next) => {
       .status(500)
       .json({ message: "Auth Error", success: false, error: err.message });
   }
-};
-export const acceptRequest = async (req, res, next) => {
+});
+export const acceptRequest = Async(async (req, res, next) => {
   try {
     const id = req.body.user.userId;
     const { rid, status } = req.body;
@@ -321,9 +322,9 @@ export const acceptRequest = async (req, res, next) => {
       .status(500)
       .json({ message: "Auth Error", success: false, error: err.message });
   }
-};
+});
 
-export const viewProfile = async (req, res, next) => {
+export const viewProfile = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { id } = req.body;
@@ -347,9 +348,9 @@ export const viewProfile = async (req, res, next) => {
       error: error.message,
     });
   }
-};
+});
 
-export const suggestedFriends = async (res, req, next) => {
+export const suggestedFriends = Async(async (res, req, next) => {
   try {
     const { userId } = req.body.user;
     let queryObj = {};
@@ -371,4 +372,4 @@ export const suggestedFriends = async (res, req, next) => {
       .status(500)
       .json({ message: "Auth Error", success: false, error: err.message });
   }
-};
+});

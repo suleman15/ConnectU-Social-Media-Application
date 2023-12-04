@@ -4,8 +4,8 @@ import cors from "cors";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import helmet from "helmet";
-import MongoDBConnection from "./MongodbConnection.js";
-import errorMiddleware from "./middleware/errorMiddleware.js";
+import MongoDBConnection from "./connect/MongodbConnection.js";
+import errorMiddleware, { handleError } from "./middleware/errorMiddleware.js";
 import router from "./Router/index.js";
 import path from "path";
 
@@ -36,7 +36,7 @@ app.use(router);
 
 //error middleware
 app.use(errorMiddleware);
-
+app.use(handleError);
 app.listen(8800, () => {
   console.clear();
   console.log("This server is running on the port 8800");

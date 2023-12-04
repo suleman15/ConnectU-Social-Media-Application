@@ -14,7 +14,7 @@ const errorMiddleware = (err, req, res, next) => {
     defaultError.statusCode = 404;
     defaultError.message = `${Object.values(
       err.keyValue
-    )} fiels has to be unique !`;
+    )} fields has to be unique !`;
   }
 
   res.status(defaultError.statusCode).json({
@@ -22,5 +22,22 @@ const errorMiddleware = (err, req, res, next) => {
     message: defaultError.message,
   });
 };
+const handleError = (err, req, res, next) => {
+  console.log("HandleError is Running");
+  console.log(`The Error Is : ${err}`);
+  err.statusCode = err.statusCode || 500;
+  if (process.env.MODE.toLowerCase() === "development")
+    res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      stack: err.stack,
+    });
+  else
+    res.status(err.statusCode).json({
+      sucess: false,
+      message: err.message,
+    });
+};
 
 export default errorMiddleware;
+export { handleError };

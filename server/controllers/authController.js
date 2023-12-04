@@ -2,8 +2,9 @@ import Users from "../Models/userModel.js";
 import { hashString, compareString, createJWT } from "../Utils/index.js";
 
 import { sendVerificationEmail } from "../Utils/sendEmail.js";
+import Async from "../middleware/Async.js";
 
-export const register = async (req, res, next) => {
+export const register = Async(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   //validate field
   if (!(firstName || lastName || email || password)) {
@@ -28,9 +29,9 @@ export const register = async (req, res, next) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+});
 
-export const Login = async (req, res, next) => {
+export const Login = Async(async (req, res, next) => {
   let { email, password } = req.body;
   try {
     if (!email || !password) {
@@ -69,4 +70,4 @@ export const Login = async (req, res, next) => {
     console.log(error);
     res.status(404).json({ Success: false, message: "Something went wrong" });
   }
-};
+});
