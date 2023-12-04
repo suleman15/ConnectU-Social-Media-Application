@@ -1,0 +1,57 @@
+### AUTH 27048 REGISTER
+
+POST  http://localhost:8800/auth/register 
+content-type: application/json
+
+{
+    "firstName" : "Suleman Ahmed",
+    "lastName": "Rajput",
+    "email": "sulemanahmed27048@gmail.com",
+    "password": "newHased"
+}
+
+###
+### AUTH 27048 LOGIN
+
+
+
+POST  http://localhost:8800/auth/login 
+content-type: application/json
+
+{
+    "email": "sulemanahmed27048@gmail.com",
+    "password": "newHased"
+}
+
+###
+### AUTH 2704 REGISTER
+
+POST  http://localhost:8800/auth/register 
+content-type: application/json
+
+{
+    "firstName" : "Suleman ",
+    "lastName": "Rajput",
+    "email": "sulemanahmed2704@gmail.com",
+    "password": "newHased"
+}
+
+
+
+###
+### AUTH 2704 LOGIN
+
+
+POST  http://localhost:8800/auth/login 
+content-type: application/json
+
+{
+    "email": "sulemanahmed2704@gmail.com",
+    "password": "5047"
+}
+
+###
+
+### 27048 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZiZjIzOTRmY2IwMmIxYWNkZTJkZWUiLCJpYXQiOjE3MDE1NzMyNTMsImV4cCI6MTcwMTY1OTY1M30.CKXyiwiiApB3c8FbdxzXdtPDPv0L87OVJC_BLYJthec
+
+### 2704 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZiZjI0MjRmY2IwMmIxYWNkZTJkZjMiLCJpYXQiOjE3MDE1NzMyNzMsImV4cCI6MTcwMTY1OTY3M30.eusJ7SgOEH5tcmdcM2YL72iQN5CHdfRtUnsCgyO-7PA
