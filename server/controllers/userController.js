@@ -140,7 +140,6 @@ export const resetPassword = async (req, res) => {
 };
 
 export const changePassword = async (req, res) => {
-  console.log(req.body);
   try {
     const { userId, password } = req.body;
     const hashedPassword = await hashString(password);
@@ -167,7 +166,6 @@ export const getUser = async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { id } = req.params;
-    console.log("Working");
     const user = await Users.findById(id ?? userId).populate({
       path: "friends",
       select: "-password",
@@ -210,7 +208,6 @@ export const updateUser = async (req, res, next) => {
     const user = await Users.findByIdAndUpdate(userId, updatedUser, {
       new: true,
     });
-    console.log(user);
     await user.populate({ path: "friends", select: "-password" });
     const token = createJWT(user?._id);
 
@@ -271,15 +268,15 @@ export const getFriendRequest = async (req, res, next) => {
     const request = await FriendRequest.find({
       requestTo: userId,
       requestStatus: "Pending",
-    }).populate({
-      path: "requestFrom",
-      select: "firstName lastName profileURL profession -password",
-    });
-    // .limit(10)
-    // .sort({
-    //   _id: -1,
-    // });
-    console.log(request);
+    })
+      .populate({
+        path: "requestFrom",
+        select: "firstName lastName profileURL profession -password",
+      })
+      .limit(10)
+      .sort({
+        _id: -1,
+      });
     res.status(200).json({
       success: true,
       data: request,
@@ -293,8 +290,7 @@ export const getFriendRequest = async (req, res, next) => {
 };
 export const acceptRequest = async (req, res, next) => {
   try {
-    const _id = req.body.user.userId;
-    console.log(req.body.user.userId);
+    const id = req.body.user.userId;
     const { rid, status } = req.body;
     const requestExist = await FriendRequest.findById(rid);
     if (!requestExist) {
@@ -306,10 +302,12 @@ export const acceptRequest = async (req, res, next) => {
       { requestStatus: status }
     );
     if (status == "Accepted") {
-      const user = await Users.findById(_id);
+      const user = await Users.findById(id);
+      console.log(user);
       user.friends.push(newRes?.requestFrom);
       await user.save();
       const friend = await Users.findById(newRes?.requestFrom);
+
       friend.friends.push(newRes?.requestTo);
       await friend.save();
     }
@@ -342,7 +340,6 @@ export const viewProfile = async (req, res, next) => {
       .status(401)
       .json({ success: false, message: "id is not defined in body" });
   } catch (error) {
-    console.log("error");
     console.log(error);
     res.status(500).json({
       message: "auth error",

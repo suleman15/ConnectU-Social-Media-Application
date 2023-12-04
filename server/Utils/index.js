@@ -15,6 +15,6 @@ export const compareString = async (userPassword, password) => {
 //JSON WEBTOKEN
 export function createJWT(id) {
   return JWT.sign({ userId: id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1d",
+    expiresIn: "49d",
   });
 }

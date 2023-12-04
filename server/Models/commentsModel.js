@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
-const commentSchema = new mongoose.Schema(
+const CommentSchema = new mongoose.Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: "Users" },
     postId: { type: Schema.Types.ObjectId, ref: "Posts" },
     comment: { type: String, required: true },
     replies: [
       {
-        rid: { type: mongoose.Schema.Types.Id },
+        rid: { type: mongoose.Schema.Types.ObjectId },
         userId: { type: Schema.Types.ObjectId, ref: "Users" },
         from: { type: String },
         replyAt: { type: String },
@@ -22,6 +22,6 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Comments = mongoose.model("Comments", commentSchema);
+const Comments = mongoose.model("Comments", CommentSchema);
 
 export default Comments;
