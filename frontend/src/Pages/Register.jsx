@@ -11,6 +11,7 @@ import {
   BiWifi,
 } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
+import { apiRequest } from "../api";
 
 export default function Register() {
   let {
@@ -21,9 +22,32 @@ export default function Register() {
   } = useForm({ mode: "onChange" });
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  let onSubmit = async (data) => {};
+  let onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      const res = await apiRequest({
+        url: "auth/register",
+        data: data,
+        method: "POST",
+      });
+      console.log(res.status);
+
+      if (res?.status === "failed") {
+        setErrMsg(res);
+      } else {
+        setErrMsg(res);
+        setTimeout(() => {
+          window.location.replace("/login");
+        }, 5000);
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center ">

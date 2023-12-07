@@ -11,6 +11,8 @@ import {
   BiWifi,
 } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
+import { apiRequest } from "../api";
+import { UserLogin } from "../features/userSlice";
 
 export default function Login() {
   let {
@@ -22,7 +24,28 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
-  let onSubmit = async (data) => {};
+  let onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      const res = await apiRequest({
+        url: "auth/login",
+        data: data,
+        method: "POST",
+      });
+
+      if (res?.status == "failed") {
+        setErrMsg(res);
+      } else {
+        setErrMsg(res);
+        const data = { token: res?.token, ...res?.user };
+        dispatch(UserLogin(data));
+        window.location.replace("/");
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className=" bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center md:p-20 ">
