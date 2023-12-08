@@ -21,10 +21,10 @@ function Layout() {
     <Navigate to={"/login"} state={{ from: location }} replace />
   );
 }
-function Logs() {
+function IfLogin() {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
-  return user?.token ? (
+  return !user?.token ? (
     <>
       <Outlet />
     </>
@@ -42,7 +42,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route element={<Logs />}>
+        <Route element={<IfLogin />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
