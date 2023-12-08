@@ -12,7 +12,7 @@ import {
 } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
 import { apiRequest } from "../api";
-import { UserLogin } from "../features/userSlice";
+import { login } from "../features/userSlice";
 
 export default function Login() {
   let {
@@ -23,7 +23,6 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
-
   let onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
@@ -38,8 +37,10 @@ export default function Login() {
       } else {
         setErrMsg(res);
         const data = { token: res?.token, ...res?.user };
-        dispatch(UserLogin(data));
-        window.location.replace("/");
+        dispatch(login(data));
+        if (res.message == "Login Successfully") {
+          window.location.replace("/");
+        }
       }
       setIsSubmitting(false);
     } catch (error) {
@@ -51,7 +52,7 @@ export default function Login() {
     <div className=" bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center md:p-20 ">
       <div className="lg:flex-row flex-col md:w-full lg:w-[1024px]   bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
         {/* LEFT */}
-        <div className="lg:w-1/2 w-full h-auto bg-[#1e8fffbe] relative  py-10   bg-black flex justify-center items-center">
+        <div className="lg:w-1/2 w-full h-auto bg-Clr relative  py-10   bg-black flex justify-center items-center">
           <div
             className={` shrink-0  bg-tg w-[200px] h-[200px] rounded-full bg-cover bg-center mx-10`}
           ></div>
@@ -72,7 +73,7 @@ export default function Login() {
         <div className="lg:w-1/2 w-full p-10 flex gap-3  md:w-full  flex-col">
           <Link to={"/"}>
             {" "}
-            <img className="h-8" src="/logo.png" />
+            <img className="h-8" src="/logo.svg" />
           </Link>
           <p>Login in to your account</p>
           <span className="text-xs text-[gray]">Welcome Back.</span>
@@ -108,7 +109,9 @@ export default function Login() {
             >
               Forget Password?
             </Link>
-            {errMsg?.message && <div>{errMsg?.message}</div>}
+            {errMsg?.message && (
+              <div className="text-[red] text-xs">{errMsg?.message}</div>
+            )}{" "}
             {isSubmitting ? (
               <Loading />
             ) : (

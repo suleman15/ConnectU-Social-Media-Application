@@ -25,6 +25,7 @@ export default function Register() {
   // const dispatch = useDispatch();
 
   let onSubmit = async (data) => {
+    console.log(data);
     setIsSubmitting(true);
     try {
       const res = await apiRequest({
@@ -38,9 +39,12 @@ export default function Register() {
         setErrMsg(res);
       } else {
         setErrMsg(res);
-        setTimeout(() => {
-          window.location.replace("/login");
-        }, 5000);
+        console.log(res);
+        if (!res?.status === undefined) {
+          setTimeout(() => {
+            window.location.replace("/login");
+          }, 5000);
+        }
       }
       setIsSubmitting(false);
     } catch (error) {
@@ -53,7 +57,7 @@ export default function Register() {
     <div className="bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center ">
       <div className=" flex-col  bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex md:flex-col lg:flex-row ">
         {/* LEFT */}
-        <div className="lg:w-1/2 h-auto bg-[#1e8fffbe] relative   bg-black px-20 flex justify-center items-center">
+        <div className="lg:w-1/2 h-auto bg-Clr relative   bg-black px-20 flex justify-center items-center">
           <div
             className={` shrink-0  bg-tg w-[200px] h-[200px] rounded-full bg-cover bg-center mx-10`}
           ></div>
@@ -81,7 +85,7 @@ export default function Register() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex gap-3 flex-col"
           >
-            <div className="flex gap-2 flex-col md:flex-row">
+            <div className="flex  gap-2 flex-col md:flex-row">
               <InputField
                 type="text"
                 placeholder="First Name"
@@ -140,7 +144,9 @@ export default function Register() {
               />
             </div>
 
-            {errMsg?.message && <div>{errMsg?.message}</div>}
+            {errMsg?.message && (
+              <div className="text-[red] text-xs">{errMsg?.message}</div>
+            )}
             {isSubmitting ? (
               <Loading />
             ) : (

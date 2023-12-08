@@ -19,8 +19,6 @@ POST  http://localhost:8800/auth/login
 content-type: application/json
 
 {
-    "email": "sulemanahmed27048@gmail.com",
-    "password": "newHased"
 }
 
 ###

@@ -5,10 +5,9 @@ import { compareString, createJWT, hashString } from "../Utils/index.js";
 import { resetPasswordLink } from "../Utils/sendEmail.js";
 import Async from "../middleware/Async.js";
 import Verification from "../models/emailVerificationModel.js";
-
 export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
-
+  dasdf;
   try {
     const result = await Verification.findOne({ userId });
 

@@ -14,9 +14,22 @@ function Layout() {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
   return user?.token ? (
-    <Outlet />
+    <>
+      <Outlet />
+    </>
   ) : (
     <Navigate to={"/login"} state={{ from: location }} replace />
+  );
+}
+function Logs() {
+  const { user } = useSelector((state) => state.user);
+  const location = useLocation();
+  return user?.token ? (
+    <>
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to={"/"} state={{ from: location }} replace />
   );
 }
 function App() {
@@ -29,9 +42,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/resetPassword" element={<ResetPassword />} />
+        <Route element={<Logs />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+        </Route>
       </Routes>
     </div>
   );
