@@ -36,6 +36,9 @@ export default {
       backgroundImage: {
         tg: `url('/tg.jpg')`,
       },
+      gridTemplateColumns: {
+        16: "250px 1fr 250px",
+      },
     },
   },
   plugins: [],

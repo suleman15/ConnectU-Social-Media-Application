@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content=" style-src 'self' http://* 'unsafe-inline'; script-src 'unsafe-inline'"
+  />
+  <head>
+    <title>Verification</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+      body {
+        font-family: Poppins;
+        margin: 0px;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(128, 128, 128, 0.247);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        background-color: white;
+        padding: 20px 50px;
+        border-radius: 10px;
+        display: grid;
+        text-align: center;
+        justify-content: center;
+        grid-template-columns: min-content;
+
+      }
+      .header {
+        font-size: 1rem;
+        border-bottom: 2px solid lightgray;
+        text-transform: capitalize;
+      }
+      .expireInfo {
+        color: gray;
+        font-size: .7rem;
+      }
+      .rsBtn {
+        padding: 10px 30px;
+        background-color: dodgerblue; 
+        font-family: poppins;
+        border: none;
+        color: white;
+        border-radius: 4px;
+      }
+      .imgStyle {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+        <a
+        href="http://localhost:5173"
+        style="display: block"
+        target="_blank"
+      ><img
+          style="width: 300px"
+          src="https://i.postimg.cc/N9gssDMF/logo.png"
+          border="0"
+          alt="logo"
+        /></a>
+     <img class="imgStyle" src='https://i.postimg.cc/W1bndShw/reset-password-1.png' border='0' alt='reset-password-1'/>
+      <p class="header">Password reset link. Please click the link below to reset password.
+      </p>
+      <p class="expireInfo"> The Link Will Be Expire in <u>10 Minutes</u></p>
+      <a href={{link}}><button class="rsBtn">Reset Password</button></a>
+        </div>
+     
+  </body>
+</html>

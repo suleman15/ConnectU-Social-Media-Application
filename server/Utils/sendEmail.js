@@ -4,14 +4,15 @@ import { v4 as uuidv4 } from "uuid";
 import { hashString } from "./index.js";
 import Verification from "../models/emailVerificationModel.js";
 import PasswordReset from "../Models/PasswordReset.js";
-
+import path from "path";
+import hbs from "nodemailer-express-handlebars";
 dotenv.config();
 
-const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
+const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL, FROM_USER } = process.env;
 
 let transporter = nodemailer.createTransport({
   host: "smtp.google.com",
-  service: "Gmail",
+  service: "gmail",
   port: 587,
   secure: false,
   auth: {
@@ -19,37 +20,63 @@ let transporter = nodemailer.createTransport({
     pass: AUTH_PASSWORD,
   },
 });
+const handlebarOptions = {
+  viewEngine: {
+    extName: ".hbs",
+    partialsDir: path.resolve("./views"),
+    defaultLayout: false,
+  },
+  viewPath: path.resolve("./views"),
+  extName: ".hbs",
+};
 
 export const sendVerificationEmail = async (user, res) => {
-  const { _id, email, lastName } = user;
+  const { _id, email, lastName, firstName } = user;
 
   const token = _id + uuidv4();
-
+  console.log(token);
   const link = APP_URL + "/users/verify/" + _id + "/" + token;
   //   mail options
   const mailOptions = {
-    from: AUTH_EMAIL,
+    from: `${FROM_USER} <${AUTH_EMAIL}>`,
     to: email,
     subject: "Email Verification",
-    html: `<div
-    style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
-    <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
-    <hr>
-    <h4>Hi ${lastName},</h4>
-    <p>
-        Please verify your email address so we can know that it's really you.
-        <br>
-    <p>This link <b>expires in 1 hour</b></p>
-    <br>
-    <a href=${link}
-        style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
-        Email Address</a>
-    </p>
-    <div style="margin-top: 20px;">
-        <h5>Best Regards</h5>
-        <h5>Suleman Ahmed</h5>
-    </div>
-</div>`,
+    template: "notify",
+    context: {
+      email,
+      firstName,
+      lastName,
+      link,
+    },
+
+    // attachments: [
+    //   {
+    //     filename: "logo.svg",
+    //     path: path.join(path.resolve("./views"), "logo.svg"),
+    //     cid: "unique@logo.svg", //same cid value as in the html img src
+    //   },
+    // ],
+
+    // html: `<div><img src="cid:unique@logo.svg" alt="not found"/></div>`,
+    //     html: `<div
+    //     style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
+    //     <h3 style="color: rgb(8, 56, 188)">Please verify your email address</h3>
+    //     <hr>
+    //     <h4>Hi ${`${firstName} ${lastName} ${email}`},</h4>
+    //     <p>
+    //         Please verify your email address so we can know that it's really you.
+    //         <br>
+    //     <p>This link <b>expires in 1 hour</b></p>
+    //     <br>
+    //     <a href=${link}
+    //         style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Verify
+    //         Email Address</a>
+    //     </p>
+    //     <div style="margin-top: 20px;">
+    //         <h5>Best Regards</h5>
+    //         <h5>Suleman Ahmed</h5>
+    //     </div>
+    // </div>`,
   };
 
   try {
@@ -60,9 +87,9 @@ export const sendVerificationEmail = async (user, res) => {
       createdAt: Date.now(),
       expiresAt: Date.now() + 3600000,
     });
-    console.log("Running");
 
     if (newVerifiedEmail) {
+      transporter.use("compile", hbs(handlebarOptions));
       transporter
         .sendMail(mailOptions)
         .then(() => {
@@ -86,27 +113,33 @@ export const sendVerificationEmail = async (user, res) => {
 export const resetPasswordLink = async (user, res) => {
   const { _id, email } = user;
   const token = _id + uuidv4();
+  console.log(token);
   const link = `${APP_URL}/users/reset-password/${_id}/${token}`;
   const mailOption = {
-    from: AUTH_EMAIL,
+    from: `${FROM_USER} <${AUTH_EMAIL}>`,
     to: email,
     subject: "Password Reset",
-    html: `
-    <div style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
-      <h3 style="color: rgb(8, 56, 188)">Password reset link. Please click the link below to reset password.</h3>
-      <hr>
-      <p>
+    template: "resemail",
+    context: {
+      email,
+      link,
+    },
+    // html: `
+    // <div style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
+    //   <h3 style="color: rgb(8, 56, 188)">Password reset link. Please click the link below to reset password.</h3>
+    //   <hr>
+    //   <p>
         
-        <p>The Link expires in 10 Minutes</p>
-        <br>
-        <a href=${link}
-        style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Reset Your Password</a>
-      </p>
-      <div style="margin-top: 20px;">
-        <h5>Best Regards</h5>
-        <h5>Suleman Ahmed</h5>
-      </div>
-    </div>`,
+    //     <p>The Link expires in 10 Minutes</p>
+    //     <br>
+    //     <a href=${link}
+    //     style="color: #fff; padding: 14px; text-decoration: none; background-color: #000;  border-radius: 8px; font-size: 18px;">Reset Your Password</a>
+    //   </p>
+    //   <div style="margin-top: 20px;">
+    //     <h5>Best Regards</h5>
+    //     <h5>Suleman Ahmed</h5>
+    //   </div>
+    // </div>`,
   };
 
   try {
@@ -119,6 +152,7 @@ export const resetPasswordLink = async (user, res) => {
       expiresAt: Date.now() + 6000000,
     });
     if (emailReset) {
+      transporter.use("compile", hbs(handlebarOptions));
       transporter
         .sendMail(mailOption)
         .then(() => {

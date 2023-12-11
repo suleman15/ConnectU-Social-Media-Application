@@ -7,7 +7,6 @@ import Async from "../middleware/Async.js";
 import Verification from "../models/emailVerificationModel.js";
 export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
-  dasdf;
   try {
     const result = await Verification.findOne({ userId });
 
@@ -349,26 +348,25 @@ export const viewProfile = Async(async (req, res, next) => {
   }
 });
 
-export const suggestedFriends = Async(async (res, req, next) => {
+export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    let queryObj = {};
-    queryObj._id = { $ne: userId };
-    queryObj.friends = { $nin: userId };
-    let queryResult = Users.find(queryObj)
+    const sugFriend = await Users.find({
+      _id: { $ne: userId },
+      friends: { $nin: userId },
+    })
       .limit(15)
       .select("firstName lastName profileUrl profesion -password");
-
-    const suggestedFriends = await queryResult;
-
+    console.log("this is res" + res);
     res.status(200).json({
       success: true,
-      data: suggestedFriends,
+      data: sugFriend,
     });
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .json({ message: "Auth Error", success: false, error: err.message });
+  } catch (error) {
+    res.status(500).json({
+      message: "Auth Error",
+      success: false,
+      error: error.message,
+    });
   }
 });

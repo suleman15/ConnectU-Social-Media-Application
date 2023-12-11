@@ -20,3 +20,16 @@ export const apiRequest = async (url, token, data, method) => {
     return { status: err.status, message: err.message };
   }
 };
+
+export const fetchUser = async (token, id) => {
+  try {
+    let url = !id ? `user/get-user` : `user/get-user/${id}`;
+    let userData = apiRequest({
+      url,
+      token: token,
+      method: "POST",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

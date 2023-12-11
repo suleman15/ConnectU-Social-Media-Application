@@ -44,10 +44,10 @@ router.post("/profile-view", userAuth, viewProfile);
 router.post("/suggested-friends", userAuth, suggestedFriends);
 
 router.get("/verified", scriptMiddleware, (req, res) => {
-  res.sendFile(path.join(__dirname, "views/build", "/verifiedPage.html"));
+  res.render("VerifiedPage");
 }); //@{Working Fine}
 router.get("/resetpassword", scriptMiddleware, (req, res) => {
-  res.sendFile(path.join(__dirname, "views/build", "/resetPage.html"));
+  res.render("ResetPassword");
 }); //@{not full set}
 
 export default router;

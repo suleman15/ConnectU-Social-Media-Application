@@ -52,7 +52,6 @@ export const Login = Async(async (req, res, next) => {
       );
       return;
     }
-    console.log("Suleman Ahmed");
     const isMatch = await compareString(password, user?.password);
     if (!isMatch) {
       next("Invalid email or password");
@@ -60,6 +59,7 @@ export const Login = Async(async (req, res, next) => {
     }
     user.password = undefined;
     const token = createJWT(user._id);
+    console.log(token);
     res.status(201).json({
       success: true,
       message: "Login Successfully",

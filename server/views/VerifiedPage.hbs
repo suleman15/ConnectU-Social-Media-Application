@@ -71,13 +71,17 @@
       const urlParams = new URLSearchParams(window.location.search);
       const message = urlParams.get("message");
       const status = urlParams.get("status");
-
+      const type = urlParams.get('type')
+      const id = urlParams.get("id")
       //alpha
       const card = document.querySelector(".card");
       const statusIcon = document.querySelector("#statusIcon");
       const statusMessage = document.querySelector("#statusMessage");
       const btn = document.querySelector("#Btn ");
       console.log(status);
+      if(type == 'reset' && id) {
+        card.innerHTML = "I am reset"
+      }
       if (status == "success") {
         statusIcon.innerHTML = "✔️✔️✔️";
         statusMessage.textContent = message;

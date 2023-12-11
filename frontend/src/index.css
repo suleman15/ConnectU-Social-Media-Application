@@ -27,8 +27,8 @@
     --color-blue: 6 90 216;
     --color-white: 255 255 255;
     --color-input: 225 225 225;
-    --color-purple: 75 51 194;
-    --color-hover-purple: 57 28 204;
+    --color-purple: 122 10 195;
+    --color-hover-purple: 104 8 178;
   }
   /* //15 23 42  21 30 49*/
   [data-theme="dark"] {

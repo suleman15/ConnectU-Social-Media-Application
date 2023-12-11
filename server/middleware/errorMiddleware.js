@@ -1,18 +1,19 @@
 const errorMiddleware = (err, req, res, next) => {
   if (typeof err == "object") {
     err.statusCode = err.statusCode || 500;
-    if (process.env.MODE.toLowerCase() === "development")
+
+    if (process.env.MODE.toLowerCase() === "development") {
+      console.log(err);
       res.status(err.statusCode).json({
         success: false,
         message: err.message,
         stack: err.stack,
       });
-    else
+    } else
       res.status(err.statusCode).json({
         sucess: false,
         message: err.message,
       });
-    console.log(res);
     return;
   }
   const defaultError = {

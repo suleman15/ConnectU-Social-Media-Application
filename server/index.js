@@ -8,15 +8,16 @@ import MongoDBConnection from "./connect/MongodbConnection.js";
 import errorMiddleware from "./middleware/errorMiddleware.js";
 import router from "./Router/index.js";
 import path from "path";
+import exphbs from "express-handlebars";
 
 dotenv.config();
 const __dirname = path.resolve(path.dirname(""));
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "views/build")));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views/"));
 app.use(express.static("js"));
-
 const PORT = process.env.PORT || 8800;
 
 MongoDBConnection();

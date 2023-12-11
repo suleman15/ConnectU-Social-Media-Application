@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import InputField from "./InputField";
 import CustomButton from "./CustomButton";
-import { BiBell, BiMoon } from "react-icons/bi";
+import { BiBell, BiMoon, BiSun } from "react-icons/bi";
 import { setTheme } from "../features/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/userSlice";
@@ -15,7 +15,7 @@ const TopBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center py-2  bg-white my-2 rounded p-3 md:flex-row flex-col gap-[20px]">
+    <div className="sticky top-0 flex justify-between items-center py-2  bg-white my-2 rounded p-3 md:flex-row flex-col gap-[20px]">
       <Link to={"/"}>
         <img className="h-8" src="/logo.png" alt="" />
       </Link>
@@ -32,10 +32,13 @@ const TopBar = () => {
         />
       </form>
       <div className="flex gap-3 text-xl items-center">
-        <BiMoon
-          onClick={() => handleTheme()}
-          className="bg-Clr text-white w-8 h-8 p-2 hover:bg-Clrhv cursor-pointer rounded-full"
-        />
+        <button onClick={handleTheme}>
+          {theme == "light" ? (
+            <BiMoon className="bg-Clr text-white w-8 h-8 p-2 hover:bg-Clrhv cursor-pointer rounded-full" />
+          ) : (
+            <BiSun className="bg-Clr text-white w-8 h-8 p-2 hover:bg-Clrhv cursor-pointer rounded-full" />
+          )}
+        </button>
         <BiBell className="bg-Clr text-white w-8 h-8 p-2 hover:bg-Clrhv cursor-pointer rounded-full" />
         <CustomButton
           title={"Sign Out"}
@@ -47,6 +50,7 @@ const TopBar = () => {
           }}
         />
       </div>
+      
     </div>
   );
 };

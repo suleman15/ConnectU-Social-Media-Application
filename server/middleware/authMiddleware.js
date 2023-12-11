@@ -13,6 +13,7 @@ export const userAuth = async (req, res, next) => {
     req.body.user = {
       userId: userToken.userId,
     };
+    console.log(req.body);
     next();
   } catch (err) {
     console.log(err);

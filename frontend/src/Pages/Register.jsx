@@ -2,14 +2,9 @@ import { Link } from "react-router-dom";
 import { CustomButton, InputField, Loading } from "../Component/index";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  BiLogoFacebook,
-  BiLogoGithub,
-  BiLogoGoogle,
-  BiShareAlt,
-  BiWifi,
-} from "react-icons/bi";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa6";
+import { BiLogoGithub, BiShareAlt, BiWifi } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
 import { apiRequest } from "../api";
 
@@ -54,18 +49,21 @@ export default function Register() {
   };
 
   return (
-    <div className="bg-bgColor w-full lg:h-screen h-auto flex p-6 justify-center items-center ">
-      <div className=" flex-col  bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex md:flex-col lg:flex-row ">
+    <div className=" bg-purple w-full lg:h-screen h-auto flex p-6  justify-center items-center md:p-20 ">
+      <div className="border-4 border-white lg:flex-row flex-col md:w-full lg:w-[1024px]   bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
         {/* LEFT */}
-        <div className="lg:w-1/2 h-auto bg-Clr relative   bg-black px-20 flex justify-center items-center">
-          <div
-            className={` shrink-0  bg-tg w-[200px] h-[200px] rounded-full bg-cover bg-center mx-10`}
-          ></div>
-          <div className="absolute   top-3/5 left-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg  ">
+        <div className=" order-1 lg:order-2  lg:w-1/2 w-full h-auto bg-cover bg-[url('assets/background.jpg')] relative  py-10 rounded-lg  bg-black flex justify-center items-center">
+          <div className="text-center my-20 mx-2 bg-[#ffffff81] p-3 rounded-lg ">
+            <div>Connect Your Friend & have share for fun.</div>
+            <div className="text-sm text-[#505050]">
+              Share families with friends and the world
+            </div>
+          </div>
+          <div className="absolute   bottom-[10%] left-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg  ">
             <BiShareAlt />
             <span>Share</span>
           </div>
-          <div className="absolute  top-[70px] left-5 bg-white z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute  top-[20%] left-5 bg-white z-10 flex gap-3 items-center px-2 rounded-lg">
             <BiWifi />
             <span>Wifi</span>
           </div>
@@ -75,7 +73,7 @@ export default function Register() {
           </div>
         </div>
         {/* RIGHT */}
-        <div className="lg:w-1/2  p-5 flex gap-3 flex-col">
+        <div className=" order-2 lg:order-1 lg:w-1/2  p-5 flex gap-3 flex-col">
           <Link to={"/"}>
             {" "}
             <img className="h-8" src="/logo.png" />{" "}
@@ -156,16 +154,16 @@ export default function Register() {
           <div className="text-xs  flex items-center justify-center">
             Already have an account?
             <Link className="text-Clr mx-2 hover:text-Clrhv" to={"/login"}>
-              Login
+              Loginw
             </Link>
           </div>
           <div className="text-[gray] text-sm text-center">
             ------ OR ------
           </div>
           <div className="flex justify-center gap-3 ">
-            <BiLogoGoogle className="text-Clr rounded-full hover:text-Clrhv cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
-            <BiLogoGithub className="text-Clr rounded-full hover:text-Clrhv cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
-            <BiLogoFacebook className="text-Clr rounded-full hover:text-Clrhv cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
+            <FcGoogle className="text-Clr rounded-full cursor-pointer  w-8 h-8 p-1 bg-[#8080804d]" />
+            <BiLogoGithub className="text-[#333333] rounded-full  cursor-pointer  w-8 h-8 p-[2px] bg-[#d4d4d498]" />
+            <FaFacebook className="text-[#395693] rounded-full  cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
           </div>
         </div>
       </div>
