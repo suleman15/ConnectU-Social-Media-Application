@@ -2,44 +2,35 @@ import { useDispatch, useSelector } from "react-redux";
 import TopBar from "../Component/TopBar";
 import { FriendCard, FriendRequest, Loading, UserProfile } from "../Component";
 import React, { useEffect, useState } from "react";
-import { apiRequest, fetchUser } from "../api";
-import { login } from "../features/userSlice";
+import axios from "axios";
+import { SuggestedFriend } from "../Component/SuggestedFriend";
 
 const Home = () => {
   let { user } = useSelector((state) => state.user);
+  let [suggestedFriend, setSuggestedFriend] = useState([])
+  let userInfo ;
   let dispatch = useDispatch();
-  let [loading, setLoading] = useState(false);
-  let [suggestedFriends, setSuggestedFriends] = useState([]);
-  let [usr, setUser] = useState([]);
   console.log(user?.token);
-  let getUser = async () => {
-    const res = await fetchUser(user?.token);
-    const data = { token: user?.token, ...res };
-    dispatch(login(data));
-  };
-  let getSuggestedFriend = async () => {
-    try {
-      const res = await apiRequest({
-        url: "/users/suggested-friends",
-        token: user?.token,
-        method: "POST",
-      });
-      console.log(res?.data);
-      setSuggestedFriends(res?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  const fetchSuggestedFriend = async({token}) => {
+    let suggestedFriend = await axios.post("http://localhost:8800/users/suggested-friends", {}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}`: ``
+      }
+    }).then(res => setSuggestedFriend(res.data.data))
+    
+  }
+
+    
   useEffect(() => {
-    // getUser();
-    getSuggestedFriend();
-    getUser();
-    // console.log(usr);
-  }, []);
+    
+    fetchSuggestedFriend(user)
+  },[])
 
   return (
     <React.Fragment>
-      {!loading ? (
+      {JSON.stringify(suggestedFriend)}
         <div className=" flex  bg-bgColor justify-center px-2 ">
           <div className="   lg:w-[1200px] 2xl:w-[1680px]">
             <TopBar />
@@ -50,13 +41,13 @@ const Home = () => {
                 <FriendCard friends={user?.friends} />
               </div>
               <div className="bg-white"></div>
-              <div className="bg-white"></div>
+              <div className="bg-white">
+                <SuggestedFriend userToken ={user?.token} />
+              </div>
             </div>
           </div>
         </div>
-      ) : (
-        <Loading />
-      )}
+     
     </React.Fragment>
   );
 };

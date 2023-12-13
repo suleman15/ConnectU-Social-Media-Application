@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomButton, InputField, Loading } from "../Component/index";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -23,6 +23,7 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   let onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
@@ -39,7 +40,7 @@ export default function Login() {
         const data = { token: res?.token, ...res?.user };
         dispatch(login(data));
         if (res.message == "Login Successfully") {
-          window.location.replace("/");
+          navigate('/')
         }
       }
       setIsSubmitting(false);

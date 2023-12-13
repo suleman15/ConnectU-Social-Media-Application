@@ -13,8 +13,8 @@ const FriendCard = ({ friends }) => {
             <Link key={index} to={`/profile/${friend?._id}`}>
               <div className="flex gap-3 items-center text-xs ">
                 <img
-                  className="border-black border-2 p-1 rounded-full overflow-hidden w-10"
-                  src={friend?.profileUrl ?? NoProfile}
+                  className=" p-1 rounded-full overflow-hidden w-10"
+                  src={friend?.profileUrl ?? `https://api.dicebear.com/7.x/initials/svg?seed=${`${friend?.firstName} ${friend?.lastName}`}`}
                   alt={friend?.email}
                 />
                 <div>

@@ -18,11 +18,10 @@ const UserProfile = ({ user }) => {
       <div className="flex justify-between  items-center border-b-2 py-2  border-[lightgray]">
         <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-3 items-center text-sm ">
-            <img
-              className="bg-[black] rounded-full overflow-hidden w-12"
-              src={user?.profileUrl ?? NoProfile}
-              alt={user?.email}
-            />
+          <img 
+                  className=" p-1 rounded-full overflow-hidden w-10"
+                  src={user?.profileUrl ?? `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`}
+  alt="avatar" />
             <div>
               <div className=" font-bold">
                 {user?.firstName} {user?.lastName}
