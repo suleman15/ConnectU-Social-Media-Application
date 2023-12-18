@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import TopBar from "../Component/TopBar";
-import { FriendCard, FriendRequest, Loading, UserProfile } from "../Component";
+import { FriendCard, FriendRequest, CreatePost, Loading, UserProfile } from "../Component";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SuggestedFriend } from "../Component/SuggestedFriend";
@@ -19,7 +19,6 @@ const Home = () => {
         Authorization: token ? `Bearer ${token}`: ``
       }
     }).then(res => setSuggestedFriend(res.data.data))
-    
   }
 
     
@@ -40,7 +39,9 @@ const Home = () => {
                 <UserProfile user={user} />
                 <FriendCard friends={user?.friends} />
               </div>
-              <div className="bg-white"></div>
+              <div >
+              <CreatePost user = {user}/>
+              </div>
               <div className="bg-white">
                 <SuggestedFriend userToken ={user?.token} />
               </div>
