@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import TopBar from "../Component/TopBar";
-import { FriendCard, FriendRequest, CreatePost, Loading, UserProfile } from "../Component";
+import { FriendCard, FriendRequest, CreatePost, Loading, UserProfile, AllPost } from "../Component";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { SuggestedFriend } from "../Component/SuggestedFriend";
 
 const Home = () => {
@@ -12,19 +12,19 @@ const Home = () => {
   let dispatch = useDispatch();
   console.log(user?.token);
 
-  const fetchSuggestedFriend = async({token}) => {
-    let suggestedFriend = await axios.post("http://localhost:8800/users/suggested-friends", {}, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}`: ``
-      }
-    }).then(res => setSuggestedFriend(res.data.data))
-  }
+  // const fetchSuggestedFriend = async({token}) => {
+  //   let suggestedFriend = await axios.post("http://localhost:8800/users/suggested-friends", {}, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: token ? `Bearer ${token}`: ``
+  //     }
+  //   }).then(res => setSuggestedFriend(res.data.data))
+  // }
 
     
   useEffect(() => {
     
-    fetchSuggestedFriend(user)
+    // fetchSuggestedFriend(user)
   },[])
 
   return (
@@ -41,6 +41,7 @@ const Home = () => {
               </div>
               <div >
               <CreatePost user = {user}/>
+              <AllPost />
               </div>
               <div className="bg-white">
                 <SuggestedFriend userToken ={user?.token} />

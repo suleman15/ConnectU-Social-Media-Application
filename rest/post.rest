@@ -7,7 +7,7 @@
 
 
 POST http://localhost:8800/post/create-post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZiZjI0MjRmY2IwMmIxYWNkZTJkZjMiLCJpYXQiOjE3MDE2NzYxMjAsImV4cCI6MTcwNTkwOTcyMH0.0QeAsrqqysCf7IFQTV6NidCiOwdtjOnJ78vLkJ_33YY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTgwNDdjNzIzYzkyYTc5YTg0NzRmNmQiLCJpYXQiOjE3MDI5OTE3ODJ9.7_6EZws3yvJb766PsOFG-32z7RCmN1YdEeY6QFQx1so
 Content-Type: application/json
 
 {

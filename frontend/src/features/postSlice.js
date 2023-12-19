@@ -10,11 +10,9 @@ export const postSlice = createSlice({
     getPosts(state, action) {
       state.posts = action.payload;
     },
+
   },
 });
 
 export default postSlice.reducer;
 
-export function setPosts(post) {
-  return (dispatch) => dispatch.actions.getPosts(post);
-}

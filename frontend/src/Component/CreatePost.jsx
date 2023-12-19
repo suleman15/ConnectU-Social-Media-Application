@@ -1,9 +1,13 @@
 import React from 'react'
 import InputField from './InputField'
 import InputEmoji from 'react-input-emoji'
+import axios from 'axios'
 
 const createPost = async(data) => {
-    console.log(data)
+    let fetchData = await axios.post("http://localhost:8800/post/create-post", {
+      description: data
+    }).then(res => res.data)
+    console.log(fetchData)
 }
 
 

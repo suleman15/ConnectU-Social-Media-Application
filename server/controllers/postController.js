@@ -4,7 +4,7 @@ import Users from "../Models/userModel.js";
 
 export const createPost = async (req, res, next) => {
   try {
-    const { userId } = req.body.user;
+    const  userId  = "658047c723c92a79a8474f6d";
     const { description, image } = req.body;
 
     if (!description) {
@@ -33,7 +33,9 @@ export const createPost = async (req, res, next) => {
 
 export const getPosts = async (req, res) => {
   try {
-    const { userId } = req.body.user;
+    const  userId  = "658047c723c92a79a8474f6d";
+
+    // const { userId } = req.body.user;
     const { search } = req.body;
     const user = await Users.findById(userId);
     const friends = user?.friends?.toString().split(",") ?? [];

@@ -5,6 +5,7 @@ import FriendCard from "./FriendCard";
 import FriendRequest from "./FriendRequest";
 import UserProfile from "./UserProfile";
 import CreatePost from "./CreatePost";
+import AllPost from "./AllPost";
 export {
   UserProfile,
   FriendCard,
@@ -12,5 +13,6 @@ export {
   Loading,
   CustomButton,
   FriendRequest,
-  CreatePost
+  CreatePost,
+  AllPost
 };
