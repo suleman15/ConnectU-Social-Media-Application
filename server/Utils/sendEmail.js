@@ -129,7 +129,7 @@ export const resetPasswordLink = async (user, res) => {
     //   <h3 style="color: rgb(8, 56, 188)">Password reset link. Please click the link below to reset password.</h3>
     //   <hr>
     //   <p>
-        
+
     //     <p>The Link expires in 10 Minutes</p>
     //     <br>
     //     <a href=${link}

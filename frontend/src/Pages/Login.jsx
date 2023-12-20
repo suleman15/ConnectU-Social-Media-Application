@@ -3,11 +3,7 @@ import { CustomButton, InputField, Loading } from "../Component/index";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  BiLogoGithub,
-  BiShareAlt,
-  BiWifi,
-} from "react-icons/bi";
+import { BiLogoGithub, BiShareAlt, BiWifi } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
 import { apiRequest } from "../api";
 import { login } from "../features/userSlice";
@@ -23,7 +19,7 @@ export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
@@ -40,7 +36,9 @@ export default function Login() {
         const data = { token: res?.token, ...res?.user };
         dispatch(login(data));
         if (res.message == "Login Successfully") {
-          navigate('/')
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
       }
       setIsSubmitting(false);
@@ -132,8 +130,8 @@ export default function Login() {
             ------ OR ------
           </div>
           <div className="flex justify-center gap-3 ">
-            <FcGoogle className="text-Clr rounded-full cursor-pointer  w-8 h-8 p-1 bg-[#8080804d]"/>
-            <BiLogoGithub className="text-[#333333] rounded-full  cursor-pointer  w-8 h-8 p-[2px] bg-[#d4d4d498]"  />
+            <FcGoogle className="text-Clr rounded-full cursor-pointer  w-8 h-8 p-1 bg-[#8080804d]" />
+            <BiLogoGithub className="text-[#333333] rounded-full  cursor-pointer  w-8 h-8 p-[2px] bg-[#d4d4d498]" />
             <FaFacebook className="text-[#395693] rounded-full  cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
           </div>
         </div>
