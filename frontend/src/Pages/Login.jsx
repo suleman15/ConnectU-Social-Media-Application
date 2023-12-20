@@ -23,6 +23,7 @@ export default function Login() {
   let onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
+      console.log(data)
       const res = await apiRequest({
         url: "auth/login",
         data: data,

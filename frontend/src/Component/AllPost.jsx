@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../features/postSlice";
+import { getPosts } from "../features/postSlice";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { HiMiniHandThumbUp } from "react-icons/hi2";
+import { PiThumbsUpLight } from "react-icons/pi";
 
 function AllPost({ user }) {
   const { posts } = useSelector((state) => state.post);
@@ -13,7 +13,7 @@ function AllPost({ user }) {
   const allPost = async () => {
     const res = await axios.post("http://localhost:8800/post/"); // make a request to the api
     console.log(res.data.data);
-    dispatch(setPosts(res.data?.data));
+    dispatch(getPosts(res.data?.data));
   };
   useEffect(() => {
     allPost();
@@ -58,7 +58,10 @@ function AllPost({ user }) {
               {post.description}
             </div>
             <div>
-              <HiMiniHandThumbUp />
+            <div className="p-3">
+            <div className="">{JSON.stringify(post?.like)}</div>
+            </div>
+
             </div>
           </div>
         </div>
