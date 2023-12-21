@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomButton, InputField, Loading } from "../Component/index";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -6,7 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
 import { BiLogoGithub, BiShareAlt, BiWifi } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
-import { apiRequest } from "../api";
+import { axiosRequest } from "../api";
+import { toast } from "react-toastify";
 
 export default function Register() {
   let {
@@ -17,29 +18,25 @@ export default function Register() {
   } = useForm({ mode: "onChange" });
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   let onSubmit = async (data) => {
     console.log(data);
     setIsSubmitting(true);
     try {
-      const res = await apiRequest({
+      const res = await axiosRequest({
         url: "auth/register",
         data: data,
         method: "POST",
       });
-      console.log(res.status);
+      console.log(res);
 
-      if (res?.status === "failed") {
+      if (res?.success == "failed") {
         setErrMsg(res);
+        toast.success(res?.message);
       } else {
         setErrMsg(res);
-        console.log(res);
-        if (!res?.status === undefined) {
-          setTimeout(() => {
-            window.location.replace("/login");
-          }, 5000);
-        }
+        toast.success(res?.message);
       }
       setIsSubmitting(false);
     } catch (error) {

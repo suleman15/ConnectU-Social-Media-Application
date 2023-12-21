@@ -46,18 +46,22 @@ export const Login = Async(async (req, res, next) => {
       next("Invalid email or password");
       return;
     }
-    if (!user?.verified) {
-      next(
-        "User email is not verified. Check your email account and verify your email"
-      );
-      return;
+    // if (!user?.verified) {
+    //   next(
+    //     "User email is not verified. Check your email account and verify your email"
+    //   );
+    //   return;
+    // }
+    if (!user?.email) {
+      next("Invalid Email");
     }
     const isMatch = await compareString(password, user?.password);
     if (!isMatch) {
-      next("Invalid email or password");
+      next("Invalid Password");
       return;
     }
     user.password = undefined;
+
     const token = createJWT(user._id);
     console.log(token);
     res.status(201).json({

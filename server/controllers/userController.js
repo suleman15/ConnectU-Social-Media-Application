@@ -176,12 +176,12 @@ export const getUser = Async(async (req, res, next) => {
       });
     }
     user.password = undefined;
-     res.status(200).json({
+    res.status(200).json({
       success: true,
       user,
     });
   } catch (error) {
-     res.status(500).json({
+    res.status(500).json({
       message: "Auth Error",
       success: false,
       error: error.message,
@@ -357,7 +357,6 @@ export const suggestedFriends = Async(async (req, res, next) => {
     })
       .limit(15)
       .select("firstName lastName profileUrl profesion -password");
-    console.log("this is res" + res);
     res.status(200).json({
       success: true,
       data: sugFriend,

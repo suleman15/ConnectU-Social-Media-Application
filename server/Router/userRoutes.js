@@ -17,9 +17,8 @@ import { userAuth } from "../middleware/authMiddleware.js";
 import scriptMiddleware from "../middleware/scriptMiddleware.js";
 
 const router = express.Router();
-const __dirname = path.resolve(path.dirname(""));
 
-router.get("/verify/:userId/:token", verifyEmail); //@{Working Fine}
+router.get("/verify/:userId/:token", verifyEmail); //@{for verification if the user has expire token or not expire}
 
 //Reset Password Routes
 router.post("/request-resetpassword", requestPasswordReset); // @{Working Fine} to send email for forget password

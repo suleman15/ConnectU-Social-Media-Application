@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BiLogoGithub, BiShareAlt, BiWifi } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
-import { apiRequest } from "../api";
+import { axiosRequest } from "../api";
 import { login } from "../features/userSlice";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
@@ -23,13 +23,13 @@ export default function Login() {
   let onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      console.log(data)
-      const res = await apiRequest({
+      console.log(data);
+      const res = await axiosRequest({
         url: "auth/login",
         data: data,
         method: "POST",
       });
-
+      console.log(res);
       if (res?.status == "failed") {
         setErrMsg(res);
       } else {

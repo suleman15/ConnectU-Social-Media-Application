@@ -1,9 +1,9 @@
 const errorMiddleware = (err, req, res, next) => {
   if (typeof err == "object") {
     err.statusCode = err.statusCode || 500;
+    console.log("Async Middleware Running");
 
     if (process.env.MODE.toLowerCase() === "development") {
-      console.log(err);
       res.status(err.statusCode).json({
         success: false,
         message: err.message,
@@ -16,14 +16,21 @@ const errorMiddleware = (err, req, res, next) => {
       });
     return;
   }
+
+  console.log("Running Custom Error", err);
+
   const defaultError = {
     statusCode: 404,
     success: "failed",
     message: err,
   };
-  res.status(defaultError.statusCode).json({
-    success: defaultError.success,
-    message: defaultError.message,
+  // res.status(500).json({
+  //   success: ,
+  //   message: err,
+  // });
+  res.json({
+    success: "failed",
+    message: err,
   });
 };
 

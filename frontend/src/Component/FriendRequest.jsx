@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { apiRequest } from "../api";
+// import { apiRequest } from "../api";
 
 const FriendRequest = ({ user }) => {
   console.log(user);

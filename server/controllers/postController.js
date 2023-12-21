@@ -1,10 +1,11 @@
 import Comments from "../Models/commentsModel.js";
 import Posts from "../Models/postModel.js";
 import Users from "../Models/userModel.js";
+import Async from "../middleware/Async.js";
 
-export const createPost = async (req, res, next) => {
+export const createPost = Async(async (req, res, next) => {
   try {
-    const  userId  = "658047c723c92a79a8474f6d";
+    const userId = "658047c723c92a79a8474f6d";
     const { description, image } = req.body;
 
     if (!description) {
@@ -29,11 +30,11 @@ export const createPost = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+});
 
-export const getPosts = async (req, res) => {
+export const getPosts = Async(async (req, res) => {
   try {
-    const  userId  = "658047c723c92a79a8474f6d";
+    const userId = "658047c723c92a79a8474f6d";
 
     // const { userId } = req.body.user;
     const { search } = req.body;
@@ -75,9 +76,9 @@ export const getPosts = async (req, res) => {
       message: error.message,
     });
   }
-};
+});
 
-export const getPost = async (req, res, next) => {
+export const getPost = Async(async (req, res, next) => {
   try {
     const { id } = req.params;
     const post = await Posts.findById(id).populate({
@@ -107,9 +108,9 @@ export const getPost = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+});
 
-export const userPost = async (req, res, next) => {
+export const userPost = Async(async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -131,9 +132,9 @@ export const userPost = async (req, res, next) => {
       message: error.message,
     });
   }
-};
+});
 
-export const getComment = async (req, res, next) => {
+export const getComment = Async(async (req, res, next) => {
   try {
     const { postId } = req.params;
     const postComments = await Comments.findById(postId);
@@ -158,4 +159,4 @@ export const getComment = async (req, res, next) => {
       message: err.message,
     });
   }
-};
+});

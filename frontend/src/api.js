@@ -1,17 +1,19 @@
 import axios from "axios";
-const API = axios.create({
+
+export const axiosInstance = axios.create({
   baseURL: "http://localhost:8800",
-  responseType: "json", // or 'arraybuffer', 'blob', 'document', 'text', etc.
+  // timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-export const apiRequest = async (url, token, data, method) => {
-  console.log(token)
+export const axiosRequest = async (url, token, data, method) => {
   try {
-    const request = await API(url, {
+    const request = await axiosInstance(url, {
       method: method || "GET",
       data: data,
       headers: {
-        "content-type": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
       },
     });
