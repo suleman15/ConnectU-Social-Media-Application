@@ -35,6 +35,7 @@ export default function Login() {
       } else {
         setErrMsg(res);
         const data = { token: res?.token, ...res?.user };
+        console.log(data);
         dispatch(login(data));
         if (res.message == "Login Successfully") {
           setTimeout(() => {

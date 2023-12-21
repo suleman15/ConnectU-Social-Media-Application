@@ -12,14 +12,12 @@ import React, { useEffect, useState } from "react";
 // import axios from "axios";
 import { SuggestedFriend } from "../Component/SuggestedFriend";
 import { axiosInstance } from "../api";
-import { login } from "../features/userSlice";
+import { login, updateUser } from "../features/userSlice";
 
 const Home = () => {
   let { user } = useSelector((state) => state.user);
-  console.log(user);
   let [suggestedFriend, setSuggestedFriend] = useState([]);
   let dispatch = useDispatch();
-  console.log(user?.token);
 
   const fetchSuggestedFriend = async ({ token }) => {
     try {
@@ -51,7 +49,9 @@ const Home = () => {
         }
       );
 
-      dispatch(login(response.data.data));
+      console.log();
+      dispatch(updateUser(response.data.user));
+      // dispatch(login(response.data.data));
     } catch (error) {
       console.error("Error fetching user data:", error);
       // Handle the error as needed, e.g., show a toast notification
@@ -60,8 +60,8 @@ const Home = () => {
 
   useEffect(() => {
     console.log("useEffect triggered");
-    // fetchSuggestedFriend(user);
-    // fetchUser(user);
+    fetchSuggestedFriend(user);
+    fetchUser(user);
   }, []);
 
   return (
