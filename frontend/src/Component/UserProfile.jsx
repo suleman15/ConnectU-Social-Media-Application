@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { NoProfile } from "../assets";
 import {
@@ -11,17 +11,24 @@ import {
 } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
+import { enableEdit, updateProfile } from "../features/userSlice";
 const UserProfile = ({ user }) => {
   const { user: data, edit } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   return (
     <div className="bg-white p-3 rounded-lg">
       <div className="flex justify-between  items-center border-b-2 py-2  border-[lightgray]">
         <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-3 items-center text-sm ">
-          <img 
-                  className=" p-1 rounded-full overflow-hidden w-10"
-                  src={user?.profileUrl ?? `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`}
-  alt="avatar" />
+            <img
+              className=" p-1 rounded-full overflow-hidden w-10"
+              src={
+                user?.profileUrl ??
+                `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
+              }
+              alt="avatar"
+            />
             <div>
               <div className=" font-bold">
                 {user?.firstName} {user?.lastName}
@@ -32,7 +39,10 @@ const UserProfile = ({ user }) => {
             </div>
           </div>
         </Link>
-        <BiEdit onClick={() => console.log("This is working")} />
+        <BiEdit
+          className="cursor-pointer"
+          onClick={() => dispatch(enableEdit(true))}
+        />
       </div>
       <div>
         <div className="border-b-2 border-[lightgray] ">
@@ -49,7 +59,6 @@ const UserProfile = ({ user }) => {
           <div className="flex gap-2 items-center  font-semibold">
             <div className="flex gap-3">
               <div>{user?.friends?.length}</div>
-
               Friends
             </div>
           </div>

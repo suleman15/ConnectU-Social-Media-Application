@@ -11,6 +11,7 @@ import ResetPassword from "./Pages/ResetPassword";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UpdateUserForm from "./Component/UpdateUserForm";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -35,11 +36,12 @@ function IfLogin() {
   );
 }
 function App() {
-  const { theme } = useSelector((state) => state.theme);
+  const { theme: theme, user: edit } = useSelector((state) => state);
 
   return (
     <div data-theme={theme} className="w-full h-screen">
       <ToastContainer />
+      {edit && <UpdateUserForm />}
       <Routes>
         {/* This is called Protected Route */}
         <Route element={<Layout />}>
