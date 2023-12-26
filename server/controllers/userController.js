@@ -7,6 +7,7 @@ import { resetPasswordLink } from "../Utils/sendEmail.js";
 import Async from "../middleware/Async.js";
 import Verification from "../models/emailVerificationModel.js";
 import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
@@ -228,6 +229,7 @@ export const updateUser = Async(async (req, res, next) => {
           user,
           token,
         });
+        fs.unlink(profileUrl.path);
       })
       .catch((err) => res.json({ err: "err in cloudinary catch fn" }));
   } catch (err) {

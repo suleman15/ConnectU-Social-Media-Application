@@ -64,3 +64,20 @@ export const deleteSinglePost = async ({ token, postId, uId }) => {
     console.log(err);
   }
 };
+export const likePost = async ({ token, postId }) => {
+  console.log("this runs");
+  try {
+    console.log(postId);
+    console.log(token, postId);
+    let fetchData = await axiosRequest({
+      url: "/post/like",
+      method: "post",
+      data: { postId },
+      token,
+    }).then((res) => res);
+    // console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -24,7 +24,7 @@ router.post("/", userAuth, getPosts); //Getting all the post first owns the frie
 
 // //Getting Comment
 // router.post("/comments/:postId", userAuth, getComment);
-router.post("/postLike", userAuth, likePost);
+router.post("/like", userAuth, likePost);
 router.post("/delete", userAuth, deletePost);
 
 export default router;

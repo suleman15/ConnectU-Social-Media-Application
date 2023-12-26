@@ -13,7 +13,7 @@ import {
   FaTrashAlt,
   FaRegTrashAlt,
 } from "react-icons/fa";
-import { deleteSinglePost, fetchAllPost } from "../api";
+import { deleteSinglePost, fetchAllPost, likePost } from "../api";
 import { Emoji } from "emoji-picker-react";
 
 function AllPost({ user }) {
@@ -33,6 +33,12 @@ function AllPost({ user }) {
     console.log(res);
     allPost(token);
     toast.success("Post Deleted Successfully");
+  };
+  const mLikePost = async ({ token, postId }) => {
+    let res = await likePost({ token, postId });
+    console.log(res);
+    // allPost(token);
+    // toast.success("Post Deleted Successfully");
   };
 
   useEffect(() => {
@@ -79,7 +85,7 @@ function AllPost({ user }) {
             <div className="p-3 ">{post.description}</div>
             <div className="p-3 flex justify-around gap-2">
               <div
-                onClick={() => console.log("data")}
+                onClick={() => mLikePost({ token, postId: post?._id })}
                 className="flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center"
               >
                 <div className="rounded-full text-white flex justify-center items-center text-xs bg-[black] w-5 h-5 ">

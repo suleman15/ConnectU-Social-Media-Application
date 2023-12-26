@@ -1,3 +1,4 @@
+import { json } from "express";
 import Comments from "../Models/commentsModel.js";
 import Posts from "../Models/postModel.js";
 import Users from "../Models/userModel.js";
@@ -51,7 +52,6 @@ export const getPosts = Async(async (req, res) => {
         select: "firstName lastName location  profileUrl -password",
       })
       .sort({ _id: -1 });
-    console.log(posts);
 
     // const friendsPost = posts?.filter((post) => {
     //   return friends.includes(post?.userId?._id.toString());
@@ -163,7 +163,32 @@ export const getComment = Async(async (req, res, next) => {
 });
 
 export const likePost = Async(async (req, res, next) => {
-  res.json({ success: true });
+  console.log("This runs");
+  try {
+    const { userId } = req.body.user;
+    const { postId } = req.body;
+    console.log(userId, postId);
+
+    const singlePost = await Posts.findById(postId);
+    console.log(singlePost?.like.includes(userId));
+    if (singlePost?.like.includes(userId)) {
+      // const post = await Posts.findByIdAndUpdate(postId, {
+      //   $pull: { like: userId },
+      // });
+      console.log(singlePost);
+      res.json({ success: true, post: singlePost });
+      return;
+    }
+    res.json({
+      success: "failed",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
 });
 export const deletePost = Async(async (req, res, next) => {
   try {
