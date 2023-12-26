@@ -11,9 +11,9 @@ dependencies:
   axios:
     specifier: ^1.6.2
     version: 1.6.2
-  emoji-mart:
-    specifier: ^5.5.2
-    version: 5.5.2
+  emoji-picker-react:
+    specifier: ^4.6.0
+    version: 4.6.0(react@18.2.0)
   moment:
     specifier: ^2.29.4
     version: 2.29.4
@@ -1125,8 +1125,13 @@ packages:
     resolution: {integrity: sha512-/bKPPcgZVUziECqDc+0HkT87+0zhaWSZHNXqF8FLd2lQcptpmUFwoCSWjCdOng9Gdq+afKArPdEg/0ZW461Eng==}
     dev: true
 
-  /emoji-mart@5.5.2:
-    resolution: {integrity: sha512-Sqc/nso4cjxhOwWJsp9xkVm8OF5c+mJLZJFoFfzRuKO+yWiN7K8c96xmtughYb0d/fZ8UC6cLIQ/p4BR6Pv3/A==}
+  /emoji-picker-react@4.6.0(react@18.2.0):
+    resolution: {integrity: sha512-HKrKVt9B3FBd2vecIVJcMo7ubA03MfqrfeKjXVKkrncf0nSuWlNyXT9hVt07bxdjr4t2tkqVz/BMVYi34ajl4A==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /es-abstract@1.22.3:

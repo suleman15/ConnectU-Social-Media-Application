@@ -25,6 +25,7 @@ export const register = Async(async (req, res, next) => {
       email,
       password: hashedPassword,
     });
+
     sendVerificationEmail(user, res);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -32,6 +33,7 @@ export const register = Async(async (req, res, next) => {
 });
 
 export const Login = Async(async (req, res, next) => {
+  console.log("LOGIN BLOCK START");
   let { email, password } = req.body;
   try {
     if (!email || !password) {
@@ -43,7 +45,7 @@ export const Login = Async(async (req, res, next) => {
       select: "firstName lastName location profileUrl -password",
     });
     if (!user) {
-      next("Invalid email or password");
+      next("Email  Doesn,t exist");
       return;
     }
     // if (!user?.verified) {
@@ -52,9 +54,6 @@ export const Login = Async(async (req, res, next) => {
     //   );
     //   return;
     // }
-    if (!user?.email) {
-      next("Invalid Email");
-    }
     const isMatch = await compareString(password, user?.password);
     if (!isMatch) {
       next("Invalid Password");

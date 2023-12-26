@@ -1,4 +1,5 @@
 const errorMiddleware = (err, req, res, next) => {
+  console.log(err);
   if (typeof err == "object") {
     err.statusCode = err.statusCode || 500;
     console.log("Async Middleware Running");

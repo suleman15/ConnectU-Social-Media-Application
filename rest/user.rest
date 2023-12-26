@@ -5,17 +5,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc0N
 # ###
 # # UPDATE_USER
 
-# PUT  http://localhost:8800/users/update-user
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc0NzlkZGI3ZjEzYzNhNDQyZWEyZWUiLCJpYXQiOjE3MDIxOTE5MDQsImV4cCI6MTcwNjQyNTUwNH0.JlUB8DOO2xzXaXiKEcmyaMSFtFPdljbahOndicWNo7U
-# Content-Type: application/json
+PUT  http://localhost:8800/users/update-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc0NzlkZGI3ZjEzYzNhNDQyZWEyZWUiLCJpYXQiOjE3MDIxOTE5MDQsImV4cCI6MTcwNjQyNTUwNH0.JlUB8DOO2xzXaXiKEcmyaMSFtFPdljbahOndicWNo7U
+Content-Type: application/json
 
-# {
-#      "firstName": "Suleman 2704 UPdated",
-#      "lastName": "Ahmed",
-#      "location": "Pakistan",
-#      "profileUrl": "alpha",
-#      "profession": "Student"
-# }
+{
+     "firstName": "Suleman 2704 UPdated",
+     "lastName": "Ahmed",
+     "location": "Pakistan",
+     "profileUrl": "alpha",
+     "profession": "Student"
+}
 
 
 # ###

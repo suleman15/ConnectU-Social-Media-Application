@@ -5,7 +5,7 @@ import Async from "../middleware/Async.js";
 
 export const createPost = Async(async (req, res, next) => {
   try {
-    const userId = "658047c723c92a79a8474f6d";
+    const { userId } = req.body.user;
     const { description, image } = req.body;
 
     if (!description) {
@@ -34,7 +34,7 @@ export const createPost = Async(async (req, res, next) => {
 
 export const getPosts = Async(async (req, res) => {
   try {
-    const userId = "658047c723c92a79a8474f6d";
+    const { userId } = req.body.user;
 
     // const { userId } = req.body.user;
     const { search } = req.body;
@@ -51,24 +51,25 @@ export const getPosts = Async(async (req, res) => {
         select: "firstName lastName location  profileUrl -password",
       })
       .sort({ _id: -1 });
+    console.log(posts);
 
-    const friendsPost = posts?.filter((post) => {
-      return friends.includes(post?.userId?._id.toString());
-    });
+    // const friendsPost = posts?.filter((post) => {
+    //   return friends.includes(post?.userId?._id.toString());
+    // });
 
-    const otherPost = posts?.filter(
-      (post) => !friends.includes(post?.userId?._id.toString())
-    );
+    // const otherPost = posts?.filter(
+    //   (post) => !friends.includes(post?.userId?._id.toString())
+    // );
 
-    let postRes = null;
+    // let postRes = null;
 
-    if (friendsPost?.length > 0) {
-      postRes = search ? friendsPost : [...friendsPost, ...otherPost];
-    } else {
-      postRes = posts;
-    }
+    // if (friendsPost?.length > 0) {
+    //   postRes = search ? friendsPost : [...friendsPost, ...otherPost];
+    // } else {
+    //   postRes = posts;
+    // }
 
-    res.json({ success: true, message: "Successfully", data: postRes });
+    res.json({ success: true, message: "Successfully", data: posts });
   } catch (error) {
     console.log(error);
     res.status(404).json({
@@ -157,6 +158,35 @@ export const getComment = Async(async (req, res, next) => {
     res.status(404).json({
       success: false,
       message: err.message,
+    });
+  }
+});
+
+export const likePost = Async(async (req, res, next) => {
+  res.json({ success: true });
+});
+export const deletePost = Async(async (req, res, next) => {
+  try {
+    const { userId } = req.body.user;
+    const { postId, uId } = req.body;
+    console.log("DELTE POST IS RUNNING");
+    console.log(uId == userId);
+    if (uId == userId) {
+      const data = await Posts.findOneAndDelete({ _id: postId });
+      res.status(200).json({
+        success: true,
+        data: data,
+      });
+    } else {
+      res.status(200).json({
+        success: "failed",
+        message: "Dont Have Access",
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      errMsg: error.message,
     });
   }
 });

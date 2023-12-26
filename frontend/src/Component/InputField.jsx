@@ -3,7 +3,17 @@ import React from "react";
 
 const InputField = React.forwardRef(
   (
-    { type, placeholder, styles, label, labelStyle, register, name, error },
+    {
+      type,
+      placeholder,
+      styles,
+      label,
+      rest,
+      labelStyle,
+      register,
+      name,
+      error,
+    },
     ref
   ) => {
     return (
@@ -22,9 +32,10 @@ const InputField = React.forwardRef(
           type={type}
           placeholder={placeholder}
           ref={ref}
-          className={`${styles} focus:border-purple    border-[#bbb8b8] border-2 p-3 text-sm  rounded outline-none `}
+          className={`focus:border-purple    border-[#bbb8b8] border-2 p-3 text-sm  rounded outline-none ${styles} `}
           {...register}
           aria-invalid={error ? true : false}
+          {...rest}
         />
         {error && <div className="text-xs text-[#ff0000ad]">{error}</div>}
       </div>

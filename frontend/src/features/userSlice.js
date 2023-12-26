@@ -15,8 +15,9 @@ export const userSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
     },
-    enableEdit(state, action) {
-      state.edit = true;
+    userEdited(state, action) {
+      console.log();
+      state.edit = !state.edit;
     },
     updateUser(state, action) {
       state.user = { ...state.user, ...action.payload };
@@ -29,5 +30,5 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { login, logout, updateProfile, updateUser, enableEdit } =
+export const { login, logout, updateProfile, updateUser, userEdited } =
   userSlice.actions;

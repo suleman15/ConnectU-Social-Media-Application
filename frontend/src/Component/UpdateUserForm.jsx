@@ -1,31 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "./InputField";
 import CustomButton from "./CustomButton";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm, useWatch } from "react-hook-form";
+import { axiosInstance, axiosRequest } from "../api";
+import { login, userEdited } from "../features/userSlice";
+import { RxCross2 } from "react-icons/rx";
+import { toast } from "react-toastify";
 
 const UpdateUserForm = () => {
-  const { user: user } = useSelector((state) => state);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useSelector((state) => state.user);
+  const token = user?.token;
+  const [errMsg, setErrMsg] = useState("");
+
+  let dispatch = useDispatch();
+
+  let [selectedImg, setSelectedImg] = useState("");
+
   let {
     register,
     handleSubmit,
     formState: { errors },
+    control,
+    getValues,
   } = useForm({ mode: "onChange" });
 
+  const selectedImage = useWatch({
+    control,
+    name: "profileUrl", // replace with your file input name
+  });
+
+  const imagePreview = selectedImage
+    ? URL.createObjectURL(selectedImage[0])
+    : null;
+
   const updUser = async (data) => {
-    console.log(data);
+    try {
+      const formData = new FormData();
+
+      Object.keys(data).map((key) => {
+        if (key == "profileUrl") {
+          console.log(data[key][0]);
+        }
+        key != "profileUrl"
+          ? formData.set(key, getValues(key))
+          : formData.set(key, getValues(key)[0]);
+      });
+
+      const res = await axios
+        .put("http://localhost:8800/users/update-user", formData, {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          onUploadProgress: (progressEvent) => {
+            console.log(progressEvent);
+            // const totalLength = progressEvent.lengthComputable
+            //   ? progressEvent.total
+            //   : progressEvent.target.getResponseHeader("content-length") ||
+            //     progressEvent.target.getResponseHeader(
+            //       "x-decompressed-content-length"
+            //     );
+            // if (totalLength) {
+            //   const progressPercent = Math.round(
+            //     (progressEvent.loaded * 100) / totalLength
+            //   );
+            //   console.log(progressPercent);
+            // }
+          },
+        })
+        .then((res) => {
+          const data = { token: res.data?.token, ...res.data?.user };
+          console.log(data);
+          dispatch(login(data));
+          toast.success("Sucessfully updated");
+          return res.data;
+        });
+      console.log(res);
+
+      dispatch(userEdited());
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className="absolute w-full h-screen flex justify-center items-center bg-[#ff000049] z-10">
+    <div className="fixed w-full h-screen  flex justify-center items-center bg-[#000000a9] z-10">
       <form
         onSubmit={handleSubmit(updUser)}
         className="bg-white p-3 w-[500px] gap-3 flex flex-col rounded-lg"
+        encType="multipart/form-data"
       >
+        {/* {imagePreview && <img src={imagePreview} alt="Selected" />} */}
+
         <img
-          className="w-[100px] rounded-full mx-auto"
+          className="w-[150px] h-[150px] bg-contain  rounded-full mx-auto"
           src={
+            imagePreview ??
             user?.profileUrl ??
             `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
           }
@@ -35,23 +107,57 @@ const UpdateUserForm = () => {
           type="file"
           placeholder="Profile-Image"
           label="Profile-Image"
-          register={register("file")}
+          register={register("profileUrl")}
+          error={errors.profileUrl ? errors.profileUrl.message : ""}
+          rest={{}}
         />
+        <InputField
+          type="text"
+          placeholder="First Name"
+          label="First Name"
+          register={register("firstName", {
+            required: "First Name is required.",
+          })}
+          error={errors.firstName ? errors.firstName.message : ""}
+        />
+        <InputField
+          type="text"
+          placeholder="Last Name"
+          label="Last Name"
+          register={register("lastName", {
+            required: "Last Name is required.",
+          })}
+          error={errors.lastName ? errors.lastName.message : ""}
+        />
+
         <InputField
           type="text"
           placeholder="Add Location"
           label="Add Location"
-          register={register("location")}
+          register={register("location", {
+            required: "Location is required.",
+          })}
+          error={errors.location ? errors.location.message : ""}
         />
         <InputField
           type="text"
           placeholder="Add Profession"
           label="Add Profession"
-          register={register("profession")}
+          register={register("profession", {
+            required: "Profession Is required.",
+          })}
+          error={errors.profession ? errors.profession.message : ""}
         />
 
+        {errMsg && <div className="text-[red] text-sm">{errMsg.message}</div>}
         <CustomButton type={"submit"} title={"submit"} />
       </form>
+      <div
+        onClick={() => dispatch(userEdited())}
+        className="absolute  top-[20px] right-[20px] text-white text-2xl p-3 bg-purple rounded-full"
+      >
+        <RxCross2 />
+      </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import FriendRequest from "./FriendRequest";
 import UserProfile from "./UserProfile";
 import CreatePost from "./CreatePost";
 import AllPost from "./AllPost";
+import SuggestedFriend from "./SuggestedFriend";
 export {
   UserProfile,
   FriendCard,
@@ -14,5 +15,6 @@ export {
   CustomButton,
   FriendRequest,
   CreatePost,
-  AllPost
+  AllPost,
+  SuggestedFriend,
 };

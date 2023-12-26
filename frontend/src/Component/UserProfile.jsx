@@ -11,7 +11,7 @@ import {
 } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
-import { enableEdit, updateProfile } from "../features/userSlice";
+import { userEdited } from "../features/userSlice";
 const UserProfile = ({ user }) => {
   const { user: data, edit } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const UserProfile = ({ user }) => {
         </Link>
         <BiEdit
           className="cursor-pointer"
-          onClick={() => dispatch(enableEdit(true))}
+          onClick={() => dispatch(userEdited())}
         />
       </div>
       <div>

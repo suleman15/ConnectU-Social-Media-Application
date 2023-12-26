@@ -36,8 +36,8 @@ function IfLogin() {
   );
 }
 function App() {
-  const { theme: theme, user: edit } = useSelector((state) => state);
-
+  const { theme } = useSelector((state) => state.theme);
+  const { edit } = useSelector((state) => state.user);
   return (
     <div data-theme={theme} className="w-full h-screen">
       <ToastContainer />
@@ -46,7 +46,7 @@ function App() {
         {/* This is called Protected Route */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId?" element={<Profile />} />
         </Route>
         <Route element={<IfLogin />}>
           <Route path="/login" element={<Login />} />

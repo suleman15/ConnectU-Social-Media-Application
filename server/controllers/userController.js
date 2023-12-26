@@ -1,3 +1,4 @@
+import multer from "multer";
 import PasswordReset from "../Models/PasswordReset.js";
 import FriendRequest from "../Models/friendRequest.js";
 import Users from "../Models/userModel.js";
@@ -5,6 +6,8 @@ import { compareString, createJWT, hashString } from "../Utils/index.js";
 import { resetPasswordLink } from "../Utils/sendEmail.js";
 import Async from "../middleware/Async.js";
 import Verification from "../models/emailVerificationModel.js";
+import { v2 as cloudinary } from "cloudinary";
+
 export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
   try {
@@ -190,34 +193,43 @@ export const getUser = Async(async (req, res, next) => {
 });
 export const updateUser = Async(async (req, res, next) => {
   try {
-    const { firstName, lastName, location, profileUrl, profession } = req.body;
+    console.log(req.body);
+    const { firstName, lastName, location, profession } = req.body;
+    const profileUrl = req.file;
     if (!(firstName || lastName || location || profileUrl || profession)) {
       next("Please Provide all required Field");
       return;
     }
-    const { userId } = req.body.user;
-    const updatedUser = {
-      _id: userId,
-      firstName,
-      lastName,
-      location,
-      profileUrl,
-      profession,
-    };
-    const user = await Users.findByIdAndUpdate(userId, updatedUser, {
-      new: true,
-    });
-    await user.populate({ path: "friends", select: "-password" });
-    const token = createJWT(user?._id);
+    console.log(profileUrl.path);
 
-    user.password = undefined;
+    cloudinary.uploader
+      .upload(profileUrl.path)
+      .then(async (result) => {
+        const { userId } = req.body.user;
 
-    res.status(200).json({
-      success: true,
-      message: "User Updated Successfully",
-      user,
-      token,
-    });
+        const updatedUser = {
+          _id: userId,
+          firstName,
+          lastName,
+          location,
+          profileUrl: result.secure_url,
+          profession,
+        };
+        const user = await Users.findByIdAndUpdate(userId, updatedUser, {
+          new: true,
+        });
+        console.log(user);
+        await user.populate({ path: "friends", select: "-password" });
+        const token = createJWT(user?._id);
+        user.password = undefined;
+        res.status(200).json({
+          success: true,
+          message: "User Updated Successfully",
+          user,
+          token,
+        });
+      })
+      .catch((err) => res.json({ err: "err in cloudinary catch fn" }));
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: err.message });
