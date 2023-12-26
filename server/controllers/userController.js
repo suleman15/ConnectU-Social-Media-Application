@@ -229,7 +229,7 @@ export const updateUser = Async(async (req, res, next) => {
           user,
           token,
         });
-        fs.unlink(profileUrl.path);
+        // fs.unlink(profileUrl.path);
       })
       .catch((err) => res.json({ err: "err in cloudinary catch fn" }));
   } catch (err) {

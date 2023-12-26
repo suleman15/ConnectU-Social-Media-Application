@@ -22,7 +22,7 @@ const UserProfile = ({ user }) => {
         <Link to={`/profile/${user?._id}`}>
           <div className="flex gap-3 items-center text-sm ">
             <img
-              className=" p-1 rounded-full overflow-hidden w-10"
+              className=" p-1 rounded-full overflow-hidden w-10 h-10"
               src={
                 user?.profileUrl ??
                 `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`

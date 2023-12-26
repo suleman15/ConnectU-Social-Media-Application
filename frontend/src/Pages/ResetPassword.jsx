@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { CustomButton, InputField, Loading } from "../Component";
 import { useState } from "react";
+import { axiosRequest } from "../api";
+import { toast } from "react-toastify";
 
 export default function ResetPassword() {
   let {
@@ -11,21 +13,22 @@ export default function ResetPassword() {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // let onSubmit = async (data) => {
-  //   try {
-  //     setIsSubmitting(true);
-  //     const res = await apiRequest({
-  //       url: "users/request-resetpassword",
-  //       data: data,
-  //       method: "POST",
-  //     });
-  //     setErrMsg(res);
-  //     setIsSubmitting(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setIsSubmitting(false);
-  //   }
-  // };
+const  onSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+      const res = await axiosRequest({
+        url: "users/request-resetpassword",
+        data: data,
+        method: "POST",
+      });
+      toast.success(res.message)
+      setErrMsg(res);
+      setIsSubmitting(false);
+    } catch (error) {
+      console.log(error);
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="bg-bgColor w-full h-screen flex p-6 justify-center items-center ">

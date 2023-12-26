@@ -17,7 +17,6 @@ const UpdateUserForm = () => {
 
   let dispatch = useDispatch();
 
-  let [selectedImg, setSelectedImg] = useState("");
 
   let {
     register,
@@ -25,7 +24,12 @@ const UpdateUserForm = () => {
     formState: { errors },
     control,
     getValues,
-  } = useForm({ mode: "onChange" });
+  } = useForm({ mode: "onChange" , defaultValues: {
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    profession: user?.profession,
+    location: user?.location
+  }});
 
   const selectedImage = useWatch({
     control,
@@ -107,9 +111,10 @@ const UpdateUserForm = () => {
           type="file"
           placeholder="Profile-Image"
           label="Profile-Image"
-          register={register("profileUrl")}
+          register={register("profileUrl",{
+            required: "Image Is Required"
+          })}
           error={errors.profileUrl ? errors.profileUrl.message : ""}
-          rest={{}}
         />
         <InputField
           type="text"

@@ -171,17 +171,23 @@ export const likePost = Async(async (req, res, next) => {
 
     const singlePost = await Posts.findById(postId);
     console.log(singlePost?.like.includes(userId));
-    if (singlePost?.like.includes(userId)) {
-      // const post = await Posts.findByIdAndUpdate(postId, {
-      //   $pull: { like: userId },
-      // });
+    if (!singlePost?.like.includes(userId)) {
+     singlePost?.like.push(userId)
+     await singlePost.save()
       console.log(singlePost);
       res.json({ success: true, post: singlePost });
       return;
     }
-    res.json({
-      success: "failed",
-    });
+    else {
+      const updatedPost = await Posts.findByIdAndUpdate(
+        postId,
+        { $pull: { like: userId } },
+        { new: true } // This option returns the updated document
+      );
+    res.json({ success: true, post: updatedPost });
+        return;
+    }
+
   } catch (err) {
     console.log(err);
     res.status(404).json({

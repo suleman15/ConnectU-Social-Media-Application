@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../features/postSlice";
 import { Link } from "react-router-dom";
@@ -15,8 +15,20 @@ import {
 } from "react-icons/fa";
 import { deleteSinglePost, fetchAllPost, likePost } from "../api";
 import { Emoji } from "emoji-picker-react";
+import InputField from "./InputField";
+import { useForm } from "react-hook-form";
 
 function AllPost({ user }) {
+
+  let {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+  
+  
+  
+  const [showIdComment, setShowIdComment] = useState("")
   const {
     user: { _id, token },
   } = useSelector((state) => state.user);
@@ -37,8 +49,8 @@ function AllPost({ user }) {
   const mLikePost = async ({ token, postId }) => {
     let res = await likePost({ token, postId });
     console.log(res);
-    // allPost(token);
-    // toast.success("Post Deleted Successfully");
+    allPost(token);
+    toast.success(" Successfully");
   };
 
   useEffect(() => {
@@ -91,19 +103,26 @@ function AllPost({ user }) {
                 <div className="rounded-full text-white flex justify-center items-center text-xs bg-[black] w-5 h-5 ">
                   {post.like.length}
                 </div>
-                <Emoji unified="1f423" size="25" />
+                <Emoji unified="1f44d" size="25" />
                 <FaRegThumbsUp />
                 Like
               </div>
-              <div className="flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center">
+              <div onClick={() => setShowIdComment(post?._id)} className={`flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center `}>
                 <FaCommentAlt />
                 Comment
               </div>
+              
               <div className="flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center">
                 <FaRegShareSquare />
                 Share
               </div>
             </div>
+            {post?._id == showIdComment && <form onSubmit={handleSubmit(async(data) => {
+              console.log(data)
+            })}>
+              <InputField register={register('comment',{required: "Comment Can,t be Empty"})}               error={errors.comment ? errors.comment.message : ""}
+/>
+              </form>}
           </div>
         </div>
       ))}
