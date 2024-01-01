@@ -16,7 +16,7 @@ import InputField from "./InputField";
 import { useForm } from "react-hook-form";
 import { BiCommentDots } from "react-icons/bi";
 
-function AllPost({ user }) {
+function AllPost({ user, userId }) {
   let {
     register,
     handleSubmit,
@@ -31,34 +31,41 @@ function AllPost({ user }) {
   const { posts } = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
-  const allPost = async (token) => {
-    let res = await fetchAllPost(token);
-    console.log(res);
+  const allPost = async ({ token }) => {
+    if (!userId) {
+      console.log("notuserProfile");
+      let res = await fetchAllPost({ token });
+      console.log(res);
+      dispatch(getPosts(res));
+      return;
+    }
+    console.log("THIS IS RUNNING");
+    let res = await fetchAllPost({ token, search: userId });
     dispatch(getPosts(res));
   };
   const mDeleteSinglePost = async ({ token, uId, postId }) => {
     let res = await deleteSinglePost({ token, uId, postId });
     console.log(res);
-    allPost(token);
+    allPost({ token });
     toast.success("Post Deleted Successfully");
   };
   const mLikePost = async ({ token, postId }) => {
     let res = await likePost({ token, postId });
     console.log(res);
-    allPost(token);
+    allPost({ token });
     toast.success(" Successfully");
   };
   const mCommentPost = async ({ token, postId, comment }) => {
     console.log(token, postId, comment);
     let res = await commentPost({ token, postId, comment });
     console.log(res);
-    allPost(token);
+    allPost({ token });
     setValue("comment", "");
     toast.success(" Successfully");
   };
 
   useEffect(() => {
-    allPost(token);
+    allPost({ token });
   }, []);
 
   return (
@@ -66,42 +73,44 @@ function AllPost({ user }) {
       {posts?.map((post, index) => (
         <div key={index}>
           <div className="bg-white rounded-lg p-3">
-            <div className="p-3 flex  items-center">
-              <Link to={`/profile/${post?.userId?._id}`} className="w-full">
-                <div className="flex gap-3 items-center text-sm ">
-                  <img
-                    className="p-1 rounded-full overflow-hidden w-10 h-10"
-                    src={
-                      post?.userId?.profileUrl ??
-                      `https://api.dicebear.com/7.x/initials/svg?seed=${`${post?.userId?.firstName} ${post?.userId?.lastName}`}`
-                    }
-                    alt="avatar"
-                  />
-                  <div>
-                    <div className="font-bold capitalize">
-                      {post?.userId?.firstName} {post?.userId?.lastName}
-                    </div>
-                    <div className="text-[gray] text-xs">
-                      {moment(post?.createdAt).fromNow()}
+            <Link to={"/game"}>
+              <div className="p-3 flex  items-center">
+                <Link to={`/profile/${post?.userId?._id}`} className="w-full">
+                  <div className="flex gap-3 items-center text-sm ">
+                    <img
+                      className="p-1 rounded-full overflow-hidden w-10 h-10"
+                      src={
+                        post?.userId?.profileUrl ??
+                        `https://api.dicebear.com/7.x/initials/svg?seed=${`${post?.userId?.firstName} ${post?.userId?.lastName}`}`
+                      }
+                      alt="avatar"
+                    />
+                    <div>
+                      <div className="font-bold capitalize">
+                        {post?.userId?.firstName} {post?.userId?.lastName}
+                      </div>
+                      <div className="text-[gray] text-xs">
+                        {moment(post?.createdAt).fromNow()}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-              {post?.userId?._id == _id && (
-                <div
-                  onClick={() => {
-                    mDeleteSinglePost({ token, uId: _id, postId: post?._id });
-                  }}
-                  className="p-3 cursor-pointer rounded-full bg-[#80808031] hover:bg-[#80808044] "
-                >
-                  <FaRegTrashAlt />
-                </div>
-              )}
-            </div>
-            <div className="p-3 ">{post.description}</div>
-            <div className="text-sm px-3 font-bold font-mono ">
-              {post.like.length}
-            </div>
+                </Link>
+                {post?.userId?._id == _id && (
+                  <div
+                    onClick={() => {
+                      mDeleteSinglePost({ token, uId: _id, postId: post?._id });
+                    }}
+                    className="p-3 cursor-pointer rounded-full bg-[#80808031] hover:bg-[#80808044] "
+                  >
+                    <FaRegTrashAlt />
+                  </div>
+                )}
+              </div>
+              <div className="p-3 ">{post.description}</div>
+              <div className="text-sm px-3 font-bold font-mono ">
+                {post.like.length}
+              </div>
+            </Link>
             <div className="p-3 flex justify-around gap-2 text-sm border-t-2 border-[gray]">
               <div
                 onClick={() => mLikePost({ token, postId: post?._id })}
@@ -148,7 +157,7 @@ function AllPost({ user }) {
               </form>
             )}
             {post?.comments?.map(({ userId, comment }, index) => (
-              <div key={index} className="my-6 text-xs">
+              <div key={index} className="my-6 text-xs bg-bgColor">
                 <div className="flex gap-3 capitalize font-bold">
                   <Link to={`/profile/${userId?._id}`} className="w-full">
                     <div className="flex gap-3 items-center text-sm ">

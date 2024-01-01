@@ -40,14 +40,8 @@ export const getPosts = Async(async (req, res) => {
     // const { userId } = req.body.user;
     const { search } = req.body;
     const user = await Users.findById(userId);
-    console.log(user);
-    const friends = user?.friends?.toString().split(",") ?? [];
-    friends.push(userId);
-
-    const searchPostQuery = {
-      $or: [{ description: { $regex: search, $option: "i" } }],
-    };
-    const posts = await Posts.find(search ? searchPostQuery : {})
+    console.log("search", search);
+    const posts = await Posts.find(search ? { userId: search } : {})
       .populate({
         path: "userId",
         select: "firstName lastName location  profileUrl -password",
@@ -58,27 +52,9 @@ export const getPosts = Async(async (req, res) => {
           path: "userId",
           select: "firstName lastName location profileUrl -password",
         },
-
         select: "userId comment ",
       })
-
       .sort({ _id: -1 });
-    console.log(posts);
-    // const friendsPost = posts?.filter((post) => {
-    //   return friends.includes(post?.userId?._id.toString());
-    // });
-
-    // const otherPost = posts?.filter(
-    //   (post) => !friends.includes(post?.userId?._id.toString())
-    // );
-
-    // let postRes = null;
-
-    // if (friendsPost?.length > 0) {
-    //   postRes = search ? friendsPost : [...friendsPost, ...otherPost];
-    // } else {
-    //   postRes = posts;
-    // }
 
     res.json({ success: true, message: "Successfully", data: posts });
   } catch (error) {

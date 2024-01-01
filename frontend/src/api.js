@@ -38,11 +38,12 @@ export const fetchUser = async ({ token, id }) => {
   }
 };
 
-export const fetchAllPost = async (token) => {
+export const fetchAllPost = async ({ token, search }) => {
   try {
     let fetchData = await axiosRequest({
       url: "/post/",
       method: "post",
+      data: { search },
       token,
     }).then((res) => res.data);
     console.log(fetchData);
@@ -51,6 +52,7 @@ export const fetchAllPost = async (token) => {
     console.log(err);
   }
 };
+
 export const deleteSinglePost = async ({ token, postId, uId }) => {
   try {
     console.log(token, postId, uId);

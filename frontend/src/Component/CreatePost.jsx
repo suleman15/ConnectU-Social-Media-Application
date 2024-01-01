@@ -42,7 +42,7 @@ function CreatePost({ user }) {
           })
           .then(async (result) => {
             toast.success(result?.data?.message);
-            let res = await fetchAllPost(token);
+            let res = await fetchAllPost({ token });
             dispatch(getPosts(res));
             setShowEmoji(!showEmoji);
             return;
@@ -59,6 +59,7 @@ function CreatePost({ user }) {
   const postSubmited = async (data) => {
     await createPost(user?.token, data);
     setValue("description", "");
+    setShowEmoji(false);
   };
 
   return (

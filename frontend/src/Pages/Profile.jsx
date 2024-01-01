@@ -4,6 +4,7 @@ import UserProfile from "../Component/UserProfile";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchUser } from "../api";
+import { AllPost } from "../Component";
 
 export default function Profile() {
   const [user, setUser] = useState([]);
@@ -30,7 +31,9 @@ export default function Profile() {
         <div>
           <UserProfile user={user} userEdit={false} />
         </div>
-        <div></div>
+        <div>
+          <AllPost user={user} userId={userId} />
+        </div>
         <div></div>
       </div>
     </div>
