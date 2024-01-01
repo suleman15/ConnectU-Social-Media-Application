@@ -81,6 +81,7 @@ function CreatePost({ user }) {
           register={register("description", {
             required: "This field is required",
           })}
+          placeholder={`What's you think ~ ${user?.firstName}`}
           error={errors.description ? errors.description.message : ""}
         />
         <div className="relative">
@@ -95,7 +96,7 @@ function CreatePost({ user }) {
           <div className="absolute right-0 top-[120%]">
             {showEmoji && (
               <Picker
-                onEmojiClick={(emojiData, event) => {
+                onEmojiClick={(emojiData) => {
                   const description = getValues("description");
                   setValue("description", description + emojiData.emoji);
                 }}
@@ -103,8 +104,6 @@ function CreatePost({ user }) {
             )}
           </div>
         </div>
-
-        <CustomButton title={"POST"} type={"submit"} />
       </form>
     </div>
   );

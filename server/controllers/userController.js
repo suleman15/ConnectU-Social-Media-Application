@@ -5,7 +5,7 @@ import Users from "../Models/userModel.js";
 import { compareString, createJWT, hashString } from "../Utils/index.js";
 import { resetPasswordLink } from "../Utils/sendEmail.js";
 import Async from "../middleware/Async.js";
-import Verification from "../models/emailVerificationModel.js";
+import Verification from "../Models/emailVerificationModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
@@ -169,6 +169,7 @@ export const getUser = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { id } = req.params;
+    console.log("id");
     const user = await Users.findById(id ?? userId).populate({
       path: "friends",
       select: "-password",

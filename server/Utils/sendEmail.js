@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
 import { hashString } from "./index.js";
-import Verification from "../models/emailVerificationModel.js";
+import Verification from "../Models/emailVerificationModel.js";
 import PasswordReset from "../Models/PasswordReset.js";
 import path from "path";
 import hbs from "nodemailer-express-handlebars";

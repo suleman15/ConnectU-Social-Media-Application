@@ -24,14 +24,15 @@ export const axiosRequest = async ({ url, token, data, method }) => {
   }
 };
 
-export const fetchUser = async (token, id) => {
+export const fetchUser = async ({ token, id }) => {
   try {
-    let url = !id ? `user/get-user` : `user/get-user/${id}`;
-    let userData = apiRequest({
+    let url = !id ? `users/get-user` : `users/get-user/${id}`;
+    let userData = await axiosRequest({
       url,
       token: token,
       method: "POST",
-    });
+    }).then((res) => res);
+    return userData;
   } catch (error) {
     console.log(error);
   }
@@ -44,6 +45,7 @@ export const fetchAllPost = async (token) => {
       method: "post",
       token,
     }).then((res) => res.data);
+    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -76,6 +78,34 @@ export const likePost = async ({ token, postId }) => {
       token,
     }).then((res) => res);
     // console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const commentPost = async ({ token, postId, comment }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/post/comment/${postId}`,
+      method: "post",
+      data: { comment },
+      token,
+    }).then((res) => res);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchComment = async ({ token, postId }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/post/comments/${postId}`,
+      method: "post",
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);

@@ -17,19 +17,21 @@ const UpdateUserForm = () => {
 
   let dispatch = useDispatch();
 
-
   let {
     register,
     handleSubmit,
     formState: { errors },
     control,
     getValues,
-  } = useForm({ mode: "onChange" , defaultValues: {
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    profession: user?.profession,
-    location: user?.location
-  }});
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      profession: user?.profession,
+      location: user?.location,
+    },
+  });
 
   const selectedImage = useWatch({
     control,
@@ -93,11 +95,16 @@ const UpdateUserForm = () => {
     <div className="fixed w-full h-screen  flex justify-center items-center bg-[#000000a9] z-10">
       <form
         onSubmit={handleSubmit(updUser)}
-        className="bg-white p-3 w-[500px] gap-3 flex flex-col rounded-lg"
+        className="bg-white p-3 w-[500px] gap-3 flex flex-col rounded-lg relative"
         encType="multipart/form-data"
       >
         {/* {imagePreview && <img src={imagePreview} alt="Selected" />} */}
-
+        <div
+          onClick={() => dispatch(userEdited())}
+          className="bg-[#80008056] text-purple rounded-full  absolute right-3 p-2 top-3"
+        >
+          <RxCross2 />
+        </div>
         <img
           className="w-[150px] h-[150px] bg-contain  rounded-full mx-auto"
           src={
@@ -111,8 +118,8 @@ const UpdateUserForm = () => {
           type="file"
           placeholder="Profile-Image"
           label="Profile-Image"
-          register={register("profileUrl",{
-            required: "Image Is Required"
+          register={register("profileUrl", {
+            required: "Image Is Required",
           })}
           error={errors.profileUrl ? errors.profileUrl.message : ""}
         />
@@ -157,12 +164,6 @@ const UpdateUserForm = () => {
         {errMsg && <div className="text-[red] text-sm">{errMsg.message}</div>}
         <CustomButton type={"submit"} title={"submit"} />
       </form>
-      <div
-        onClick={() => dispatch(userEdited())}
-        className="absolute  top-[20px] right-[20px] text-white text-2xl p-3 bg-purple rounded-full"
-      >
-        <RxCross2 />
-      </div>
     </div>
   );
 };

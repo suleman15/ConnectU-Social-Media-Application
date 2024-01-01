@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { NoProfile } from "../assets";
+import { MdVerified } from "react-icons/md";
 import {
   BiBriefcase,
   BiEdit,
@@ -12,7 +12,7 @@ import {
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
 import { userEdited } from "../features/userSlice";
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, userEdit }) => {
   const { user: data, edit } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -32,6 +32,7 @@ const UserProfile = ({ user }) => {
             <div>
               <div className=" font-bold">
                 {user?.firstName} {user?.lastName}
+                {user?.verified && <MdVerified />}
               </div>
               <div className="text-[gray]">
                 {user?.profession ?? "No Profession"}
@@ -39,10 +40,12 @@ const UserProfile = ({ user }) => {
             </div>
           </div>
         </Link>
-        <BiEdit
-          className="cursor-pointer"
-          onClick={() => dispatch(userEdited())}
-        />
+        {userEdit && (
+          <BiEdit
+            className="cursor-pointer"
+            onClick={() => dispatch(userEdited())}
+          />
+        )}
       </div>
       <div>
         <div className="border-b-2 border-[lightgray] ">
@@ -75,7 +78,13 @@ const UserProfile = ({ user }) => {
           </div>
         </div>
         <div className="flex flex-col text-xs py-3 gap-2">
-          <div className="text-base font-bold">Social Profile</div>
+          <div className="text-base font-bold flex justify-between">
+            Social Profile{" "}
+            <BiEdit
+              className="cursor-pointer"
+              onClick={() => dispatch(userEdited())}
+            />{" "}
+          </div>
           <div className="flex flex-col gap-1 text-blue ">
             <div className="flex gap-3  ">
               <BiLogoFacebook className="text-lg  " /> Facebook

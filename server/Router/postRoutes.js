@@ -7,6 +7,7 @@ import {
   userPost,
   likePost,
   deletePost,
+  commentPost,
 } from "../controllers/postController.js";
 import { getComment } from "../controllers/getComment.js";
 
@@ -22,9 +23,13 @@ router.post("/", userAuth, getPosts); //Getting all the post first owns the frie
 // // Getting User Post
 // router.post("/get-user-post/:id", userAuth, userPost);
 
-// //Getting Comment
-// router.post("/comments/:postId", userAuth, getComment);
 router.post("/like", userAuth, likePost);
+
 router.post("/delete", userAuth, deletePost);
+
+//creating post
+router.post("/comment/:postId", userAuth, commentPost);
+// //Getting Comment
+router.post("/comments/:postId", userAuth, getComment);
 
 export default router;

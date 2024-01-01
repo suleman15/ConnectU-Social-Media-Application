@@ -40,6 +40,7 @@ export const getPosts = Async(async (req, res) => {
     // const { userId } = req.body.user;
     const { search } = req.body;
     const user = await Users.findById(userId);
+    console.log(user);
     const friends = user?.friends?.toString().split(",") ?? [];
     friends.push(userId);
 
@@ -51,8 +52,18 @@ export const getPosts = Async(async (req, res) => {
         path: "userId",
         select: "firstName lastName location  profileUrl -password",
       })
-      .sort({ _id: -1 });
+      .populate({
+        path: "comments",
+        populate: {
+          path: "userId",
+          select: "firstName lastName location profileUrl -password",
+        },
 
+        select: "userId comment ",
+      })
+
+      .sort({ _id: -1 });
+    console.log(posts);
     // const friendsPost = posts?.filter((post) => {
     //   return friends.includes(post?.userId?._id.toString());
     // });
@@ -138,20 +149,19 @@ export const userPost = Async(async (req, res, next) => {
 export const getComment = Async(async (req, res, next) => {
   try {
     const { postId } = req.params;
-    const postComments = await Comments.findById(postId);
+    const postComments = await Comments.find();
     // .populate({
     //   path: "userId",
     //   select: "firstName lastName location profileUrl -password",
     // })
+    // .sort({ _id: -1 });
     // // .populate({
     // //   path: "replies.userId",
     // //   select: "firstName lastName location profileUrl -password",
     // // })
-    // // .sort({ _id: -1 });
     res.status(200).json({
       success: true,
       message: "Successfully",
-      data: postComments,
     });
   } catch (err) {
     console.log(err);
@@ -163,31 +173,27 @@ export const getComment = Async(async (req, res, next) => {
 });
 
 export const likePost = Async(async (req, res, next) => {
-  console.log("This runs");
   try {
     const { userId } = req.body.user;
     const { postId } = req.body;
-    console.log(userId, postId);
 
     const singlePost = await Posts.findById(postId);
     console.log(singlePost?.like.includes(userId));
     if (!singlePost?.like.includes(userId)) {
-     singlePost?.like.push(userId)
-     await singlePost.save()
+      singlePost?.like.push(userId);
+      await singlePost.save();
       console.log(singlePost);
       res.json({ success: true, post: singlePost });
       return;
-    }
-    else {
+    } else {
       const updatedPost = await Posts.findByIdAndUpdate(
         postId,
         { $pull: { like: userId } },
         { new: true } // This option returns the updated document
       );
-    res.json({ success: true, post: updatedPost });
-        return;
+      res.json({ success: true, post: updatedPost });
+      return;
     }
-
   } catch (err) {
     console.log(err);
     res.status(404).json({
@@ -214,6 +220,35 @@ export const deletePost = Async(async (req, res, next) => {
         message: "Dont Have Access",
       });
     }
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      errMsg: error.message,
+    });
+  }
+});
+
+//create comment
+export const commentPost = Async(async (req, res, next) => {
+  try {
+    const { userId } = req.body.user;
+    const { postId } = req.params;
+    const { comment } = req.body;
+    console.log(userId, postId, comment);
+    const createComment = await Comments.create({ userId, postId, comment });
+    if (createComment) {
+      const addPostComment = await Posts.findByIdAndUpdate(postId, {
+        $push: {
+          comments: {
+            $each: [createComment?._id],
+            $position: 0, // Insert at the beginning
+          },
+        },
+      });
+      res.json({ success: true, status: "Successfully", data: addPostComment });
+      return;
+    }
+    res.json({ success: true });
   } catch (error) {
     res.status(404).json({
       success: false,

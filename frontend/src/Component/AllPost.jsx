@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../features/postSlice";
 import { Link } from "react-router-dom";
@@ -7,28 +6,25 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 import {
-  FaRegThumbsUp,
-  FaCommentAlt,
   FaRegShareSquare,
-  FaTrashAlt,
   FaRegTrashAlt,
+  FaRegHeart,
+  FaHeart,
 } from "react-icons/fa";
-import { deleteSinglePost, fetchAllPost, likePost } from "../api";
-import { Emoji } from "emoji-picker-react";
+import { commentPost, deleteSinglePost, fetchAllPost, likePost } from "../api";
 import InputField from "./InputField";
 import { useForm } from "react-hook-form";
+import { BiCommentDots } from "react-icons/bi";
 
 function AllPost({ user }) {
-
   let {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  
-  
-  
-  const [showIdComment, setShowIdComment] = useState("")
+
+  const [showIdComment, setShowIdComment] = useState("");
   const {
     user: { _id, token },
   } = useSelector((state) => state.user);
@@ -50,6 +46,14 @@ function AllPost({ user }) {
     let res = await likePost({ token, postId });
     console.log(res);
     allPost(token);
+    toast.success(" Successfully");
+  };
+  const mCommentPost = async ({ token, postId, comment }) => {
+    console.log(token, postId, comment);
+    let res = await commentPost({ token, postId, comment });
+    console.log(res);
+    allPost(token);
+    setValue("comment", "");
     toast.success(" Successfully");
   };
 
@@ -95,34 +99,83 @@ function AllPost({ user }) {
               )}
             </div>
             <div className="p-3 ">{post.description}</div>
-            <div className="p-3 flex justify-around gap-2">
+            <div className="text-sm px-3 font-bold font-mono ">
+              {post.like.length}
+            </div>
+            <div className="p-3 flex justify-around gap-2 text-sm border-t-2 border-[gray]">
               <div
                 onClick={() => mLikePost({ token, postId: post?._id })}
-                className="flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center"
+                className={`flex gap-3 items-center p-2 rounded-sm cursor-pointer w-full  hover:bg-[#80808044] justify-center ${
+                  post.like.includes(user._id) && "text-purple font-bold"
+                }`}
               >
-                <div className="rounded-full text-white flex justify-center items-center text-xs bg-[black] w-5 h-5 ">
-                  {post.like.length}
-                </div>
-                <Emoji unified="1f44d" size="25" />
-                <FaRegThumbsUp />
+                {post.like.includes(user._id) ? (
+                  <FaHeart className={"text-lg"} />
+                ) : (
+                  <FaRegHeart className={"text-lg"} />
+                )}
                 Like
               </div>
-              <div onClick={() => setShowIdComment(post?._id)} className={`flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center `}>
-                <FaCommentAlt />
+              <div
+                onClick={() => setShowIdComment(post?._id)}
+                className={`flex gap-3 items-center p-2 rounded-sm cursor-pointer w-full  hover:bg-[#80808044] justify-center `}
+              >
+                <BiCommentDots className="text-lg" />
                 Comment
               </div>
-              
-              <div className="flex gap-3 items-center p-3 rounded-sm cursor-pointer w-full bg-[#80808031] hover:bg-[#80808044] justify-center">
+
+              <div
+                className={`flex gap-3 items-center p-2 rounded-sm cursor-pointer w-full  hover:bg-[#80808044] justify-center `}
+              >
                 <FaRegShareSquare />
                 Share
               </div>
             </div>
-            {post?._id == showIdComment && <form onSubmit={handleSubmit(async(data) => {
-              console.log(data)
-            })}>
-              <InputField register={register('comment',{required: "Comment Can,t be Empty"})}               error={errors.comment ? errors.comment.message : ""}
-/>
-              </form>}
+            {post?._id == showIdComment && (
+              <form
+                onSubmit={handleSubmit(async ({ comment }) => {
+                  mCommentPost({ token, postId: post._id, comment });
+                })}
+              >
+                <InputField
+                  styles={`rounded-full text-xs px-5`}
+                  register={register("comment", {
+                    required: "Comment Can,t be Empty",
+                  })}
+                  error={errors.comment ? errors.comment.message : ""}
+                  placeholder={`comment`}
+                />
+              </form>
+            )}
+            {post?.comments?.map(({ userId, comment }, index) => (
+              <div key={index} className="my-6 text-xs">
+                <div className="flex gap-3 capitalize font-bold">
+                  <Link to={`/profile/${userId?._id}`} className="w-full">
+                    <div className="flex gap-3 items-center text-sm ">
+                      <img
+                        className="p-1 rounded-full overflow-hidden w-10 h-10"
+                        src={
+                          userId?.profileUrl ??
+                          `https://api.dicebear.com/7.x/initials/svg?seed=${`${userId?.firstName} ${userId?.lastName}`}`
+                        }
+                        alt="avatar"
+                      />
+                      <div>
+                        <div className="font-bold capitalize">
+                          {userId?.firstName} {userId?.lastName}
+                        </div>
+                        <div className="text-[gray] text-xs">
+                          {moment(post?.createdAt).fromNow()}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="px-5 py-3 border-b-2 border-[#c7c7c7]">
+                  {comment}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}
