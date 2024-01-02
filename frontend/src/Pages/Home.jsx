@@ -58,6 +58,7 @@ const Home = () => {
               <AllPost user={user} />
             </div>
             <div>
+              <FriendRequest />
               <SuggestedFriend userToken={user?.token} />
             </div>
           </div>

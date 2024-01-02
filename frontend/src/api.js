@@ -24,6 +24,33 @@ export const axiosRequest = async ({ url, token, data, method }) => {
   }
 };
 
+export const fetchFriendRequest = async ({ token }) => {
+  try {
+    let userData = await axiosRequest({
+      url: "/users/get-friend-request",
+      token: token,
+      method: "POST",
+    }).then((res) => res);
+    return userData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const acceptFriendRequest = async ({ token, rid, status }) => {
+  try {
+    let userData = await axiosRequest({
+      url: "/users/accept-request",
+      token: token,
+      data: { rid, status },
+      method: "POST",
+    }).then((res) => res);
+    return userData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchUser = async ({ token, id }) => {
   try {
     let url = !id ? `users/get-user` : `users/get-user/${id}`;

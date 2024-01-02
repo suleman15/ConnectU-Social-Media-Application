@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateUserForm from "./Component/UpdateUserForm";
+import { Post } from "./Pages";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -47,6 +48,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:userId?" element={<Profile />} />
+          <Route path="/post/:postId?" element={<Post />} />
         </Route>
         <Route element={<IfLogin />}>
           <Route path="/login" element={<Login />} />

@@ -70,42 +70,48 @@ function AllPost({ user, userId }) {
 
   return (
     <div className="my-3 flex gap-3 flex-col">
+      {/* {JSON.stringify(posts)} */}
+
+      {!posts.length > 0 && (
+        <div>Doesn,t have any post created by this user</div>
+      )}
+
       {posts?.map((post, index) => (
         <div key={index}>
           <div className="bg-white rounded-lg p-3">
-            <Link to={"/game"}>
-              <div className="p-3 flex  items-center">
-                <Link to={`/profile/${post?.userId?._id}`} className="w-full">
-                  <div className="flex gap-3 items-center text-sm ">
-                    <img
-                      className="p-1 rounded-full overflow-hidden w-10 h-10"
-                      src={
-                        post?.userId?.profileUrl ??
-                        `https://api.dicebear.com/7.x/initials/svg?seed=${`${post?.userId?.firstName} ${post?.userId?.lastName}`}`
-                      }
-                      alt="avatar"
-                    />
-                    <div>
-                      <div className="font-bold capitalize">
-                        {post?.userId?.firstName} {post?.userId?.lastName}
-                      </div>
-                      <div className="text-[gray] text-xs">
-                        {moment(post?.createdAt).fromNow()}
-                      </div>
+            <div className="p-3 flex  items-center">
+              <Link to={`/profile/${post?.userId?._id}`} className="w-full">
+                <div className="flex gap-3 items-center text-sm ">
+                  <img
+                    className="p-1 rounded-full overflow-hidden w-10 h-10"
+                    src={
+                      post?.userId?.profileUrl ??
+                      `https://api.dicebear.com/7.x/initials/svg?seed=${`${post?.userId?.firstName} ${post?.userId?.lastName}`}`
+                    }
+                    alt="avatar"
+                  />
+                  <div>
+                    <div className="font-bold capitalize">
+                      {post?.userId?.firstName} {post?.userId?.lastName}
+                    </div>
+                    <div className="text-[gray] text-xs">
+                      {moment(post?.createdAt).fromNow()}
                     </div>
                   </div>
-                </Link>
-                {post?.userId?._id == _id && (
-                  <div
-                    onClick={() => {
-                      mDeleteSinglePost({ token, uId: _id, postId: post?._id });
-                    }}
-                    className="p-3 cursor-pointer rounded-full bg-[#80808031] hover:bg-[#80808044] "
-                  >
-                    <FaRegTrashAlt />
-                  </div>
-                )}
-              </div>
+                </div>
+              </Link>
+              {post?.userId?._id == _id && (
+                <div
+                  onClick={() => {
+                    mDeleteSinglePost({ token, uId: _id, postId: post?._id });
+                  }}
+                  className="p-3 cursor-pointer rounded-full bg-[#80808031] hover:bg-[#80808044] "
+                >
+                  <FaRegTrashAlt />
+                </div>
+              )}
+            </div>
+            <Link to={`/post/${post?._id}`}>
               <div className="p-3 ">{post.description}</div>
               <div className="text-sm px-3 font-bold font-mono ">
                 {post.like.length}
@@ -156,7 +162,7 @@ function AllPost({ user, userId }) {
                 />
               </form>
             )}
-            {post?.comments?.map(({ userId, comment }, index) => (
+            {post?.comments?.map(({ userId, comment, createdAt }, index) => (
               <div key={index} className="my-6 text-xs bg-bgColor">
                 <div className="flex gap-3 capitalize font-bold">
                   <Link to={`/profile/${userId?._id}`} className="w-full">
@@ -174,7 +180,8 @@ function AllPost({ user, userId }) {
                           {userId?.firstName} {userId?.lastName}
                         </div>
                         <div className="text-[gray] text-xs">
-                          {moment(post?.createdAt).fromNow()}
+                          {JSON.stringify(createdAt)}
+                          {moment(createdAt).fromNow()}
                         </div>
                       </div>
                     </div>

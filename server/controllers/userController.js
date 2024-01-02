@@ -284,7 +284,7 @@ export const getFriendRequest = Async(async (req, res, next) => {
     })
       .populate({
         path: "requestFrom",
-        select: "firstName lastName profileURL profession -password",
+        select: "firstName lastName profileUrl profession -password",
       })
       .limit(10)
       .sort({
@@ -365,15 +365,16 @@ export const viewProfile = Async(async (req, res, next) => {
 export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const sugFriend = await Users.find({
-      _id: { $ne: userId },
-      friends: { $nin: userId },
-    })
-      .limit(15)
-      .select("firstName lastName profileUrl profesion -password");
+    const suggestedFriend = await FriendRequest.find({
+      requestTo: userId,
+      requestStatus: "Pending",
+    }).populate({
+      path: "requestFrom",
+      select: "firstName lastName location profileUrl -password",
+    });
     res.status(200).json({
       success: true,
-      data: sugFriend,
+      suggestedFriend,
     });
   } catch (error) {
     res.status(500).json({

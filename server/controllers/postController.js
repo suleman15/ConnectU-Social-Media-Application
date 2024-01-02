@@ -52,7 +52,7 @@ export const getPosts = Async(async (req, res) => {
           path: "userId",
           select: "firstName lastName location profileUrl -password",
         },
-        select: "userId comment ",
+        select: "userId comment createdAt updatedAt",
       })
       .sort({ _id: -1 });
 

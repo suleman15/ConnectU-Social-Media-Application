@@ -1,53 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../api";
+import { axiosInstance, fetchFriendRequest } from "../api";
 import { Link } from "react-router-dom";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const SuggestedFriend = ({ userToken }) => {
-  let [suggestedFriend, setSuggestedFriend] = useState([]);
+const SuggestedFriend = () => {
+  let [pendingRequest, setPendingRequest] = useState([]);
   let {
     user: { token: token },
   } = useSelector((state) => state.user);
-  const fetchSuggestedFriend = async (token) => {
-    try {
-      const response = await axiosInstance.post(
-        "/users/suggested-friends",
-        {},
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
-      );
 
-      setSuggestedFriend(response.data.data);
-      console.log(suggestedFriend);
-    } catch (error) {
-      console.error("Error fetching suggested friends:", error);
-      // Handle the error as needed, e.g., show a toast notification
-    }
-  };
-  const sendFriendRequest = async (requestTo, token) => {
+  const fetchSuggestedFriend = async ({ token }) => {
     try {
-      const response = await axiosInstance
-        .post(
-          "/users/friend-request",
-          {
-            requestTo,
-          },
-          {
-            headers: {
-              Authorization: token ? `Bearer ${token}` : "",
-            },
-          }
-        )
-        .then((res) => {
-          fetchSuggestedFriend(token);
-          return res.data;
-        });
-      if (response?.success == "failed") toast.error(response.message);
+      const response = await fetchFriendRequest({ token });
+      console.log(response);
+      setPendingRequest(response.data);
     } catch (error) {
       console.error("Error fetching suggested friends:", error);
       // Handle the error as needed, e.g., show a toast notification
@@ -55,14 +23,14 @@ const SuggestedFriend = ({ userToken }) => {
   };
 
   useEffect(() => {
-    fetchSuggestedFriend(userToken);
+    fetchSuggestedFriend({ token });
   }, []);
 
   return (
     <div className="p-3 bg-white rounded-lg">
-      {JSON.stringify(suggestedFriend)}
+      {/* {JSON.stringify(pendingRequest)} */}
       <div>SUGGESTED FRIEND</div>
-      {suggestedFriend?.map((friend, index) => {
+      {/* {suggestedFriend?.map((friend, index) => {
         return (
           <div className="flex justify-between items-center" key={index}>
             <Link to={`/profile/${friend?._id}`}>
@@ -91,7 +59,7 @@ const SuggestedFriend = ({ userToken }) => {
             />
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };

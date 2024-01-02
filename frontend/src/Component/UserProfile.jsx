@@ -30,9 +30,11 @@ const UserProfile = ({ user, userEdit }) => {
               alt="avatar"
             />
             <div>
-              <div className=" font-bold">
+              <div className=" font-bold flex gap-3 capitalize items-center">
                 {user?.firstName} {user?.lastName}
-                {user?.verified && <MdVerified />}
+                {user?.verified && (
+                  <MdVerified className="text-[purple] text-xl" />
+                )}
               </div>
               <div className="text-[gray]">
                 {user?.profession ?? "No Profession"}
