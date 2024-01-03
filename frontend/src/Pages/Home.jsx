@@ -44,11 +44,11 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <div className=" flex   bg-bgColor justify-center px-2 ">
-        <div>
+      <div className=" flex    bg-bgColor justify-center px-2 ">
+        <div className="w-full">
           <TopBar />
           {/* Left */}
-          <div className="grid grid-col-1 lg:grid-cols-16 gap-5 my-3">
+          <div className=" grid grid-col-1 lg:grid-cols-16 gap-5 my-3">
             <div className=" flex gap-10 flex-col  rounded-lg">
               <UserProfile user={user} userEdit={true} />
               <FriendCard friends={user?.friends} />

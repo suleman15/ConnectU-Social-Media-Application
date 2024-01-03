@@ -70,15 +70,13 @@ function AllPost({ user, userId }) {
 
   return (
     <div className="my-3 flex gap-3 flex-col">
-      {/* {JSON.stringify(posts)} */}
-
       {!posts.length > 0 && (
         <div>Doesn,t have any post created by this user</div>
       )}
 
       {posts?.map((post, index) => (
         <div key={index}>
-          <div className="bg-white rounded-lg p-3">
+          <div className={"bg-white rounded-lg p-3"}>
             <div className="p-3 flex  items-center">
               <Link to={`/profile/${post?.userId?._id}`} className="w-full">
                 <div className="flex gap-3 items-center text-sm ">

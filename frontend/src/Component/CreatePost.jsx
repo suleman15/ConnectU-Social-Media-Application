@@ -57,9 +57,9 @@ function CreatePost({ user }) {
   };
 
   const postSubmited = async (data) => {
+    setShowEmoji(false);
     await createPost(user?.token, data);
     setValue("description", "");
-    setShowEmoji(false);
   };
 
   return (
@@ -85,6 +85,8 @@ function CreatePost({ user }) {
           placeholder={`What's you think ~ ${user?.firstName}`}
           error={errors.description ? errors.description.message : ""}
         />
+      </form>
+
         <div className="relative">
           <div
             className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
@@ -105,7 +107,6 @@ function CreatePost({ user }) {
             )}
           </div>
         </div>
-      </form>
     </div>
   );
 }

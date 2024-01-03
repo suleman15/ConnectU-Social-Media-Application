@@ -72,22 +72,16 @@ export const getPost = Async(async (req, res, next) => {
     const post = await Posts.findById(id).populate({
       path: "userId",
       select: "firstName lastName location profileUrl -password",
+    })
+    .populate({
+      path: "comments",
+      populate: {
+        path: "userId",
+        select: "firstName lastName location profileUrl -password",
+        options: { sort: "-_id" },
+      },
     });
-    // .populate({
-    //   path: "comments",
-    //   populate: {
-    //     path: "userId",
-    //     select: "firstName lastName location profileUrl -password",
-    //     options: { sort: "-_id" },
-    //   },
-    // });
-    // .populate({
-    //   path: "comments",
-    //   populate: {
-    //     path: "replies.userId",
-    //     select: "firstName lastname location profileUrl -password",
-    //   },
-    // });
+   
     res.status(200).json(post);
   } catch (error) {
     console.log(error);
@@ -149,9 +143,10 @@ export const getComment = Async(async (req, res, next) => {
 });
 
 export const likePost = Async(async (req, res, next) => {
+  console.log('This is running like')
   try {
     const { userId } = req.body.user;
-    const { postId } = req.body;
+    const { postId } = req.params;
 
     const singlePost = await Posts.findById(postId);
     console.log(singlePost?.like.includes(userId));

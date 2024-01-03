@@ -8,6 +8,7 @@ import Async from "../middleware/Async.js";
 import Verification from "../Models/emailVerificationModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import { request } from "http";
 
 export const verifyEmail = Async(async (req, res) => {
   const { userId, token } = req.params;
@@ -366,12 +367,22 @@ export const viewProfile = Async(async (req, res, next) => {
 export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    console.log(userId);
-    const suggestedFriend = await Users.find({});
-    console.log(suggestedFriend);
+    console.log(userId)
+    const user = await Users.find({
+      _id:{$ne: userId}
+    }).then(async(res) => {
+      const s = await FriendRequest.find({requestFrom: userId}, ).select("-_id +requestTo")
+      const requestToArray = s.map(friendRequest => friendRequest.requestTo);
+
+
+      console.log(res)
+      return s
+    });
+ 
+
     res.status(200).json({
       success: true,
-      data: suggestedFriend,
+      data: user
     });
   } catch (error) {
     res.status(500).json({

@@ -33,7 +33,31 @@ const SuggestedFriend = () => {
     <div className="p-3 bg-white rounded-lg">
       <div>SUGGESTED FRIEND</div>
       {sugFriend?.map((sugfri, index) => {
-        return <div key={index}></div>;
+        return <div key={index}>
+          <Link to={`/profile/${sugfri?._id}`}>
+          <div className="flex gap-3 items-center text-sm ">
+            <img
+              className=" p-1 rounded-full overflow-hidden w-10 h-10"
+              src={
+                sugfri?.profileUrl ??
+                `https://api.dicebear.com/7.x/initials/svg?seed=${`${sugfri?.firstName} ${sugfri?.lastName}`}`
+              }
+              alt="avatar"
+            />
+            <div>
+              <div className=" font-bold flex gap-3 capitalize items-center">
+                {sugfri?.firstName} {sugfri?.lastName}
+                {sugfri?.verified && (
+                  <MdVerified className="text-[purple] text-xl" />
+                )}
+              </div>
+              <div className="text-[gray]">
+                {sugfri?.profession ?? "No Profession"}
+              </div>
+            </div>
+          </div>
+        </Link>
+        </div>;
       })}
     </div>
   );

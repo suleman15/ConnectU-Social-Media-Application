@@ -35,7 +35,7 @@ const FriendRequest = () => {
   return (
     <div className="bg-white p-3 my-3 rounded-lg">
       <div className="font-bold">Friend Request</div>
-      {!friendRequest.length > 0 && <div>Friend Request doesn't exit</div>}
+      {!friendRequest.length > 0 && <div className="text-xs">Friend Request doesn't exit</div>}
 
       <div>
         {friendRequest?.map((singleFriend, index) => {

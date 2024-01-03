@@ -96,32 +96,28 @@ export const fetchAllPost = async ({ token, search }) => {
 
 export const deleteSinglePost = async ({ token, postId, uId }) => {
   try {
-    console.log(token, postId, uId);
+    console.log(token, postId, uId)
     let fetchData = await axiosRequest({
-      url: "/post/delete",
+      url: `/post/delete/${postId}`,
       method: "post",
       data: { postId, uId },
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
   }
 };
 export const likePost = async ({ token, postId }) => {
-  console.log("this runs");
   try {
-    console.log(postId);
-    console.log(token, postId);
+    console.log(token, postId)
     let fetchData = await axiosRequest({
-      url: "/post/like",
+      url: `/post/like/${postId}`,
       method: "post",
-      data: { postId },
       token,
-    }).then((res) => res);
+    }).then((res) => console.log(res)).catch(err => console.log(err));
     // console.log(fetchData);
-    return fetchData;
+    // return fetchData;
   } catch (err) {
     console.log(err);
   }
@@ -154,3 +150,18 @@ export const fetchComment = async ({ token, postId }) => {
     console.log(err);
   }
 };
+
+
+export const fetchSinglePost = async({token, postId}) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/post/${postId}`,
+      method: "post",
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+}
