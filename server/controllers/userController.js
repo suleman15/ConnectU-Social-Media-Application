@@ -366,13 +366,9 @@ export const viewProfile = Async(async (req, res, next) => {
 export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const suggestedFriend = await FriendRequest.find({
-      requestTo: userId,
-      requestStatus: "Pending",
-    }).populate({
-      path: "requestFrom",
-      select: "firstName lastName location profileUrl -password",
-    });
+    console.log(userId);
+    const suggestedFriend = await Users.find({});
+    console.log(suggestedFriend);
     res.status(200).json({
       success: true,
       data: suggestedFriend,

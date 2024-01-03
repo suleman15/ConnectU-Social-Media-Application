@@ -24,6 +24,19 @@ export const axiosRequest = async ({ url, token, data, method }) => {
   }
 };
 
+export const fetchSuggestedFriend = async ({ token }) => {
+  try {
+    let userData = await axiosRequest({
+      url: "/users/suggested-friends",
+      token: token,
+      method: "POST",
+    }).then((res) => res);
+    return userData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchFriendRequest = async ({ token }) => {
   try {
     let userData = await axiosRequest({
