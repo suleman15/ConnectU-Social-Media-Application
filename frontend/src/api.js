@@ -52,8 +52,6 @@ export const acceptFriendRequest = async ({ token, rid, status }) => {
   }
 };
 
-export const fetchSuggestedFriend = async({ token });
-
 export const fetchUser = async ({ token, id }) => {
   try {
     let url = !id ? `users/get-user` : `users/get-user/${id}`;

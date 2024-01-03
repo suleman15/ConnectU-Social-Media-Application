@@ -25,7 +25,7 @@ const app = express();
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views/"));
 app.use(express.static("js"));
-const PORT = process.env.PORT || 8800;
+const PORT = process.env.PORT || 8000;
 
 MongoDBConnection();
 

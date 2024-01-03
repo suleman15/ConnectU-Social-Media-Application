@@ -35,6 +35,7 @@ const FriendRequest = () => {
   return (
     <div className="bg-white p-3 my-3 rounded-lg">
       <div className="font-bold">Friend Request</div>
+      {!friendRequest.length > 0 && <div>Doesn,t have friend REquest</div>}
 
       <div>
         {friendRequest?.map((singleFriend, index) => {
