@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchFriendRequest } from "../api";
+import { acceptFriendRequest, fetchFriendRequest } from "../api";
 import { useSelector } from "react-redux";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -9,12 +9,24 @@ const FriendRequest = () => {
   const [friendRequest, setFriendRequest] = useState([]);
   const { token } = useSelector((state) => state.user.user);
   const fetchRequest = async ({ token }) => {
-    const friReq = await fetchFriendRequest({ token });
-    console.log(friReq);
-    setFriendRequest(friReq?.data);
+    try {
+      const friReq = await fetchFriendRequest({ token });
+      console.log(friReq);
+      setFriendRequest(friReq?.data);
+    } catch (error) {
+      console.log("FriendRequest Error");
+    }
   };
 
-  const acceptRequest = async ({ token }) => {};
+  const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
+    console.log("Accept Friend Request");
+    try {
+      const friReq = await acceptFriendRequest({ token, rid, status });
+      console.log(friendRequest);
+    } catch (error) {
+      console.log("FriendRequest Error");
+    }
+  };
 
   useEffect(() => {
     fetchRequest({ token });
@@ -50,8 +62,9 @@ const FriendRequest = () => {
                     <CustomButton
                       title={"Confirm"}
                       styles={`py-[5px]   text-xs`}
-                      onClick={() => {
-                        acceptRequest;
+                      btnAttribute={{
+                        onClick: () =>
+                          acceptRequest({ token, rid: singleFriend?._id }),
                       }}
                     />
                     <CustomButton

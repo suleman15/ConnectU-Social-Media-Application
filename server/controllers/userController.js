@@ -302,9 +302,11 @@ export const getFriendRequest = Async(async (req, res, next) => {
   }
 });
 export const acceptRequest = Async(async (req, res, next) => {
+  //accept friend request and push in to both send and accepter
   try {
     const id = req.body.user.userId;
     const { rid, status } = req.body;
+    console.log(rid, status);
     const requestExist = await FriendRequest.findById(rid);
     if (!requestExist) {
       next("No Frind Request Found");
@@ -320,13 +322,12 @@ export const acceptRequest = Async(async (req, res, next) => {
       user.friends.push(newRes?.requestFrom);
       await user.save();
       const friend = await Users.findById(newRes?.requestFrom);
-
       friend.friends.push(newRes?.requestTo);
       await friend.save();
     }
     res.status(200).json({
       success: true,
-      message: "Frined Request " + status,
+      // message: "Frined Request " + status,
     });
   } catch (err) {
     console.log(err);
@@ -374,7 +375,7 @@ export const suggestedFriends = Async(async (req, res, next) => {
     });
     res.status(200).json({
       success: true,
-      suggestedFriend,
+      data: suggestedFriend,
     });
   } catch (error) {
     res.status(500).json({

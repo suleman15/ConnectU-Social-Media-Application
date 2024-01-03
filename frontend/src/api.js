@@ -39,6 +39,7 @@ export const fetchFriendRequest = async ({ token }) => {
 
 export const acceptFriendRequest = async ({ token, rid, status }) => {
   try {
+    console.log("THis runs");
     let userData = await axiosRequest({
       url: "/users/accept-request",
       token: token,
@@ -50,6 +51,8 @@ export const acceptFriendRequest = async ({ token, rid, status }) => {
     console.log(error);
   }
 };
+
+export const fetchSuggestedFriend = async({ token });
 
 export const fetchUser = async ({ token, id }) => {
   try {

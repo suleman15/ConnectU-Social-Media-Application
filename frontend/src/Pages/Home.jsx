@@ -59,7 +59,7 @@ const Home = () => {
             </div>
             <div>
               <FriendRequest />
-              <SuggestedFriend userToken={user?.token} />
+              <SuggestedFriend />
             </div>
           </div>
         </div>
