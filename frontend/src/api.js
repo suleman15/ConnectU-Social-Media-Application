@@ -96,7 +96,7 @@ export const fetchAllPost = async ({ token, search }) => {
 
 export const deleteSinglePost = async ({ token, postId, uId }) => {
   try {
-    console.log(token, postId, uId)
+    console.log(token, postId, uId);
     let fetchData = await axiosRequest({
       url: `/post/delete/${postId}`,
       method: "post",
@@ -110,12 +110,14 @@ export const deleteSinglePost = async ({ token, postId, uId }) => {
 };
 export const likePost = async ({ token, postId }) => {
   try {
-    console.log(token, postId)
+    console.log(token, postId);
     let fetchData = await axiosRequest({
       url: `/post/like/${postId}`,
       method: "post",
       token,
-    }).then((res) => console.log(res)).catch(err => console.log(err));
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
     // console.log(fetchData);
     // return fetchData;
   } catch (err) {
@@ -151,8 +153,7 @@ export const fetchComment = async ({ token, postId }) => {
   }
 };
 
-
-export const fetchSinglePost = async({token, postId}) => {
+export const fetchSinglePost = async ({ token, postId }) => {
   try {
     let fetchData = await axiosRequest({
       url: `/post/${postId}`,
@@ -164,4 +165,19 @@ export const fetchSinglePost = async({token, postId}) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
+
+export const SendFriendRequest = async ({ token, requestTo }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/users/friend-request`,
+      method: "post",
+      data: { requestTo },
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};

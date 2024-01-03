@@ -38,6 +38,7 @@ export default {
       },
       gridTemplateColumns: {
         16: "250px 1fr 250px",
+        profile: "250px 1fr",
       },
     },
   },

@@ -4,12 +4,15 @@ import UserProfile from "../Component/UserProfile";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchUser } from "../api";
-import { AllPost } from "../Component";
+import { AllPost, CustomButton } from "../Component";
+import { MdVerified } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const [user, setUser] = useState([]);
   const {
-    user: { token: token },
+    user: mainuser,
+    user: { token: token, _id },
   } = useSelector((state) => state.user);
 
   const { userId } = useParams();
@@ -25,14 +28,55 @@ export default function Profile() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-bgColor">
       <TopBar />
-      <div>
+      <div className=" grid  grid-cols-profile gap-3 p-3">
         <div>
-          <UserProfile user={user} userEdit={false} />
+          <UserProfile user={user} userEdit={user?._id == _id} />
         </div>
         <div>
-          <AllPost user={user} userId={userId} />
+          <div>
+            <div>
+              <Link to={`/profile/${user?._id}`}>
+                <div className="flex   flex-col items-center text-sm ">
+                  <div
+                    className=" w-full bg-[url(https://shorturl.at/rxDV3)] bg-cover bg-[red] h-[250px] rounded-lg relative mb-[130px]"
+                    style={{
+                      backgroundImage:
+                        "https://api.dicebear.com/7.x/shapes/svg?seed=Luna",
+                    }}
+                  >
+                    <img
+                      className="  w-[200px] h-[200px] absolute  bottom-[-45%] right-[calc(50%-100px)]    rounded-full border-4 border-bgColor"
+                      src={
+                        user?.profileUrl ??
+                        `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
+                      }
+                      alt="avatar"
+                    />
+                  </div>
+
+                  <div className="px-[50px] w-full flex justify-between items-center">
+                    <div>
+                      <div className=" font-bold flex gap-3 capitalize items-center">
+                        {user?.firstName} {user?.lastName}
+                        {user?.verified && (
+                          <MdVerified className="text-[purple] text-xl" />
+                        )}
+                      </div>
+                      <div className="text-[gray]">
+                        {user?.profession ?? "No Profession"}
+                      </div>
+                    </div>
+                    <div>
+                      <CustomButton title={"Add friend"} />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+          <AllPost user={mainuser} userId={userId} />
         </div>
         <div></div>
       </div>

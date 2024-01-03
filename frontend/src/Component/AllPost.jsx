@@ -4,6 +4,7 @@ import { getPosts } from "../features/postSlice";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { IoChatboxOutline } from "react-icons/io5";
 
 import {
   FaRegShareSquare,
@@ -111,8 +112,14 @@ function AllPost({ user, userId }) {
             </div>
             <Link to={`/post/${post?._id}`}>
               <div className="p-3 ">{post.description}</div>
-              <div className="text-sm px-3 font-bold font-mono ">
-                {post.like.length}
+              <div className="text-sm flex justify-between  pb-2">
+                <div className="flex items-center gap-3">
+                  {post.like.length > 0 && <FaHeart />}
+                  {post.like.length}
+                </div>
+                <div className="flex items-center gap-3">
+                  <IoChatboxOutline /> {post?.comments?.length}
+                </div>
               </div>
             </Link>
             <div className="p-3 flex justify-around gap-2 text-sm border-t-2 border-[gray]">
@@ -160,36 +167,42 @@ function AllPost({ user, userId }) {
                 />
               </form>
             )}
-            {post?.comments?.map(({ userId, comment, createdAt }, index) => (
-              <div key={index} className="my-6 text-xs bg-bgColor">
-                <div className="flex gap-3 capitalize font-bold">
-                  <Link to={`/profile/${userId?._id}`} className="w-full">
-                    <div className="flex gap-3 items-center text-sm ">
-                      <img
-                        className="p-1 rounded-full overflow-hidden w-10 h-10"
-                        src={
-                          userId?.profileUrl ??
-                          `https://api.dicebear.com/7.x/initials/svg?seed=${`${userId?.firstName} ${userId?.lastName}`}`
-                        }
-                        alt="avatar"
-                      />
-                      <div>
-                        <div className="font-bold capitalize">
-                          {userId?.firstName} {userId?.lastName}
-                        </div>
-                        <div className="text-[gray] text-xs">
-                          {JSON.stringify(createdAt)}
-                          {moment(createdAt).fromNow()}
-                        </div>
+            {post?.comments?.length > 0 && (
+              <div>
+                {" "}
+                {post?.comments?.map(
+                  ({ userId, comment, createdAt }, index) => (
+                    <div key={index} className="my-2 relative   text-xs ">
+                      <div className="flex gap-3 capitalize font-bold">
+                        <Link to={`/profile/${userId?._id}`} className="w-full">
+                          <div className="flex gap-3 items-center text-sm ">
+                            <img
+                              className="p-1 rounded-full overflow-hidden w-10 h-10"
+                              src={
+                                userId?.profileUrl ??
+                                `https://api.dicebear.com/7.x/initials/svg?seed=${`${userId?.firstName} ${userId?.lastName}`}`
+                              }
+                              alt="avatar"
+                            />
+                            <div>
+                              <div className="font-bold capitalize">
+                                {userId?.firstName} {userId?.lastName}
+                              </div>
+                              <div className="text-[gray] text-xs">
+                                {moment(createdAt).fromNow()}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="px-5 py-3 border-b-2 border-[#c7c7c7]">
+                        {comment}
                       </div>
                     </div>
-                  </Link>
-                </div>
-                <div className="px-5 py-3 border-b-2 border-[#c7c7c7]">
-                  {comment}
-                </div>
+                  )
+                )}{" "}
               </div>
-            ))}
+            )}
           </div>
         </div>
       ))}

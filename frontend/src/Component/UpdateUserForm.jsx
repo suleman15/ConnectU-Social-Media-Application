@@ -92,10 +92,10 @@ const UpdateUserForm = () => {
   };
 
   return (
-    <div className="fixed w-full h-screen  flex justify-center items-center bg-[#000000a9] z-10">
+    <div className="fixed w-full h-screen   top-0 p-5   flex justify-center  bg-[#000000a9] z-10">
       <form
         onSubmit={handleSubmit(updUser)}
-        className="bg-white p-3 w-[500px] gap-3 flex flex-col rounded-lg relative"
+        className="overflow-scroll p-3 w-[500px] gap-3 flex flex-col rounded-lg relative bg-white"
         encType="multipart/form-data"
       >
         {/* {imagePreview && <img src={imagePreview} alt="Selected" />} */}
@@ -113,6 +113,15 @@ const UpdateUserForm = () => {
             `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
           }
           alt=""
+        />
+        <InputField
+          type="file"
+          placeholder="Profile-Image"
+          label="Profile-Image"
+          register={register("backgroundUrl", {
+            required: "Image Is Required",
+          })}
+          error={errors.profileUrl ? errors.profileUrl.message : ""}
         />
         <InputField
           type="file"
