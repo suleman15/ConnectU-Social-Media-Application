@@ -15,7 +15,7 @@ const TopBar = () => {
   };
 
   return (
-    <div className="sticky top-[10px] shadow-lg flex justify-between items-center py-2 z-50  bg-white my-2 rounded p-3 md:flex-row flex-col gap-[20px]">
+    <div className="sticky top-[10px] shadow-lg flex justify-between items-center py-2 z-40  bg-white my-2 rounded p-3 md:flex-row flex-col gap-[20px]">
       <Link to={"/"}>
         <img className="h-8" src="/logo.png" alt="" />
       </Link>

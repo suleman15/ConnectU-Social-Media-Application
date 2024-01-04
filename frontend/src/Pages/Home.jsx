@@ -15,8 +15,8 @@ import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  axiosInstance,
   cancelUserReq,
+  fetchMainUser,
   fetchSentFriendRequest,
   fetchSuggestedFriend,
   sendFriendReq,
@@ -57,18 +57,9 @@ const Home = () => {
 
   const fetchUser = async ({ token }) => {
     try {
-      const response = await axiosInstance.post(
-        "/users/get-user",
-        {},
-        {
-          headers: {
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        }
-      );
-
-      dispatch(updateUser(response.data.user));
-      // dispatch(login(response.data.data));
+      let response = await fetchMainUser({ token });
+      console.log(response);
+      dispatch(updateUser(response.user));
     } catch (error) {
       console.error("Error fetching user data:", error);
       // Handle the error as needed, e.g., show a toast notification
@@ -111,7 +102,7 @@ const Home = () => {
               <AllPost user={user} />
             </div>
             <div>
-              <FriendRequest />
+              <FriendRequest fetchUser={fetchUser} />
               {/* SENT USER FRIEND REQUEST FRINEd */}
               <div className="p-3 bg-white my-3 rounded-lg">
                 <div className="text-sm font-bold py-2 border-b-2 border-[gray]">

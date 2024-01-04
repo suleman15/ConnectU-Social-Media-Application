@@ -65,7 +65,7 @@ export const acceptFriendRequest = async ({ token, rid, status }) => {
   }
 };
 
-export const fetchUser = async ({ token, id }) => {
+export const fetchMainUser = async ({ token, id }) => {
   try {
     let url = !id ? `users/get-user` : `users/get-user/${id}`;
     let userData = await axiosRequest({

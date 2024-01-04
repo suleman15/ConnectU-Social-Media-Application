@@ -3,7 +3,7 @@ import TopBar from "../Component/TopBar";
 import UserProfile from "../Component/UserProfile";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchUser } from "../api";
+import { fetchMainUser } from "../api";
 import { AllPost, CustomButton } from "../Component";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function Profile() {
 
   const getUser = async ({ token, id }) => {
     console.log(token, id);
-    let res = await fetchUser({ token, id });
+    let res = await fetchMainUser({ token, id });
     console.log(res);
     setUser(res.user);
   };

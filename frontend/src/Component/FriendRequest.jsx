@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { acceptFriendRequest, fetchFriendRequest, fetchUser } from "../api";
+import { acceptFriendRequest, fetchFriendRequest } from "../api";
 import { useDispatch, useSelector } from "react-redux";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton";
-import { login } from "../features/userSlice";
+import { login, updateUser } from "../features/userSlice";
 
-const FriendRequest = () => {
+const FriendRequest = ({ fetchUser }) => {
   const [friendRequest, setFriendRequest] = useState([]);
   const { token } = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const FriendRequest = () => {
     try {
       const friReq = await acceptFriendRequest({ token, rid, status }).then(
         (res) => {
-          dispatch(login(fetchUser({ token })));
+          dispatch(updateUser(fetchUser({ token })));
         }
       );
       console.log(friendRequest);

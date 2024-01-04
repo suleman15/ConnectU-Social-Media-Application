@@ -20,7 +20,14 @@ export const userSlice = createSlice({
       state.edit = !state.edit;
     },
     updateUser(state, action) {
-      state.user = { ...state.user, ...action.payload };
+      state.user = {
+        ...state.user,
+        ...Object.entries(action.payload)
+          .filter(([key]) => key !== "token")
+          .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {}),
+      };
+
+      // state.user = { ...state.user, ...action.payload };
     },
     updateProfile(state, action) {
       state.edit = action.payload;
