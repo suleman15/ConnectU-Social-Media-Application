@@ -210,3 +210,24 @@ export const cancelUserReq = async ({ token, requestTo }) => {
     console.log(err);
   }
 };
+
+
+
+export const updateUserApi = async ({ token, data }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/users/update-social`,
+      method: "put",
+      data,
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+
+

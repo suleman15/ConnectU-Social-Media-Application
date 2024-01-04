@@ -193,9 +193,31 @@ export const getUser = Async(async (req, res, next) => {
     });
   }
 });
+export const updateSocial = Async(async(req, res, next) => {
+  try {
+
+    const {user: {userId}, ...result} = req.body
+    console.log(result)
+    const user = await Users.findByIdAndUpdate(userId, {social: {...result}}, {
+      new: true,
+    })
+
+    await user.populate({ path: "friends", select: "-password" });
+    const token = createJWT(userId);
+    user.password = undefined;
+    res.status(200).json({
+      success: true,
+      message: "User Updated Successfully",
+      user,
+      token,
+    });
+  }catch (err) {
+    console.log(err);
+    res.status(404).json({ message: err.message });
+  }
+})
 export const updateUser = Async(async (req, res, next) => {
   try {
-    console.log(req.body);
     const { firstName, lastName, location, profession } = req.body;
     const profileUrl = req.file;
     if (!(firstName || lastName || location || profileUrl || profession)) {
@@ -366,17 +388,15 @@ export const suggestedFriends = Async(async (req, res, next) => {
     const { userId } = req.body.user;
     const suggestFriend = await FriendRequest.find({
       requestFrom: userId,
-      requestStatus: "Pending",
+      // requestStatus: "Accepted",
     })
       .select("requestTo")
       .lean()
       .then((requests) => requests.map((request) => request.requestTo));
-    console.log(suggestFriend);
     const user = await Users.find({
-      _id: { $nin: [...suggestFriend, userId] },
+      _id: { $nin: suggestFriend, $ne: userId },
       friends: { $nin: userId },
     }).then(async (res) => {
-      console.log(res);
 
       return res;
     });

@@ -25,6 +25,7 @@ const FriendRequest = ({ fetchUser }) => {
     try {
       const friReq = await acceptFriendRequest({ token, rid, status }).then(
         (res) => {
+          fetchRequest({token})
           dispatch(updateUser(fetchUser({ token })));
         }
       );

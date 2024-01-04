@@ -92,10 +92,10 @@ const UpdateUserForm = () => {
   };
 
   return (
-    <div className="fixed w-full h-screen   top-0 p-5   flex justify-center  bg-[#000000a9] z-50">
+    <div className="fixed w-full   h-screen  top-0 p-5 items-start overflow-scroll  flex justify-center  bg-[#00000080] z-50">
       <form
         onSubmit={handleSubmit(updUser)}
-        className="overflow-scroll p-3 w-[500px] gap-3 flex flex-col rounded-lg relative bg-white"
+        className=" p-3 w-[500px] h-auto  gap-3 flex flex-col rounded-lg relative bg-white"
         encType="multipart/form-data"
       >
         {/* {imagePreview && <img src={imagePreview} alt="Selected" />} */}
@@ -114,7 +114,7 @@ const UpdateUserForm = () => {
           }
           alt=""
         />
-        <InputField
+        {/* <InputField
           type="file"
           placeholder="Profile-Image"
           label="Profile-Image"
@@ -122,7 +122,7 @@ const UpdateUserForm = () => {
             required: "Image Is Required",
           })}
           error={errors.profileUrl ? errors.profileUrl.message : ""}
-        />
+        /> */}
         <InputField
           type="file"
           placeholder="Profile-Image"

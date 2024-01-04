@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: {},
   edit: false,
+  editSocial: false
 };
 export const userSlice = createSlice({
   name: "user",
@@ -16,7 +17,6 @@ export const userSlice = createSlice({
       localStorage.removeItem("user");
     },
     userEdited(state, action) {
-      console.log();
       state.edit = !state.edit;
     },
     updateUser(state, action) {
@@ -32,10 +32,13 @@ export const userSlice = createSlice({
     updateProfile(state, action) {
       state.edit = action.payload;
     },
+    updateSocial(state, action) {
+      state.editSocial = !state.editSocial;
+    },
   },
 });
 
 export default userSlice.reducer;
 
-export const { login, logout, updateProfile, updateUser, userEdited } =
+export const { login, logout, updateProfile, updateUser, userEdited, updateSocial } =
   userSlice.actions;
