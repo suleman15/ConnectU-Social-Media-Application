@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
-const Animation = ({ children, className }) => {
+const Animation = ({ children, className, index }) => {
   const control = useAnimation();
   const ref = useRef(null);
   const inView = useInView(ref);
@@ -12,21 +12,30 @@ const Animation = ({ children, className }) => {
   useEffect(() => {
     if (inView) {
       control.start("visible");
+    } else {
+      control.start("hidden");
     }
-    // else {
-    //   control.start("hidden");
-    // }
   }, [control, inView]);
+  console.log(index);
   return (
     <motion.div
       ref={ref}
       variants={{
-        hidden: { x: -75, y: 75, opacity: 0, scale: 0.4 },
-        visible: { x: 0, y: 0, opacity: 1, scale: 1 },
+        hidden: {
+          opacity: 0,
+          // if odd index card,slide from right instead of left
+          x: index % 2 === 0 ? 50 : -50,
+        },
+        visible: {
+          opacity: 1,
+          // if odd index card,slide from right instead of left
+          x: 0,
+        },
       }}
       initial={"hidden"}
       animate={control}
-      transition={{ duration: 1 }}
+      exit="hidden"
+      transition={{ duration: 0.5, ease: "easeInOut" }}
       className={`${className}`}
     >
       {children}

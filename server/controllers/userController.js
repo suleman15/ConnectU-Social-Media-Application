@@ -364,16 +364,17 @@ export const viewProfile = Async(async (req, res, next) => {
 export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
+    const suggestFriend = await FriendRequest.find({
+      requestFrom: userId,
+      requestStatus: "Pending",
+    })
+      .select("requestTo")
+      .lean()
+      .then((requests) => requests.map((request) => request.requestTo));
     const user = await Users.find({
-      _id: { $ne: userId },
+      _id: { $ne: userId, $nin: suggestFriend },
       friends: { $nin: userId },
     }).then(async (res) => {
-      const div = await FriendRequest.find({
-        requestFrom: userId,
-        requestStatus: "Pending",
-      });
-      // console.log(div);
-      // console.log(res);
       return res;
     });
 
@@ -400,6 +401,29 @@ export const sentFriendRequest = Async(async (req, res, next) => {
     }).populate({
       path: "requestTo",
       select: "firstName lastName profileUrl profession -password",
+    });
+
+    res.status(200).json({
+      success: true,
+      data: div,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Auth Error",
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+export const cancelUserSentRequest = Async(async (req, res, next) => {
+  try {
+    const { userId } = req.body.user;
+    const { requestTo } = req.body;
+
+    const div = await FriendRequest.findOneAndDelete({
+      requestTo,
+      requestStatus: "Pending",
     });
 
     res.status(200).json({

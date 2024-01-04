@@ -41,7 +41,6 @@ const SuggestedFriend = () => {
       <div className="font-bold text-sm border-b-2 py-2 border-[#80808056]">
         SUGGESTED FRIEND
       </div>
-      {JSON.stringify(sugFriend)}
       {sugFriend?.map((sugfri, index) => {
         return (
           <div key={index}>

@@ -13,6 +13,7 @@ import {
   suggestedFriends,
   viewProfile,
   sentFriendRequest,
+  cancelUserSentRequest,
 } from "../controllers/userController.js";
 import { userAuth } from "../middleware/authMiddleware.js";
 import scriptMiddleware from "../middleware/scriptMiddleware.js";
@@ -36,6 +37,7 @@ router.put("/update-user", upload.single("profileUrl"), userAuth, updateUser); /
 router.post("/friend-request", userAuth, friendRequest);
 router.post("/get-friend-request", userAuth, getFriendRequest);
 router.post("/sent-friend-request", userAuth, sentFriendRequest);
+router.post("/cancel-user-request", userAuth, cancelUserSentRequest);
 
 // accept or deny friend request
 router.post("/accept-request", userAuth, acceptRequest);

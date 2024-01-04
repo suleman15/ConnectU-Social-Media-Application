@@ -195,3 +195,18 @@ export const sendFriendReq = async ({ token, requestTo }) => {
     console.log(err);
   }
 };
+
+export const cancelUserReq = async ({ token, requestTo }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/users/cancel-user-request`,
+      method: "post",
+      data: { requestTo },
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};

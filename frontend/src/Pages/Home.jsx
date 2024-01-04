@@ -12,11 +12,12 @@ import {
 } from "../Component";
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
-import { axiosInstance, fetchSentFriendRequest } from "../api";
+import { axiosInstance, cancelUserReq, fetchSentFriendRequest } from "../api";
 import UserSentRequest from "../Component/SentFriendRequest";
 import { login, updateUser } from "../features/userSlice";
 import { Link } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Home = () => {
   let {
@@ -50,6 +51,11 @@ const Home = () => {
     const res = await fetchSentFriendRequest({ token });
     setUserSentRequest(res?.data);
   };
+  const cancelRequest = async ({ token, requestTo }) => {
+    const res = await cancelUserReq({ token, requestTo }).then((res) => {
+      toast.success("DeletedSUccessfully");
+    });
+  };
 
   useEffect(() => {
     fetchUser(user);
@@ -79,7 +85,6 @@ const Home = () => {
                   Sent Friend Request
                 </div>
                 <div>
-                  {JSON.stringify(userSentRequest)}
                   {userSentRequest?.map((item, index) => {
                     return (
                       <div key={index}>
@@ -107,6 +112,17 @@ const Home = () => {
                             </div>
                           </div>
                         </Link>
+                        <CustomButton
+                          title={"cancel"}
+                          styles={`text-sm py-[2px]`}
+                          btnAttribute={{
+                            onClick: () =>
+                              cancelRequest({
+                                token,
+                                requestTo: item?.requestTo?._id,
+                              }),
+                          }}
+                        />
                       </div>
                     );
                   })}

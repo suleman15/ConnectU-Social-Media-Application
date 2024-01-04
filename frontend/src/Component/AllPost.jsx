@@ -16,6 +16,7 @@ import { commentPost, deleteSinglePost, fetchAllPost, likePost } from "../api";
 import InputField from "./InputField";
 import { useForm } from "react-hook-form";
 import { BiCommentDots } from "react-icons/bi";
+import Animation from "./Animation";
 
 function AllPost({ user, userId }) {
   let {
@@ -76,7 +77,7 @@ function AllPost({ user, userId }) {
       )}
 
       {posts?.map((post, index) => (
-        <div key={index}>
+        <Animation key={index} index={index}>
           <div className={"bg-white rounded-lg p-3"}>
             <div className="p-3 flex  items-center">
               <Link to={`/profile/${post?.userId?._id}`} className="w-full">
@@ -204,7 +205,7 @@ function AllPost({ user, userId }) {
               </div>
             )}
           </div>
-        </div>
+        </Animation>
       ))}
     </div>
   );
