@@ -180,3 +180,18 @@ export const fetchSentFriendRequest = async ({ token }) => {
     console.log(err);
   }
 };
+
+export const sendFriendReq = async ({ token, requestTo }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/users/friend-request`,
+      method: "post",
+      data: { requestTo },
+      token,
+    }).then((res) => res);
+    console.log(fetchData);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};

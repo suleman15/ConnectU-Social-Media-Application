@@ -81,28 +81,28 @@ const Home = () => {
                 <div>
                   {JSON.stringify(userSentRequest)}
                   {userSentRequest?.map((item, index) => {
-                    console.log(item);
                     return (
                       <div key={index}>
-                        <Link to={`/profile/${item?._id}`}>
+                        <Link to={`/profile/${item?.requestTo?._id}`}>
                           <div className="flex gap-3 items-center text-sm ">
                             <img
                               className=" p-1 rounded-full overflow-hidden w-10 h-10"
                               src={
-                                item?.profileUrl ??
-                                `https://api.dicebear.com/7.x/initials/svg?seed=${`${item?.firstName} ${item?.lastName}`}`
+                                item?.requestTo?.profileUrl ??
+                                `https://api.dicebear.com/7.x/initials/svg?seed=${`${item?.requestTo?.firstName} ${item?.requestTo?.lastName}`}`
                               }
                               alt="avatar"
                             />
                             <div>
                               <div className=" font-bold flex gap-3 capitalize items-center">
-                                {item?.firstName} {item?.lastName}
-                                {item?.verified && (
+                                {item?.requestTo?.firstName}{" "}
+                                {item?.requestTo?.lastName}
+                                {item?.requestTo?.verified && (
                                   <MdVerified className="text-[purple] text-xl" />
                                 )}
                               </div>
                               <div className="text-[gray]">
-                                {item?.profession ?? "No Profession"}
+                                {item?.requestTo?.profession ?? "No Profession"}
                               </div>
                             </div>
                           </div>

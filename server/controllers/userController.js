@@ -397,6 +397,9 @@ export const sentFriendRequest = Async(async (req, res, next) => {
     const div = await FriendRequest.find({
       requestFrom: userId,
       requestStatus: "Pending",
+    }).populate({
+      path: "requestTo",
+      select: "firstName lastName profileUrl profession -password",
     });
 
     res.status(200).json({

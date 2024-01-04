@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  axiosInstance,
-  fetchFriendRequest,
-  fetchSuggestedFriend,
-} from "../api";
-import { Link } from "react-router-dom";
-import { BsPersonFillAdd } from "react-icons/bs";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import CustomButton from "./CustomButton";
 import { MdVerified } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { fetchSuggestedFriend, sendFriendReq } from "../api";
+import CustomButton from "./CustomButton";
 
 const SuggestedFriend = () => {
   const [sugFriend, setSugFriend] = useState([]);
@@ -26,9 +21,9 @@ const SuggestedFriend = () => {
       console.error("Error fetching suggested friends:", error);
     }
   };
-  const sendFriendRequest = async ({ token }) => {
+  const sendFriendRequest = async ({ token, requestTo }) => {
     try {
-      const sendFriReq = await SentFriendRequest({ token });
+      const sendFriReq = await sendFriendReq({ token, requestTo });
       console.log(sendFriReq);
       toast.error(sendFriReq.message);
       // setSugFriend(sendFriReq?.data);
@@ -46,6 +41,7 @@ const SuggestedFriend = () => {
       <div className="font-bold text-sm border-b-2 py-2 border-[#80808056]">
         SUGGESTED FRIEND
       </div>
+      {JSON.stringify(sugFriend)}
       {sugFriend?.map((sugfri, index) => {
         return (
           <div key={index}>
@@ -78,7 +74,7 @@ const SuggestedFriend = () => {
                 styles={`text-sm py-[2px]`}
                 btnAttribute={{
                   onClick: () => {
-                    sendFriendRequest({ token });
+                    sendFriendRequest({ token, requestTo: sugfri?._id });
                   },
                 }}
               />
