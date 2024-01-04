@@ -1,23 +1,27 @@
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TopBar from "../Component/TopBar";
 import {
+  AllPost,
+  CreatePost,
+  CustomButton,
   FriendCard,
   FriendRequest,
-  CreatePost,
-  Loading,
-  UserProfile,
-  AllPost,
   SuggestedFriend,
-  CustomButton,
+  UserProfile,
 } from "../Component";
-import React, { useEffect, useState } from "react";
+import TopBar from "../Component/TopBar";
 // import axios from "axios";
-import { axiosInstance, cancelUserReq, fetchSentFriendRequest } from "../api";
-import UserSentRequest from "../Component/SentFriendRequest";
-import { login, updateUser } from "../features/userSlice";
-import { Link } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  axiosInstance,
+  cancelUserReq,
+  fetchSentFriendRequest,
+  fetchSuggestedFriend,
+  sendFriendReq,
+} from "../api";
+import { updateUser } from "../features/userSlice";
 
 const Home = () => {
   let {
@@ -25,7 +29,31 @@ const Home = () => {
     user: { token: token },
   } = useSelector((state) => state.user);
   const [userSentRequest, setUserSentRequest] = useState([]);
+  const [sugFriend, setSugFriend] = useState([]);
+
   let dispatch = useDispatch();
+
+  const fetchSugFriend = async ({ token }) => {
+    try {
+      const suggestedFriend = await fetchSuggestedFriend({ token });
+      setSugFriend(suggestedFriend?.data);
+    } catch (error) {
+      console.error("Error fetching suggested friends:", error);
+    }
+  };
+  const sendFriendRequest = async ({ token, requestTo }) => {
+    try {
+      const res = await sendFriendReq({ token, requestTo }).then((res) => {
+        console.log(res);
+        toast.error(res.message);
+        fetchSugFriend({ token });
+        fetchUserSentRequest({ token });
+        return;
+      });
+    } catch (error) {
+      console.error("Error fetching suggested friends:", error);
+    }
+  };
 
   const fetchUser = async ({ token }) => {
     try {
@@ -53,7 +81,12 @@ const Home = () => {
   };
   const cancelRequest = async ({ token, requestTo }) => {
     const res = await cancelUserReq({ token, requestTo }).then((res) => {
-      toast.success("DeletedSUccessfully");
+      console.log(res);
+
+      setUserSentRequest(res?.data);
+      fetchSugFriend({ token });
+      fetchUserSentRequest({ token });
+      return;
     });
   };
 
@@ -128,7 +161,12 @@ const Home = () => {
                   })}
                 </div>
               </div>
-              <SuggestedFriend />
+              <SuggestedFriend
+                sugFriend={sugFriend}
+                setSugFriend={setSugFriend}
+                sendFriendRequest={sendFriendRequest}
+                fetchSugFriend={fetchSugFriend}
+              />
             </div>
           </div>
         </div>

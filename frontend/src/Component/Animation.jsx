@@ -1,14 +1,9 @@
-import { useInView } from "framer-motion";
-import { useAnimation } from "framer-motion";
-import { motion } from "framer-motion";
-import React from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 const Animation = ({ children, className, index }) => {
   const control = useAnimation();
   const ref = useRef(null);
   const inView = useInView(ref);
-  console.log(ref);
   useEffect(() => {
     if (inView) {
       control.start("visible");
@@ -16,7 +11,6 @@ const Animation = ({ children, className, index }) => {
       control.start("hidden");
     }
   }, [control, inView]);
-  console.log(index);
   return (
     <motion.div
       ref={ref}

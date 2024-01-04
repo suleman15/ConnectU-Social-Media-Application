@@ -3,34 +3,34 @@ import { MdVerified } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fetchSuggestedFriend, sendFriendReq } from "../api";
+// import { fetchSuggestedFriend, sendFriendReq } from "../api";
 import CustomButton from "./CustomButton";
 
-const SuggestedFriend = () => {
-  const [sugFriend, setSugFriend] = useState([]);
+const SuggestedFriend = ({ fetchSugFriend, sendFriendRequest, sugFriend }) => {
+  // const [sugFriend, setSugFriend] = useState([]);
   let {
     user: { token: token },
   } = useSelector((state) => state.user);
 
-  const fetchSugFriend = async ({ token }) => {
-    try {
-      const suggestedFriend = await fetchSuggestedFriend({ token });
-      console.log(suggestedFriend);
-      setSugFriend(suggestedFriend?.data);
-    } catch (error) {
-      console.error("Error fetching suggested friends:", error);
-    }
-  };
-  const sendFriendRequest = async ({ token, requestTo }) => {
-    try {
-      const sendFriReq = await sendFriendReq({ token, requestTo });
-      console.log(sendFriReq);
-      toast.error(sendFriReq.message);
-      // setSugFriend(sendFriReq?.data);
-    } catch (error) {
-      console.error("Error fetching suggested friends:", error);
-    }
-  };
+  // const fetchSugFriend = async ({ token }) => {
+  //   try {
+  //     const suggestedFriend = await fetchSuggestedFriend({ token });
+  //     console.log(suggestedFriend);
+  //     setSugFriend(suggestedFriend?.data);
+  //   } catch (error) {
+  //     console.error("Error fetching suggested friends:", error);
+  //   }
+  // };
+  // const sendFriendRequest = async ({ token, requestTo }) => {
+  //   try {
+  //     const sendFriReq = await sendFriendReq({ token, requestTo });
+  //     console.log(sendFriReq);
+  //     toast.error(sendFriReq.message);
+  //     // setSugFriend(sendFriReq?.data);
+  //   } catch (error) {
+  //     console.error("Error fetching suggested friends:", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchSugFriend({ token });

@@ -421,9 +421,17 @@ export const cancelUserSentRequest = Async(async (req, res, next) => {
     const { userId } = req.body.user;
     const { requestTo } = req.body;
 
-    const div = await FriendRequest.findOneAndDelete({
+    const cancel = await FriendRequest.findOneAndDelete({
       requestTo,
       requestStatus: "Pending",
+    });
+
+    const div = await FriendRequest.find({
+      requestFrom: userId,
+      requestStatus: "Pending",
+    }).populate({
+      path: "requestTo",
+      select: "firstName lastName profileUrl profession -password",
     });
 
     res.status(200).json({
