@@ -11,26 +11,7 @@ const SuggestedFriend = ({ fetchSugFriend, sendFriendRequest, sugFriend }) => {
   let {
     user: { token: token },
   } = useSelector((state) => state.user);
-
-  // const fetchSugFriend = async ({ token }) => {
-  //   try {
-  //     const suggestedFriend = await fetchSuggestedFriend({ token });
-  //     console.log(suggestedFriend);
-  //     setSugFriend(suggestedFriend?.data);
-  //   } catch (error) {
-  //     console.error("Error fetching suggested friends:", error);
-  //   }
-  // };
-  // const sendFriendRequest = async ({ token, requestTo }) => {
-  //   try {
-  //     const sendFriReq = await sendFriendReq({ token, requestTo });
-  //     console.log(sendFriReq);
-  //     toast.error(sendFriReq.message);
-  //     // setSugFriend(sendFriReq?.data);
-  //   } catch (error) {
-  //     console.error("Error fetching suggested friends:", error);
-  //   }
-  // };
+  console.log(sugFriend);
 
   useEffect(() => {
     fetchSugFriend({ token });

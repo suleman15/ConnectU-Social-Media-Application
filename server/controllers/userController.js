@@ -371,10 +371,13 @@ export const suggestedFriends = Async(async (req, res, next) => {
       .select("requestTo")
       .lean()
       .then((requests) => requests.map((request) => request.requestTo));
+    console.log(suggestFriend);
     const user = await Users.find({
-      _id: { $ne: userId, $nin: suggestFriend },
+      _id: { $nin: [...suggestFriend, userId] },
       friends: { $nin: userId },
     }).then(async (res) => {
+      console.log(res);
+
       return res;
     });
 

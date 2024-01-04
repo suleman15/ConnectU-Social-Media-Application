@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { acceptFriendRequest, fetchFriendRequest } from "../api";
-import { useSelector } from "react-redux";
+import { acceptFriendRequest, fetchFriendRequest, fetchUser } from "../api";
+import { useDispatch, useSelector } from "react-redux";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton";
+import { login } from "../features/userSlice";
 
 const FriendRequest = () => {
   const [friendRequest, setFriendRequest] = useState([]);
   const { token } = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const fetchRequest = async ({ token }) => {
     try {
       const friReq = await fetchFriendRequest({ token });
@@ -21,7 +23,11 @@ const FriendRequest = () => {
   const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
     console.log("Accept Friend Request");
     try {
-      const friReq = await acceptFriendRequest({ token, rid, status });
+      const friReq = await acceptFriendRequest({ token, rid, status }).then(
+        (res) => {
+          dispatch(login(fetchUser({ token })));
+        }
+      );
       console.log(friendRequest);
     } catch (error) {
       console.log("FriendRequest Error");
@@ -35,7 +41,9 @@ const FriendRequest = () => {
   return (
     <div className="bg-white p-3 my-3 rounded-lg">
       <div className="font-bold">Friend Request</div>
-      {!friendRequest.length > 0 && <div className="text-xs">Friend Request doesn't exit</div>}
+      {!friendRequest.length > 0 && (
+        <div className="text-xs">Friend Request doesn't exit</div>
+      )}
 
       <div>
         {friendRequest?.map((singleFriend, index) => {

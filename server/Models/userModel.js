@@ -27,6 +27,7 @@ let UserSchema = new mongoose.Schema(
     friends: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     views: [{ type: String }],
     verified: { type: Boolean, default: false },
+    social: { facebook: String, instagram: String, github: String },
   },
   { timestamps: true }
 );
