@@ -8,14 +8,22 @@ import {
   UserProfile,
   AllPost,
   SuggestedFriend,
+  CustomButton,
 } from "../Component";
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
-import { axiosInstance } from "../api";
+import { axiosInstance, fetchSentFriendRequest } from "../api";
+import UserSentRequest from "../Component/SentFriendRequest";
 import { login, updateUser } from "../features/userSlice";
+import { Link } from "react-router-dom";
+import { MdVerified } from "react-icons/md";
 
 const Home = () => {
-  let { user } = useSelector((state) => state.user);
+  let {
+    user,
+    user: { token: token },
+  } = useSelector((state) => state.user);
+  const [userSentRequest, setUserSentRequest] = useState([]);
   let dispatch = useDispatch();
 
   const fetchUser = async ({ token }) => {
@@ -38,8 +46,14 @@ const Home = () => {
     }
   };
 
+  const fetchUserSentRequest = async ({ token }) => {
+    const res = await fetchSentFriendRequest({ token });
+    setUserSentRequest(res?.data);
+  };
+
   useEffect(() => {
     fetchUser(user);
+    fetchUserSentRequest({ token });
   }, []);
 
   return (
@@ -59,6 +73,45 @@ const Home = () => {
             </div>
             <div>
               <FriendRequest />
+              {/* SENT USER FRIEND REQUEST FRINEd */}
+              <div className="p-3 bg-white my-3 rounded-lg">
+                <div className="text-sm font-bold py-2 border-b-2 border-[gray]">
+                  Sent Friend Request
+                </div>
+                <div>
+                  {JSON.stringify(userSentRequest)}
+                  {userSentRequest?.map((item, index) => {
+                    console.log(item);
+                    return (
+                      <div key={index}>
+                        <Link to={`/profile/${item?._id}`}>
+                          <div className="flex gap-3 items-center text-sm ">
+                            <img
+                              className=" p-1 rounded-full overflow-hidden w-10 h-10"
+                              src={
+                                item?.profileUrl ??
+                                `https://api.dicebear.com/7.x/initials/svg?seed=${`${item?.firstName} ${item?.lastName}`}`
+                              }
+                              alt="avatar"
+                            />
+                            <div>
+                              <div className=" font-bold flex gap-3 capitalize items-center">
+                                {item?.firstName} {item?.lastName}
+                                {item?.verified && (
+                                  <MdVerified className="text-[purple] text-xl" />
+                                )}
+                              </div>
+                              <div className="text-[gray]">
+                                {item?.profession ?? "No Profession"}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
               <SuggestedFriend />
             </div>
           </div>

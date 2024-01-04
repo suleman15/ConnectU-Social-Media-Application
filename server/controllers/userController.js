@@ -220,7 +220,6 @@ export const updateUser = Async(async (req, res, next) => {
         const user = await Users.findByIdAndUpdate(userId, updatedUser, {
           new: true,
         });
-        console.log(user);
         await user.populate({ path: "friends", select: "-password" });
         const token = createJWT(user?._id);
         user.password = undefined;
@@ -307,7 +306,6 @@ export const acceptRequest = Async(async (req, res, next) => {
   try {
     const id = req.body.user.userId;
     const { rid, status } = req.body;
-    console.log(rid, status);
     const requestExist = await FriendRequest.findById(rid);
     if (!requestExist) {
       next("No Frind Request Found");
@@ -319,7 +317,6 @@ export const acceptRequest = Async(async (req, res, next) => {
     );
     if (status == "Accepted") {
       const user = await Users.findById(id);
-      console.log(user);
       user.friends.push(newRes?.requestFrom);
       await user.save();
       const friend = await Users.findById(newRes?.requestFrom);
@@ -367,22 +364,44 @@ export const viewProfile = Async(async (req, res, next) => {
 export const suggestedFriends = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    console.log(userId)
     const user = await Users.find({
-      _id:{$ne: userId}
-    }).then(async(res) => {
-      const s = await FriendRequest.find({requestFrom: userId}, ).select("-_id +requestTo")
-      const requestToArray = s.map(friendRequest => friendRequest.requestTo);
-
-
-      console.log(res)
-      return s
+      _id: { $ne: userId },
+      friends: { $nin: userId },
+    }).then(async (res) => {
+      const div = await FriendRequest.find({
+        requestFrom: userId,
+        requestStatus: "Pending",
+      });
+      // console.log(div);
+      // console.log(res);
+      return res;
     });
- 
 
     res.status(200).json({
       success: true,
-      data: user
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Auth Error",
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+export const sentFriendRequest = Async(async (req, res, next) => {
+  try {
+    const { userId } = req.body.user;
+
+    const div = await FriendRequest.find({
+      requestFrom: userId,
+      requestStatus: "Pending",
+    });
+
+    res.status(200).json({
+      success: true,
+      data: div,
     });
   } catch (error) {
     res.status(500).json({

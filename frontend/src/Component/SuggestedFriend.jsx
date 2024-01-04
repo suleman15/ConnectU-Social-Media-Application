@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  SendFriendRequest,
   axiosInstance,
   fetchFriendRequest,
   fetchSuggestedFriend,
@@ -29,8 +28,9 @@ const SuggestedFriend = () => {
   };
   const sendFriendRequest = async ({ token }) => {
     try {
-      const sendFriReq = await SendFriendRequest({ token });
+      const sendFriReq = await SentFriendRequest({ token });
       console.log(sendFriReq);
+      toast.error(sendFriReq.message);
       // setSugFriend(sendFriReq?.data);
     } catch (error) {
       console.error("Error fetching suggested friends:", error);
