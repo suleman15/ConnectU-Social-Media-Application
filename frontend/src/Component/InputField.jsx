@@ -13,11 +13,12 @@ const InputField = React.forwardRef(
       register,
       name,
       error,
+      parentStyle,
     },
     ref
   ) => {
     return (
-      <div className="flex flex-col w-full gap-1">
+      <div className={`flex flex-col w-full gap-1 ${parentStyle}`}>
         {label && (
           <label
             className={`text-sm text-[#5e5e5e] ${labelStyle}`}

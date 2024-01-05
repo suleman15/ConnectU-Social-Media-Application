@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../features/postSlice";
 import { fetchAllPost } from "../api";
+import { BiImageAdd } from "react-icons/bi";
 
 function CreatePost({ user }) {
   let dispatch = useDispatch();
@@ -25,7 +26,8 @@ function CreatePost({ user }) {
   let [showEmoji, setShowEmoji] = useState(false);
   let postRef = useRef();
 
-  const createPost = async (token, data) => {
+  const createPost = async ({ token, data }) => {
+    console.log(token, data);
     try {
       if (data?.description) {
         // let fetchData = await axios.post(
@@ -34,8 +36,18 @@ function CreatePost({ user }) {
         //     headers:
         //   }
         // );
+        const formData = new FormData();
+        Object.keys(data).map((key) => {
+          key != "image"
+            ? formData.set(key, getValues(key))
+            : formData.set(key, getValues(key)[0]);
+          console.log(formData.get(key));
+        });
+
+        // console.log(formData.get("backgroundUrl"));
+        // console.log(formData.get("profileUrl"));
         let fetchData = await axios
-          .post("http://localhost:8800/post/create-post", data, {
+          .post("http://localhost:8800/post/create-post", formData, {
             headers: {
               Authorization: token ? `Bearer ${token}` : "",
             },
@@ -58,7 +70,7 @@ function CreatePost({ user }) {
 
   const postSubmited = async (data) => {
     setShowEmoji(false);
-    await createPost(user?.token, data);
+    await createPost({ token: user?.token, data });
     setValue("description", "");
   };
 
@@ -84,6 +96,19 @@ function CreatePost({ user }) {
           })}
           placeholder={`What's you think ~ ${user?.firstName}`}
           error={errors.description ? errors.description.message : ""}
+          styles={`w-full`}
+        />
+
+        <InputField
+          register={register("image")}
+          label={<BiImageAdd />}
+          labelStyle={
+            " w-10 h-10 cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
+          }
+          type={"file"}
+          styles={"bg-[red] w-min hidden"}
+          parentStyle={" w-min"}
+          rest={{ multiple: true }}
         />
       </form>
 
