@@ -47,10 +47,11 @@ export default function Profile() {
               <Link to={`/profile/${user?._id}`}>
                 <div className="flex   flex-col items-center text-sm ">
                   <div
-                    className=" w-full bg-[url(https://shorturl.at/rxDV3)] bg-cover bg-[red] h-[250px] rounded-lg relative mb-[130px]"
+                    className=" w-full  bg-cover bg-[red] h-[250px] rounded-lg relative mb-[130px]"
                     style={{
-                      backgroundImage:
-                        "https://api.dicebear.com/7.x/shapes/svg?seed=Luna",
+                      backgroundImage: `url(${
+                        user?.backgroundUrl ?? "https://shorturl.at/rxDV3"
+                      })`,
                     }}
                   >
                     <img
@@ -65,6 +66,7 @@ export default function Profile() {
 
                   <div className="px-[50px] w-full flex justify-between items-center">
                     <div>
+                      {JSON.stringify(user?.backgroundUrl)}
                       <div className=" font-bold flex gap-3 capitalize items-center">
                         {user?.firstName} {user?.lastName}
                         {user?.verified && (
