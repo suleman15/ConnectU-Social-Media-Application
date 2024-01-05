@@ -64,13 +64,13 @@ const UpdateUserForm = () => {
         //     },
         //   })
         .then((res) => {
-          const data = { token: res.data?.token, ...res.data?.user };
+          console.log(res);
+          const data = { token: res.data?.token, ...res.data?.findUser };
           console.log(data);
           dispatch(login(data));
           toast.success("Sucessfully updated");
           return res.data;
         });
-      console.log(res);
 
       dispatch(updateSocial());
     } catch (err) {

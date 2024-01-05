@@ -44,7 +44,7 @@ function CreatePost({ user }) {
             toast.success(result?.data?.message);
             let res = await fetchAllPost({ token });
             dispatch(getPosts(res));
-            setShowEmoji(!showEmoji);
+            setShowEmoji(false);
             return;
           });
         return;
@@ -87,26 +87,26 @@ function CreatePost({ user }) {
         />
       </form>
 
-        <div className="relative">
-          <div
-            className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
-              showEmoji && `bg-[#b9b9b9]`
-            }`}
-            onClick={() => setShowEmoji(!showEmoji)}
-          >
-            <BsEmojiSmile />
-          </div>
-          <div className="absolute right-0 top-[120%]">
-            {showEmoji && (
-              <Picker
-                onEmojiClick={(emojiData) => {
-                  const description = getValues("description");
-                  setValue("description", description + emojiData.emoji);
-                }}
-              />
-            )}
-          </div>
+      <div className="relative">
+        <div
+          className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
+            showEmoji && `bg-[#b9b9b9]`
+          }`}
+          onClick={() => setShowEmoji(!showEmoji)}
+        >
+          <BsEmojiSmile />
         </div>
+        <div className="absolute right-0 top-[120%]">
+          {showEmoji && (
+            <Picker
+              onEmojiClick={(emojiData) => {
+                const description = getValues("description");
+                setValue("description", description + emojiData.emoji);
+              }}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

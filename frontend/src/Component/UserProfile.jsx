@@ -87,7 +87,7 @@ const UserProfile = ({ user, userEdit }) => {
             />{" "}
           </div>
           <div className="flex flex-col gap-1 text-blue ">
-            <Link to={"/"} className="flex gap-3  ">
+            <Link to={user?.social?.facebook ?? "/"} className="flex gap-3  ">
               <BiLogoFacebook className="text-lg  " /> Facebook
             </Link>
             <Link className="flex gap-3  ">
