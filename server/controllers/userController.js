@@ -195,26 +195,23 @@ export const getUser = Async(async (req, res, next) => {
 });
 export const updateSocial = Async(async (req, res, next) => {
   try {
-    const {
-      user: { userId },
-      ...result
-    } = req.body;
-    console.log(result);
-    const user = await Users.findByIdAndUpdate(
-      userId,
+    const { user, ...result } = req.body;
+    console.log(req.body);
+    const findUser = await Users.findByIdAndUpdate(
+      user?.userId,
       { social: { ...result } },
       {
         new: true,
       }
     );
-
-    await user.populate({ path: "friends", select: "-password" });
-    const token = createJWT(userId);
-    user.password = undefined;
+    console.log(findUser);
+    await findUser.populate({ path: "friends", select: "-password" });
+    const token = createJWT(user?.userId);
+    findUser.password = undefined;
     res.status(200).json({
       success: true,
       message: "User Updated Successfully",
-      user,
+      findUser,
       token,
     });
   } catch (err) {
@@ -225,45 +222,115 @@ export const updateSocial = Async(async (req, res, next) => {
 export const updateUser = Async(async (req, res, next) => {
   try {
     const { firstName, lastName, location, profession } = req.body;
-    const profileUrl = req.file;
-    if (!(firstName || lastName || location || profileUrl || profession)) {
+
+    const { profileUrl, backgroundUrl } = req.files; // Use req.files instead of req.file to access uploaded files
+
+    // Check if any required fields are provided
+    if (!(firstName || lastName || location || profession)) {
       next("Please Provide all required Field");
       return;
     }
-    console.log(profileUrl.path);
 
-    cloudinary.uploader
-      .upload(profileUrl.path)
-      .then(async (result) => {
-        const { userId } = req.body.user;
+    // Check if both profile picture and background image are provided
+    if (!profileUrl || !backgroundUrl) {
+      next("Please provide both profile picture and background image.");
+      return;
+    }
 
-        const updatedUser = {
-          _id: userId,
-          firstName,
-          lastName,
-          location,
-          profileUrl: result.secure_url,
-          profession,
-        };
-        const user = await Users.findByIdAndUpdate(userId, updatedUser, {
-          new: true,
-        });
-        await user.populate({ path: "friends", select: "-password" });
-        const token = createJWT(user?._id);
-        user.password = undefined;
-        res.status(200).json({
-          success: true,
-          message: "User Updated Successfully",
-          user,
-          token,
-        });
-        // fs.unlink(profileUrl.path);
-      })
-      .catch((err) => res.json({ err: "err in cloudinary catch fn" }));
+    // Upload profile picture to Cloudinary
+    const profileResult = await cloudinary.uploader.upload(profileUrl[0].path);
+    console.log(profileResult.secure_url);
+
+    // Upload background image to Cloudinary
+    const backgroundResult = await cloudinary.uploader.upload(
+      backgroundUrl[0].path
+    );
+    console.log(backgroundResult.secure_url);
+
+    const { userId } = req.body.user;
+
+    // Create an updated user object
+    const updatedUser = {
+      _id: userId,
+      firstName,
+      lastName,
+      location,
+      profileUrl: profileResult.secure_url,
+      backgroundUrl: backgroundResult.secure_url,
+      profession,
+    };
+
+    // Update the user in the database
+    const user = await Users.findByIdAndUpdate(userId, updatedUser, {
+      new: true,
+    });
+
+    await user.populate({ path: "friends", select: "-password" });
+
+    const token = createJWT(user?._id);
+    user.password = undefined;
+
+    res.status(200).json({
+      success: true,
+      message: "User Updated Successfully",
+      user,
+      token,
+    });
+    // Optionally, you can delete the temporary files on your server
+    fs.unlink(profileUrl[0].path);
+    fs.unlink(backgroundUrl[0].path);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(404).json({ message: err.message });
   }
+
+  // try {
+  //   const { firstName, lastName, location, profession } = req.body;
+  //   const { profileUrl, backgroundUrl } = req.file;
+  //   if (!(firstName || lastName || location || profileUrl || profession)) {
+  //     next("Please Provide all required Field");
+  //     return;
+  //   }
+  //   // Check if both profile picture and background image are provided
+  //   if (!profileUrl || !backgroundUrl) {
+  //     next("Please provide both profile picture and background image.");
+  //     return;
+  //   }
+
+  //   console.log(profileUrl.path);
+
+  //   cloudinary.uploader
+  //     .upload(profileUrl.path)
+  //     .then(async (result) => {
+  //       const { userId } = req.body.user;
+
+  //       const updatedUser = {
+  //         _id: userId,
+  //         firstName,
+  //         lastName,
+  //         location,
+  //         profileUrl: result.secure_url,
+  //         profession,
+  //       };
+  //       const user = await Users.findByIdAndUpdate(userId, updatedUser, {
+  //         new: true,
+  //       });
+  //       await user.populate({ path: "friends", select: "-password" });
+  //       const token = createJWT(user?._id);
+  //       user.password = undefined;
+  //       res.status(200).json({
+  //         success: true,
+  //         message: "User Updated Successfully",
+  //         user,
+  //         token,
+  //       });
+  //       // fs.unlink(profileUrl.path);
+  //     })
+  //     .catch((err) => res.json({ err: "err in cloudinary catch fn" }));
+  // } catch (err) {
+  //   console.log(err);
+  //   res.status(404).json({ message: err.message });
+  // }
 });
 
 export const friendRequest = Async(async (req, res, next) => {
@@ -369,12 +436,20 @@ export const viewProfile = Async(async (req, res, next) => {
     const { id } = req.body;
     const user = await Users.findById(id);
     if (user) {
-      user.views.push(userId);
-      await user.save();
-      return res.status(201).json({
-        success: true,
-        message: "Successfully",
-      });
+      if (!user?.views.includes(userId)) {
+        user?.views.push(userId);
+        await user.save();
+        res.status(201).json({
+          success: true,
+          message: "Successfully",
+        });
+        return;
+      } else {
+        return res.status(200).json({
+          success: false,
+          message: "User already viewed the profile",
+        });
+      }
     }
     res
       .status(401)

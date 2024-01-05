@@ -23,9 +23,11 @@ let UserSchema = new mongoose.Schema(
     },
     location: { type: String },
     profileUrl: { type: String },
+    backgroundUrl: { type: String },
+
     profession: { type: String },
     friends: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-    views: [{ type: String }],
+    views: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     verified: { type: Boolean, default: false },
     social: { facebook: String, instagram: String, github: String },
   },

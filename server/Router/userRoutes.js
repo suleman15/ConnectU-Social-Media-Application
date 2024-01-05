@@ -31,14 +31,22 @@ router.post("/password-reset", changePassword); // @{Working Fine} change the us
 
 //user routes
 router.post("/get-user/:id?", userAuth, getUser); // get the user data from db
-router.put("/update-user", upload.single("profileUrl"), userAuth, updateUser); //update the user info
-router.put("/update-social" , userAuth, updateSocial); //update the user info
-// router.put("/update-user", userAuth, upload.single("profileUrl"), updateUser);
+router.put(
+  "/update-user",
+  upload.fields([
+    { name: "profileUrl", maxCount: 1 },
+    { name: "backgroundUrl", maxCount: 1 },
+  ]),
+  userAuth,
+  updateUser
+); //update the user info
+router.put("/update-social", userAuth, updateSocial);
 
 //friendrequest route
 router.post("/friend-request", userAuth, friendRequest);
 router.post("/get-friend-request", userAuth, getFriendRequest);
 router.post("/sent-friend-request", userAuth, sentFriendRequest);
+router.post("/cancel-friend-request", userAuth);
 router.post("/cancel-user-request", userAuth, cancelUserSentRequest);
 
 // accept or deny friend request

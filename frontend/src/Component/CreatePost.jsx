@@ -108,7 +108,6 @@ function CreatePost({ user }) {
           type={"file"}
           styles={"bg-[red] w-min hidden"}
           parentStyle={" w-min"}
-          rest={{ multiple: true }}
         />
       </form>
 

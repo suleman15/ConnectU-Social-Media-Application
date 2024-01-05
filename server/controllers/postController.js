@@ -3,26 +3,45 @@ import Comments from "../Models/commentsModel.js";
 import Posts from "../Models/postModel.js";
 import Users from "../Models/userModel.js";
 import Async from "../middleware/Async.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const createPost = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
-    const { description, image } = req.body;
+    const { description } = req.body;
 
     if (!description) {
       next("You must provide the description ");
       return;
     }
-
+    if (!req.files != []) {
+      const post = await Posts.create({
+        userId,
+        description,
+        // image,
+      });
+      res.status(200).json({
+        success: true,
+        message: "Success Added Post",
+        data: post,
+      });
+      return;
+    }
+    console.log("THis runs");
+    const backgroundResult = await cloudinary.uploader.upload(
+      req.files[0].path
+    );
+    console.log(backgroundResult.secure_url);
     const post = await Posts.create({
       userId,
       description,
-      image,
+      image: backgroundResult?.secure_url,
     });
+    console.log(post);
     res.status(200).json({
       success: true,
       message: "Success Added Post",
-      data: post,
+      post,
     });
   } catch (error) {
     console.log(error);
@@ -69,19 +88,20 @@ export const getPosts = Async(async (req, res) => {
 export const getPost = Async(async (req, res, next) => {
   try {
     const { id } = req.params;
-    const post = await Posts.findById(id).populate({
-      path: "userId",
-      select: "firstName lastName location profileUrl -password",
-    })
-    .populate({
-      path: "comments",
-      populate: {
+    const post = await Posts.findById(id)
+      .populate({
         path: "userId",
         select: "firstName lastName location profileUrl -password",
-        options: { sort: "-_id" },
-      },
-    });
-   
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "userId",
+          select: "firstName lastName location profileUrl -password",
+          options: { sort: "-_id" },
+        },
+      });
+
     res.status(200).json(post);
   } catch (error) {
     console.log(error);
@@ -143,7 +163,7 @@ export const getComment = Async(async (req, res, next) => {
 });
 
 export const likePost = Async(async (req, res, next) => {
-  console.log('This is running like')
+  console.log("This is running like");
   try {
     const { userId } = req.body.user;
     const { postId } = req.params;

@@ -1,5 +1,7 @@
 import express from "express";
 import { userAuth } from "../middleware/authMiddleware.js";
+import { upload } from "../Utils/index.js";
+
 import {
   createPost,
   getPost,
@@ -13,7 +15,7 @@ import { getComment } from "../controllers/getComment.js";
 
 const router = express.Router();
 //creating Post
-router.post("/create-post", userAuth, createPost);
+router.post("/create-post", upload.array("image"), userAuth, createPost);
 
 // // //Getting Post
 router.post("/", userAuth, getPosts); //Getting all the post first owns the friends and then others

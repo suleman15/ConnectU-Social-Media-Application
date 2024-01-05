@@ -133,10 +133,17 @@ function AllPost({ user, userId }) {
                 </div>
               )}
             </div>
-            <div className="p-3 whitespace-break-spaces">
-              <SeeMoreText text={post.description} maxLength={10} />
+            <div>
+              <div className="p-3 whitespace-break-spaces">
+                <SeeMoreText text={post.description} maxLength={10} />
 
-              {/* {post.description} */}
+                {/* {post.description} */}
+              </div>
+              {post?.image && (
+                <div className="w-full h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+                  <img src={post?.image} className="w-full" alt={"postImage"} />
+                </div>
+              )}
             </div>
             <Link to={`/post/${post?._id}`}>
               <div className="text-sm flex justify-between  pb-2">
