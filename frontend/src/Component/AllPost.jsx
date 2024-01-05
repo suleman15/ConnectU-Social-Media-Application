@@ -140,7 +140,7 @@ function AllPost({ user, userId }) {
                 {/* {post.description} */}
               </div>
               {post?.image && (
-                <div className="w-full h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+                <div className="w-full max-h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
                   <img src={post?.image} className="w-full" alt={"postImage"} />
                 </div>
               )}
@@ -222,8 +222,8 @@ function AllPost({ user, userId }) {
                               <div className="font-bold capitalize">
                                 {userId?.firstName} {userId?.lastName}
                               </div>
-                              <div className="text-[gray] font-light lowercase   text-xs">
-                                {moment(createdAt).fromNow()}
+                              <div className="text-[gray] font-light    text-xs">
+                                {userId?.profession}
                               </div>
                             </div>
                           </div>

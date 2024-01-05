@@ -140,7 +140,7 @@ function CreatePost({ user }) {
         </div>
       </div>
       {imagePreview && (
-        <div className="w-full h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+        <div className="w-full max-h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
           <img src={imagePreview} className="w-full" alt={"postImage"} />
         </div>
       )}

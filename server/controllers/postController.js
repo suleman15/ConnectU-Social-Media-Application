@@ -69,7 +69,7 @@ export const getPosts = Async(async (req, res) => {
         path: "comments",
         populate: {
           path: "userId",
-          select: "firstName lastName location profileUrl -password",
+          select: "firstName lastName location profileUrl profession -password",
         },
         select: "userId comment createdAt updatedAt",
       })
