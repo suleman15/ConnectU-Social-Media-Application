@@ -145,6 +145,7 @@ export const resetPassword = Async(async (req, res) => {
 
 export const changePassword = Async(async (req, res) => {
   try {
+    console.log(userId, password)
     const { userId, password } = req.body;
     const hashedPassword = await hashString(password);
     const user = await Users.findByIdAndUpdate(
