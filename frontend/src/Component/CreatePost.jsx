@@ -90,7 +90,16 @@ function CreatePost({ user }) {
   return (
     <div className="bg-white rounded-lg p-3 ">
       <div className="rounded-lg justify-center  flex gap-2 items-center">
-        <img className="w-10 h-10 " src={user?.profileUrl} alt="avatar" />
+        <div className="w-10 h-10 rounded-full overflow-hidden">
+          <img
+            className="rounded-full"
+            src={
+              user?.profileUrl ??
+              `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
+            }
+            alt="avatar"
+          />
+        </div>
         <form
           className="flex gap-3 items-center justify-center  w-full
       "
@@ -110,7 +119,7 @@ function CreatePost({ user }) {
             register={register("image")}
             label={<BiImageAdd />}
             labelStyle={
-              " w-10 h-10 text-[1.5rem] cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
+              " w-10 h-10 text-[30px] cursor-pointer flex justify-center items-center   rounded-full"
             }
             type={"file"}
             styles={"bg-[red] w-min hidden"}
