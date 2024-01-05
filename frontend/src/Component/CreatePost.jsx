@@ -6,7 +6,7 @@ import InputField from "./InputField";
 import CustomButton from "./CustomButton";
 import Picker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../features/postSlice";
 import { fetchAllPost } from "../api";
@@ -20,8 +20,19 @@ function CreatePost({ user }) {
     getValues,
     handleSubmit,
     formState: { errors },
+    control,
+
     setValue,
   } = useForm({ mode: "onChange" });
+
+  const selectedImage = useWatch({
+    control,
+    name: "image", // replace with your file input name
+  });
+
+  const imagePreview = selectedImage
+    ? URL.createObjectURL(selectedImage[0])
+    : null;
 
   let [showEmoji, setShowEmoji] = useState(false);
   let postRef = useRef();
@@ -72,65 +83,66 @@ function CreatePost({ user }) {
     setShowEmoji(false);
     await createPost({ token: user?.token, data });
     setValue("description", "");
+    setValue("image", "");
   };
 
   return (
-    <div className="p-3 rounded-lg justify-center bg-white flex gap-2 items-center">
-      <img
-        className="w-10 h-10 "
-        src={
-          user?.profileUrl ??
-          `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
-        }
-        alt="avatar"
-      />
-      <form
-        className="flex gap-3 items-center justify-center  w-full
+    <div className="bg-white rounded-lg ">
+      <div className="p-3 rounded-lg justify-center  flex gap-2 items-center">
+        <img className="w-10 h-10 " src={user?.profileUrl} alt="avatar" />
+        <form
+          className="flex gap-3 items-center justify-center  w-full
       "
-        onSubmit={handleSubmit(postSubmited)}
-      >
-        <InputField
-          ref={postRef}
-          register={register("description", {
-            required: "This field is required",
-          })}
-          placeholder={`What's you think ~ ${user?.firstName}`}
-          error={errors.description ? errors.description.message : ""}
-          styles={`w-full`}
-        />
-
-        <InputField
-          register={register("image")}
-          label={<BiImageAdd />}
-          labelStyle={
-            " w-10 h-10 cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
-          }
-          type={"file"}
-          styles={"bg-[red] w-min hidden"}
-          parentStyle={" w-min"}
-        />
-      </form>
-
-      <div className="relative">
-        <div
-          className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
-            showEmoji && `bg-[#b9b9b9]`
-          }`}
-          onClick={() => setShowEmoji(!showEmoji)}
+          onSubmit={handleSubmit(postSubmited)}
         >
-          <BsEmojiSmile />
-        </div>
-        <div className="absolute right-0 top-[120%]">
-          {showEmoji && (
-            <Picker
-              onEmojiClick={(emojiData) => {
-                const description = getValues("description");
-                setValue("description", description + emojiData.emoji);
-              }}
-            />
-          )}
+          <InputField
+            ref={postRef}
+            register={register("description", {
+              required: "This field is required",
+            })}
+            placeholder={`What's you think ~ ${user?.firstName}`}
+            error={errors.description ? errors.description.message : ""}
+            styles={`w-full`}
+          />
+
+          <InputField
+            register={register("image")}
+            label={<BiImageAdd />}
+            labelStyle={
+              " w-10 h-10 cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
+            }
+            type={"file"}
+            styles={"bg-[red] w-min hidden"}
+            parentStyle={" w-min"}
+          />
+        </form>
+
+        <div className="relative">
+          <div
+            className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
+              showEmoji && `bg-[#b9b9b9]`
+            }`}
+            onClick={() => setShowEmoji(!showEmoji)}
+          >
+            <BsEmojiSmile />
+          </div>
+          <div className="absolute right-0 top-[120%]">
+            {showEmoji && (
+              <Picker
+                onEmojiClick={(emojiData) => {
+                  const description = getValues("description");
+                  setValue("description", description + emojiData.emoji);
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
+      {imagePreview && (
+        <div className="w-full h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+          <img src={imagePreview} className="w-full" alt={"postImage"} />
+        </div>
+      )}
     </div>
   );
 }
