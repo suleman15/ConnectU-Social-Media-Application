@@ -135,7 +135,7 @@ function AllPost({ user, userId }) {
             </div>
             <div>
               <div className="p-3 whitespace-break-spaces">
-                <SeeMoreText text={post.description} maxLength={10} />
+                <SeeMoreText text={post.description} maxLength={30} />
 
                 {/* {post.description} */}
               </div>

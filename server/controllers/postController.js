@@ -9,12 +9,12 @@ export const createPost = Async(async (req, res, next) => {
   try {
     const { userId } = req.body.user;
     const { description } = req.body;
-
+    const [image] = req.files;
     if (!description) {
       next("You must provide the description ");
       return;
     }
-    if (!req.files != []) {
+    if (!image) {
       const post = await Posts.create({
         userId,
         description,
@@ -29,7 +29,7 @@ export const createPost = Async(async (req, res, next) => {
     }
     console.log("THis runs");
     const backgroundResult = await cloudinary.uploader.upload(
-      req.files[0].path
+      req.files[0]?.path
     );
     console.log(backgroundResult.secure_url);
     const post = await Posts.create({

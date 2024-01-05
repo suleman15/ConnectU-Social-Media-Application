@@ -85,8 +85,8 @@ const UpdateUserForm = () => {
         className=" p-3 w-[500px] h-auto  gap-3 flex flex-col rounded-lg relative bg-white"
         encType="multipart/form-data"
       >
-        <div className=" border-b-2 border-[#8080805d] p-3 flex justify-between">
-          <div>UpdateSocial </div>
+        <div className=" border-b-2 border-[#8080805d] p-3 flex justify-between items-center">
+          <div className="text-purple">Update Social </div>
 
           <div
             className="bg-[#80008056] text-purple rounded-full  w-8 h-8 justify-center items-center flex cursor-pointer"

@@ -64,6 +64,7 @@ function CreatePost({ user }) {
             },
           })
           .then(async (result) => {
+            console.log("res");
             toast.success(result?.data?.message);
             let res = await fetchAllPost({ token });
             dispatch(getPosts(res));
