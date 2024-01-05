@@ -35,7 +35,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="bg-bgColor w-screen">
+    <div className="bg-bgColor w-[99%]">
       <TopBar />
       <div className=" grid  grid-cols-profile gap-3 p-3">
         <div>

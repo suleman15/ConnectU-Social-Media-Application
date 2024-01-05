@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* In your styles.css (or any other styles file) */
+
+@layer utilities {
+  .word-wrap-break {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
+
 .topbar {
   position: sticky;
   top: 0px;
@@ -73,23 +82,22 @@
   }
 }
 
-/* @font-face {
-font-family: "Gordita";
-src: local("Gordita"),
- url("../src/Font/Gordita-Font/Gordita-Regular.otf") format("truetype");
+@font-face {
+  font-family: "Gordita";
+  src: local("Gordita"),
+    url("../src/Font/Gordita-Font/Gordita-Regular.otf") format("truetype");
   font-weight: bold;
 }
 @font-face {
-font-family: "Gordita-Bold";
-src: local("Gordita"),
- url("../src/Font/Gordita-Font/Gordita-Black.otf") format("truetype");
+  font-family: "Gordita-Bold";
+  src: local("Gordita"),
+    url("../src/Font/Gordita-Font/Gordita-Black.otf") format("truetype");
   font-weight: bold;
 }
 
-
 :root {
   font-family: "Gordita";
-} */
+}
 
 :root {
   font-family: poppins;

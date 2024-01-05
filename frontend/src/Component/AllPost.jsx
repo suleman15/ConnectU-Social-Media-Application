@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { IoChatboxOutline } from "react-icons/io5";
-
+import dayjs from "dayjs";
 import {
   FaRegShareSquare,
   FaRegTrashAlt,
@@ -28,10 +28,13 @@ const SeeMoreText = ({ text, maxLength }) => {
   const displayText = showFullText ? text : text.slice(0, maxLength);
 
   return (
-    <div>
-      <p>{displayText}</p>
+    <div className="inline text-center " style={{ wordWrap: "break-word" }}>
+      <span className="text-sm text-[gray]">{displayText}</span>
       {text.length > maxLength && (
-        <button onClick={toggleText}>
+        <button
+          onClick={toggleText}
+          className="text-[10px] border-b-2  border-[gray] mx-3"
+        >
           {showFullText ? "See Less" : "See More"}
         </button>
       )}
@@ -212,14 +215,14 @@ function AllPost({ user, userId }) {
                               <div className="font-bold capitalize">
                                 {userId?.firstName} {userId?.lastName}
                               </div>
-                              <div className="text-[gray] text-xs">
+                              <div className="text-[gray] font-light lowercase   text-xs">
                                 {moment(createdAt).fromNow()}
                               </div>
                             </div>
                           </div>
                         </Link>
                       </div>
-                      <div className="px-5 py-3 border-b-2 border-[#c7c7c7]">
+                      <div className="font-sm text-[#616161] px-5 py-3 border-b-2 border-[#c7c7c794]">
                         {comment}
                       </div>
                     </div>

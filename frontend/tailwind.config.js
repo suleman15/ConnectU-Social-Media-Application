@@ -37,8 +37,8 @@ export default {
         tg: `url('/tg.jpg')`,
       },
       gridTemplateColumns: {
-        16: "250px 1fr 250px",
-        profile: "250px 1fr",
+        16: "250px max(calc(100% - 550px)) 250px",
+        profile: "250px max(calc(100% - 275px))",
       },
     },
   },

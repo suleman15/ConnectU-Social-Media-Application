@@ -45,15 +45,16 @@ const UpdateUserForm = () => {
   const updUser = async (data) => {
     try {
       const formData = new FormData();
-
+      console.log(data?.backgroundUrl);
       Object.keys(data).map((key) => {
-        if (key == "profileUrl") {
-          console.log(data[key][0]);
-        }
         key != "profileUrl"
-          ? formData.set(key, getValues(key))
+          ? key != "backgroundUrl"
+            ? formData.set(key, getValues(key))
+            : formData.set(key, getValues(key)[0])
           : formData.set(key, getValues(key)[0]);
       });
+      console.log(formData.get("backgroundUrl"));
+      console.log(formData.get("profileUrl"));
 
       const res = await axios
         .put("http://localhost:8800/users/update-user", formData, {
@@ -114,15 +115,15 @@ const UpdateUserForm = () => {
           }
           alt=""
         />
-        {/* <InputField
+        <InputField
           type="file"
-          placeholder="Profile-Image"
-          label="Profile-Image"
+          placeholder="Background Url"
+          label="Background Url"
           register={register("backgroundUrl", {
             required: "Image Is Required",
           })}
-          error={errors.profileUrl ? errors.profileUrl.message : ""}
-        /> */}
+          error={errors.backgroundUrl ? errors.backgroundUrl.message : ""}
+        />
         <InputField
           type="file"
           placeholder="Profile-Image"
