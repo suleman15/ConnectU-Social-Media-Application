@@ -52,7 +52,6 @@ export const fetchFriendRequest = async ({ token }) => {
 
 export const acceptFriendRequest = async ({ token, rid, status }) => {
   try {
-    console.log("THis runs");
     let userData = await axiosRequest({
       url: "/users/accept-request",
       token: token,
@@ -87,7 +86,6 @@ export const fetchAllPost = async ({ token, search }) => {
       data: { search },
       token,
     }).then((res) => res.data);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -96,7 +94,6 @@ export const fetchAllPost = async ({ token, search }) => {
 
 export const deleteSinglePost = async ({ token, postId, uId }) => {
   try {
-    console.log(token, postId, uId);
     let fetchData = await axiosRequest({
       url: `/post/delete/${postId}`,
       method: "post",
@@ -110,16 +107,12 @@ export const deleteSinglePost = async ({ token, postId, uId }) => {
 };
 export const likePost = async ({ token, postId }) => {
   try {
-    console.log(token, postId);
     let fetchData = await axiosRequest({
       url: `/post/like/${postId}`,
       method: "post",
       token,
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-    // console.log(fetchData);
-    // return fetchData;
+    }).catch((err) => console.log(err));
+    return fetchData;
   } catch (err) {
     console.log(err);
   }
@@ -146,7 +139,6 @@ export const fetchComment = async ({ token, postId }) => {
       method: "post",
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -160,7 +152,6 @@ export const fetchSinglePost = async ({ token, postId }) => {
       method: "post",
       token,
     }).then((res) => res);
-    // console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -174,7 +165,6 @@ export const fetchSentFriendRequest = async ({ token }) => {
       method: "post",
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -189,7 +179,6 @@ export const sendFriendReq = async ({ token, requestTo }) => {
       data: { requestTo },
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
@@ -204,14 +193,11 @@ export const cancelUserReq = async ({ token, requestTo }) => {
       data: { requestTo },
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
   }
 };
-
-
 
 export const updateUserApi = async ({ token, data }) => {
   try {
@@ -221,13 +207,22 @@ export const updateUserApi = async ({ token, data }) => {
       data,
       token,
     }).then((res) => res);
-    console.log(fetchData);
     return fetchData;
   } catch (err) {
     console.log(err);
   }
 };
 
-
-
-
+export const viewProfile = async ({ token, id }) => {
+  try {
+    let fetchData = await axiosRequest({
+      url: `/users/profile-view`,
+      method: "post",
+      data: { id },
+      token,
+    }).then((res) => res);
+    return fetchData;
+  } catch (err) {
+    console.log(err);
+  }
+};

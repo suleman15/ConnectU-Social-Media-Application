@@ -19,14 +19,14 @@ const TopBar = () => {
       <Link to={"/"}>
         <img className="h-8" src="/logo.png" alt="" />
       </Link>
-      <form className="  h-auto flex items-stretch rounded-2xl overflow-hidden border-2 border-Clr hover:border-Clrhv focus-within:border-Clrhv ">
+      <form className="  h-auto flex   rounded-lg text-sm overflow-hidden border-[2px] border-[#4a32c32b] hover:border-Clrhv group hover:bg-[#4a32c32b] focus-within:border-[#5035d8] ">
         <InputField
-          styles={`  w-[300px] border-none h-full rounded-none`}
+          styles={`  w-[250px] border-none h-full bg-[transparent] rounded-none`}
           type={"text"}
           placeholder="Search.."
         />
         <CustomButton
-          styles={`py-0 rounded-none`}
+          styles={`py-[3px]  m-[2px] `}
           type={"submit"}
           title={"Search"}
         />

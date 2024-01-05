@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
@@ -11,8 +10,7 @@ import {
 } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
-import { updateSocial,  userEdited } from "../features/userSlice";
-import UpdateSocial from "./UpdateSocial";
+import { updateSocial, userEdited } from "../features/userSlice";
 const UserProfile = ({ user, userEdit }) => {
   const { user: data, edit, editSocial } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -86,10 +84,10 @@ const UserProfile = ({ user, userEdit }) => {
             <BiEdit
               className="cursor-pointer"
               onClick={() => dispatch(updateSocial())}
-              />{" "}
+            />{" "}
           </div>
           <div className="flex flex-col gap-1 text-blue ">
-            <Link to={} className="flex gap-3  ">
+            <Link to={"/"} className="flex gap-3  ">
               <BiLogoFacebook className="text-lg  " /> Facebook
             </Link>
             <Link className="flex gap-3  ">

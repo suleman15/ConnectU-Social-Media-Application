@@ -18,15 +18,16 @@ const SuggestedFriend = ({ fetchSugFriend, sendFriendRequest, sugFriend }) => {
   }, []);
 
   return (
-    <div className="p-3 bg-white rounded-lg">
-      <div className="font-bold text-sm border-b-2 py-2 border-[#80808056]">
-        SUGGESTED FRIEND
-      </div>
+    <div className="bg-white p-3 my-3 rounded-lg">
+      <div className="font-bold">Suggeted Friend Request</div>
+      {!sugFriend.length > 0 && (
+        <div className="text-xs">Suggested Friend Request doesn't exist</div>
+      )}
       {sugFriend?.map((sugfri, index) => {
         return (
           <div key={index}>
-            <Link to={`/profile/${sugfri?._id}`}>
-              <div className="flex gap-3 items-center text-sm ">
+            <div className="flex gap-3 items-center text-sm ">
+              <Link to={`/profile/${sugfri?._id}`}>
                 <img
                   className=" p-1 rounded-full overflow-hidden w-10 h-10"
                   src={
@@ -35,30 +36,33 @@ const SuggestedFriend = ({ fetchSugFriend, sendFriendRequest, sugFriend }) => {
                   }
                   alt="avatar"
                 />
-                <div>
-                  <div className=" font-bold flex gap-3 capitalize items-center">
-                    {sugfri?.firstName} {sugfri?.lastName}
-                    {sugfri?.verified && (
-                      <MdVerified className="text-[purple] text-xl" />
-                    )}
-                  </div>
-                  <div className="text-[gray]">
-                    {sugfri?.profession ?? "No Profession"}
-                  </div>
+              </Link>
+              <div className="flex flex-col gap-3">
+                <Link
+                  to={`/profile/${sugfri?._id}`}
+                  className=" font-bold flex gap-3 capitalize items-center"
+                >
+                  {sugfri?.firstName} {sugfri?.lastName}
+                  {sugfri?.verified && (
+                    <MdVerified className="text-[purple] text-xl" />
+                  )}
+                </Link>
+                <div className="flex gap-1 justify-end">
+                  <CustomButton
+                    title={"add friend"}
+                    styles={`text-xs rounded-none py-[2px]`}
+                    btnAttribute={{
+                      onClick: () => {
+                        sendFriendRequest({ token, requestTo: sugfri?._id });
+                      },
+                    }}
+                  />
+                  <CustomButton
+                    title={"Cancel"}
+                    styles={`text-xs rounded-none py-[2px] `}
+                  />
                 </div>
               </div>
-            </Link>
-            <div className="flex gap-3 justify-end">
-              <CustomButton
-                title={"add friend"}
-                styles={`text-sm py-[2px]`}
-                btnAttribute={{
-                  onClick: () => {
-                    sendFriendRequest({ token, requestTo: sugfri?._id });
-                  },
-                }}
-              />
-              <CustomButton title={"Cancel"} styles={`text-sm py-[2px] `} />
             </div>
           </div>
         );

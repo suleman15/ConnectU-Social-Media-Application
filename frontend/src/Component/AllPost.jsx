@@ -18,6 +18,27 @@ import { useForm } from "react-hook-form";
 import { BiCommentDots } from "react-icons/bi";
 import Animation from "./Animation";
 
+const SeeMoreText = ({ text, maxLength }) => {
+  const [showFullText, setShowFullText] = useState(false);
+
+  const toggleText = () => {
+    setShowFullText(!showFullText);
+  };
+
+  const displayText = showFullText ? text : text.slice(0, maxLength);
+
+  return (
+    <div>
+      <p>{displayText}</p>
+      {text.length > maxLength && (
+        <button onClick={toggleText}>
+          {showFullText ? "See Less" : "See More"}
+        </button>
+      )}
+    </div>
+  );
+};
+
 function AllPost({ user, userId }) {
   let {
     register,
@@ -35,13 +56,11 @@ function AllPost({ user, userId }) {
 
   const allPost = async ({ token }) => {
     if (!userId) {
-      console.log("notuserProfile");
       let res = await fetchAllPost({ token });
       console.log(res);
       dispatch(getPosts(res));
       return;
     }
-    console.log("THIS IS RUNNING");
     let res = await fetchAllPost({ token, search: userId });
     dispatch(getPosts(res));
   };
@@ -57,13 +76,13 @@ function AllPost({ user, userId }) {
     allPost({ token });
     toast.success(" Successfully");
   };
+
   const mCommentPost = async ({ token, postId, comment }) => {
-    console.log(token, postId, comment);
-    let res = await commentPost({ token, postId, comment });
-    console.log(res);
-    allPost({ token });
-    setValue("comment", "");
-    toast.success(" Successfully");
+    let res = await commentPost({ token, postId, comment }).then((res) => {
+      allPost({ token });
+      setValue("comment", "");
+      toast.success(" Successfully");
+    });
   };
 
   useEffect(() => {
@@ -111,8 +130,12 @@ function AllPost({ user, userId }) {
                 </div>
               )}
             </div>
+            <div className="p-3 whitespace-break-spaces">
+              <SeeMoreText text={post.description} maxLength={10} />
+
+              {/* {post.description} */}
+            </div>
             <Link to={`/post/${post?._id}`}>
-              <div className="p-3 ">{post.description}</div>
               <div className="text-sm flex justify-between  pb-2">
                 <div className="flex items-center gap-3">
                   {post.like.length > 0 && <FaHeart />}

@@ -4,11 +4,12 @@ import { MdVerified } from "react-icons/md";
 
 const FriendCard = ({ friends }) => {
   return (
-    <div className="bg-white rounded-lg p-3">
-      <div className="font-bold py-2 border-b-2 border-[lightgray]">
-        <span>Friends</span>
-      </div>
-      <div className="py-3 flex gap-2 flex-col">
+    <div className="bg-white p-3 my-3 rounded-lg">
+      <div className="font-bold"> Friends</div>
+      {!friends.length > 0 && (
+        <div className="text-xs">Friend doesn't exist</div>
+      )}
+      <div className="py-3 flex gap-2 flex-col ">
         {friends?.map((friend, index) => {
           return (
             <Link key={index} to={`/profile/${friend?._id}`}>

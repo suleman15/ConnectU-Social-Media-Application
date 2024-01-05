@@ -193,14 +193,20 @@ export const getUser = Async(async (req, res, next) => {
     });
   }
 });
-export const updateSocial = Async(async(req, res, next) => {
+export const updateSocial = Async(async (req, res, next) => {
   try {
-
-    const {user: {userId}, ...result} = req.body
-    console.log(result)
-    const user = await Users.findByIdAndUpdate(userId, {social: {...result}}, {
-      new: true,
-    })
+    const {
+      user: { userId },
+      ...result
+    } = req.body;
+    console.log(result);
+    const user = await Users.findByIdAndUpdate(
+      userId,
+      { social: { ...result } },
+      {
+        new: true,
+      }
+    );
 
     await user.populate({ path: "friends", select: "-password" });
     const token = createJWT(userId);
@@ -211,11 +217,11 @@ export const updateSocial = Async(async(req, res, next) => {
       user,
       token,
     });
-  }catch (err) {
+  } catch (err) {
     console.log(err);
     res.status(404).json({ message: err.message });
   }
-})
+});
 export const updateUser = Async(async (req, res, next) => {
   try {
     const { firstName, lastName, location, profession } = req.body;
@@ -393,7 +399,6 @@ export const suggestedFriends = Async(async (req, res, next) => {
       .select("requestTo")
       .lean()
       .then((requests) => requests.map((request) => request.requestTo));
-<<<<<<< HEAD
     const alpha = await FriendRequest.find({
       requestTo: userId,
       requestStatus: "Pending",
@@ -406,13 +411,6 @@ export const suggestedFriends = Async(async (req, res, next) => {
       _id: { $nin: [...suggestFriend, ...alpha], $ne: userId },
       friends: { $nin: userId },
     }).then(async (res) => {
-=======
-    const user = await Users.find({
-      _id: { $nin: suggestFriend, $ne: userId },
-      friends: { $nin: userId },
-    }).then(async (res) => {
-
->>>>>>> deeca89e061d69f8eafa798900e9502ed4e6053f
       return res;
     });
 

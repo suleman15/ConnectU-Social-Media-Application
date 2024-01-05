@@ -85,7 +85,7 @@ const Home = () => {
 
   const cancelFriendRequest = async ({ token, rid }) => {
     try {
-      const friReq = await fetchFriendRequest({ token });
+      const friReq = await fetchFriendRequest({ token, rid });
       console.log(friReq);
       setFriendRequest(friReq?.data);
     } catch (error) {
@@ -126,7 +126,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <div className=" flex max-w-[1680px] mx-auto    bg-bgColor justify-center px-2 ">
+      <div className=" flex    bg-bgColor justify-center px-2 ">
         <div className="w-full">
           <TopBar />
           {/* Left */}
@@ -150,25 +150,30 @@ const Home = () => {
                 fetchUser={fetchUser}
               />
               {/* SENT USER FRIEND REQUEST FRINEd */}
-              <div className="p-3 bg-white my-3 rounded-lg">
-                <div className="text-sm font-bold py-2 border-b-2 border-[gray]">
-                  Sent Friend Request
-                </div>
+              <div className="bg-white p-3 my-3 rounded-lg">
+                <div className="font-bold">Sent Friend Request</div>
+                {!userSentRequest.length > 0 && (
+                  <div className="text-xs">
+                    Suggested Friend Request doesn't exist
+                  </div>
+                )}
                 <div>
                   {userSentRequest?.map((item, index) => {
                     return (
                       <div key={index}>
-                        <Link to={`/profile/${item?.requestTo?._id}`}>
-                          <div className="flex gap-3 items-center text-sm ">
+                        <div className="flex gap-3 ">
+                          <Link to={`/profile/${item?.requestTo?._id}`}>
                             <img
-                              className=" p-1 rounded-full overflow-hidden w-10 h-10"
+                              className="p-1 rounded-full overflow-hidden  w-10 h-10"
                               src={
                                 item?.requestTo?.profileUrl ??
                                 `https://api.dicebear.com/7.x/initials/svg?seed=${`${item?.requestTo?.firstName} ${item?.requestTo?.lastName}`}`
                               }
                               alt="avatar"
                             />
-                            <div>
+                          </Link>
+                          <div className="flex flex-col  ">
+                            <Link to={`/profile/${item?.requestTo?._id}`}>
                               <div className=" font-bold flex gap-3 capitalize items-center">
                                 {item?.requestTo?.firstName}{" "}
                                 {item?.requestTo?.lastName}
@@ -176,23 +181,22 @@ const Home = () => {
                                   <MdVerified className="text-[purple] text-xl" />
                                 )}
                               </div>
-                              <div className="text-[gray]">
-                                {item?.requestTo?.profession ?? "No Profession"}
-                              </div>
+                            </Link>
+                            <div className=" ">
+                              <CustomButton
+                                title={"cancel"}
+                                styles={`text-xs rounded-none py-[2px] `}
+                                btnAttribute={{
+                                  onClick: () =>
+                                    cancelRequest({
+                                      token,
+                                      requestTo: item?.requestTo?._id,
+                                    }),
+                                }}
+                              />
                             </div>
                           </div>
-                        </Link>
-                        <CustomButton
-                          title={"cancel"}
-                          styles={`text-sm py-[2px]`}
-                          btnAttribute={{
-                            onClick: () =>
-                              cancelRequest({
-                                token,
-                                requestTo: item?.requestTo?._id,
-                              }),
-                          }}
-                        />
+                        </div>
                       </div>
                     );
                   })}

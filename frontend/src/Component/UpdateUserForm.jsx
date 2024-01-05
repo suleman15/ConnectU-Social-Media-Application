@@ -92,7 +92,7 @@ const UpdateUserForm = () => {
   };
 
   return (
-    <div className="fixed w-full   h-screen  top-0 p-5 items-start overflow-scroll  flex justify-center  bg-[#00000080] z-50">
+    <div className="fixed w-full overflow-auto   h-screen  top-0 p-5 items-start   flex justify-center  bg-[#00000080] z-50">
       <form
         onSubmit={handleSubmit(updUser)}
         className=" p-3 w-[500px] h-auto  gap-3 flex flex-col rounded-lg relative bg-white"

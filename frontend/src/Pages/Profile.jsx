@@ -3,7 +3,7 @@ import TopBar from "../Component/TopBar";
 import UserProfile from "../Component/UserProfile";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchMainUser } from "../api";
+import { fetchMainUser, viewProfile } from "../api";
 import { AllPost, CustomButton } from "../Component";
 import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -17,6 +17,12 @@ export default function Profile() {
 
   const { userId } = useParams();
 
+  const profileView = async ({ token, id }) => {
+    console.log(token, id);
+    let res = await viewProfile({ token, id });
+    getUser({ token, id });
+  };
+
   const getUser = async ({ token, id }) => {
     console.log(token, id);
     let res = await fetchMainUser({ token, id });
@@ -25,6 +31,7 @@ export default function Profile() {
   };
   useEffect(() => {
     getUser({ token, id: userId });
+    profileView({ token, id: userId });
   }, []);
 
   return (
@@ -37,7 +44,7 @@ export default function Profile() {
         <div>
           <div>
             <div>
-              <Link to={`/profile/${user?._id }`}>
+              <Link to={`/profile/${user?._id}`}>
                 <div className="flex   flex-col items-center text-sm ">
                   <div
                     className=" w-full bg-[url(https://shorturl.at/rxDV3)] bg-cover bg-[red] h-[250px] rounded-lg relative mb-[130px]"
@@ -69,7 +76,9 @@ export default function Profile() {
                       </div>
                     </div>
                     <div>
-                      {!mainuser?._id == userId && <CustomButton title={"Add friend"} /> }
+                      {!mainuser?._id == userId && (
+                        <CustomButton title={"Add friend"} />
+                      )}
                     </div>
                   </div>
                 </div>
