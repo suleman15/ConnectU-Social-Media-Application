@@ -45,7 +45,7 @@ export const Login = Async(async (req, res, next) => {
       select: "firstName lastName location profileUrl -password",
     });
     if (!user) {
-      next("Email  Doesn,t exist");
+      next("User  Doesn,t exist");
       return;
     }
     if (!user?.verified) {

@@ -8,13 +8,11 @@ import { login, updateUser } from "../features/userSlice";
 
 const FriendRequest = ({
   fetchUser,
-  data: {
-    friendRequest,
-    setFriendRequest,
-    fetchRequest,
-    acceptRequest,
-    cancelFriendRequest,
-  },
+  friendRequest,
+  setFriendRequest,
+  fetchRequest,
+  acceptRequest,
+  cancelFriendRequest,
 }) => {
   const { token } = useSelector((state) => state.user.user);
   const dispatch = useDispatch();

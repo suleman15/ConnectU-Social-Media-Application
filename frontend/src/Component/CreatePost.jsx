@@ -92,7 +92,7 @@ function CreatePost({ user }) {
       <div className="rounded-lg justify-center  flex gap-2 items-center">
         <div className="w-10 h-10 rounded-full overflow-hidden">
           <img
-            className="rounded-full"
+            className="rounded-full w-10 h-10"
             src={
               user?.profileUrl ??
               `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`

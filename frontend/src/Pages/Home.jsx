@@ -141,12 +141,10 @@ const Home = () => {
             </div>
             <div>
               <FriendRequest
-                data={{
-                  friendRequest,
-                  setFriendRequest,
-                  fetchRequest,
-                  acceptRequest,
-                }}
+                friendRequest={friendRequest}
+                setFriendRequest={setFriendRequest}
+                fetchRequest={fetchRequest}
+                acceptRequest={acceptRequest}
                 fetchUser={fetchUser}
               />
               {/* SENT USER FRIEND REQUEST FRINEd */}
