@@ -11,9 +11,10 @@ import {
 } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import moment from "moment";
-import { userEdited } from "../features/userSlice";
+import { updateSocial,  userEdited } from "../features/userSlice";
+import UpdateSocial from "./UpdateSocial";
 const UserProfile = ({ user, userEdit }) => {
-  const { user: data, edit } = useSelector((state) => state.user);
+  const { user: data, edit, editSocial } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   return (
@@ -84,19 +85,19 @@ const UserProfile = ({ user, userEdit }) => {
             Social Profile{" "}
             <BiEdit
               className="cursor-pointer"
-              onClick={() => dispatch(userEdited())}
-            />{" "}
+              onClick={() => dispatch(updateSocial())}
+              />{" "}
           </div>
           <div className="flex flex-col gap-1 text-blue ">
-            <div className="flex gap-3  ">
+            <Link to={} className="flex gap-3  ">
               <BiLogoFacebook className="text-lg  " /> Facebook
-            </div>
-            <div className="flex gap-3  ">
+            </Link>
+            <Link className="flex gap-3  ">
               <BiLogoInstagram className="text-lg " /> Instagram
-            </div>
-            <div className="flex gap-3  ">
+            </Link>
+            <Link className="flex gap-3  ">
               <BiLogoTwitter className="text-lg " /> Twitter
-            </div>
+            </Link>
           </div>
         </div>
       </div>

@@ -126,7 +126,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <div className=" flex    bg-bgColor justify-center px-2 ">
+      <div className=" flex max-w-[1680px] mx-auto    bg-bgColor justify-center px-2 ">
         <div className="w-full">
           <TopBar />
           {/* Left */}

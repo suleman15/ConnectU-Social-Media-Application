@@ -14,6 +14,7 @@ import {
   viewProfile,
   sentFriendRequest,
   cancelUserSentRequest,
+  updateSocial,
 } from "../controllers/userController.js";
 import { userAuth } from "../middleware/authMiddleware.js";
 import scriptMiddleware from "../middleware/scriptMiddleware.js";
@@ -31,6 +32,7 @@ router.post("/password-reset", changePassword); // @{Working Fine} change the us
 //user routes
 router.post("/get-user/:id?", userAuth, getUser); // get the user data from db
 router.put("/update-user", upload.single("profileUrl"), userAuth, updateUser); //update the user info
+router.put("/update-social" , userAuth, updateSocial); //update the user info
 // router.put("/update-user", userAuth, upload.single("profileUrl"), updateUser);
 
 //friendrequest route

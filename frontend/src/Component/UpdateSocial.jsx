@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
 import { axiosInstance, axiosRequest } from "../api";
-import { login, userEdited } from "../features/userSlice";
+import { login, updateSocial, userEdited } from "../features/userSlice";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-toastify";
 
@@ -25,57 +25,45 @@ const UpdateUserForm = () => {
     getValues,
   } = useForm({
     mode: "onChange",
-    defaultValues: {
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      profession: user?.profession,
-      location: user?.location,
-    },
+  
   });
 
-  const selectedImage = useWatch({
-    control,
-    name: "profileUrl", // replace with your file input name
-  });
 
-  const imagePreview = selectedImage
-    ? URL.createObjectURL(selectedImage[0])
-    : null;
-
-  const updUser = async (data) => {
+  const updateSocialMediaURL = async (data) => {
     try {
-      const formData = new FormData();
-
-      Object.keys(data).map((key) => {
-        if (key == "profileUrl") {
-          console.log(data[key][0]);
-        }
-        key != "profileUrl"
-          ? formData.set(key, getValues(key))
-          : formData.set(key, getValues(key)[0]);
-      });
-
+      const result = {};
+  for (const key in data) {
+    if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+      result[key] = data[key];
+    }
+  }
+  console.log(result)
       const res = await axios
-        .put("http://localhost:8800/users/update-user", formData, {
+        .put("http://localhost:8800/users/update-social", result, {
           headers: {
             Authorization: token ? `Bearer ${token}` : "",
-          },
-          onUploadProgress: (progressEvent) => {
-            console.log(progressEvent);
-            // const totalLength = progressEvent.lengthComputable
-            //   ? progressEvent.total
-            //   : progressEvent.target.getResponseHeader("content-length") ||
-            //     progressEvent.target.getResponseHeader(
-            //       "x-decompressed-content-length"
-            //     );
-            // if (totalLength) {
-            //   const progressPercent = Math.round(
-            //     (progressEvent.loaded * 100) / totalLength
-            //   );
-            //   console.log(progressPercent);
-            // }
-          },
-        })
+          }})
+      // const res = await axios
+      //   .put("http://localhost:8800/users/update-user", data, {
+      //     headers: {
+      //       Authorization: token ? `Bearer ${token}` : "",
+      //     },
+      //     onUploadProgress: (progressEvent) => {
+      //       console.log(progressEvent);
+      //       // const totalLength = progressEvent.lengthComputable
+      //       //   ? progressEvent.total
+      //       //   : progressEvent.target.getResponseHeader("content-length") ||
+      //       //     progressEvent.target.getResponseHeader(
+      //       //       "x-decompressed-content-length"
+      //       //     );
+      //       // if (totalLength) {
+      //       //   const progressPercent = Math.round(
+      //       //     (progressEvent.loaded * 100) / totalLength
+      //       //   );
+      //       //   console.log(progressPercent);
+      //       // }
+      //     },
+      //   })
         .then((res) => {
           const data = { token: res.data?.token, ...res.data?.user };
           console.log(data);
@@ -85,90 +73,41 @@ const UpdateUserForm = () => {
         });
       console.log(res);
 
-      dispatch(userEdited());
+      dispatch(updateSocial());
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="fixed w-full h-screen   top-0 p-5   flex justify-center  bg-[#000000a9] z-10">
+    <div className="fixed w-full   h-screen  top-0 p-5 items-start overflow-scroll  flex justify-center  bg-[#00000080] z-50">
       <form
-        onSubmit={handleSubmit(updUser)}
-        className="overflow-scroll p-3 w-[500px] gap-3 flex flex-col rounded-lg relative bg-white"
+        onSubmit={handleSubmit(updateSocialMediaURL)}
+        className=" p-3 w-[500px] h-auto  gap-3 flex flex-col rounded-lg relative bg-white"
         encType="multipart/form-data"
       >
-        {/* {imagePreview && <img src={imagePreview} alt="Selected" />} */}
-        <div
-          onClick={() => dispatch(userEdited())}
-          className="bg-[#80008056] text-purple rounded-full  absolute right-3 p-2 top-3"
-        >
-          <RxCross2 />
-        </div>
-        <img
-          className="w-[150px] h-[150px] bg-contain  rounded-full mx-auto"
-          src={
-            imagePreview ??
-            user?.profileUrl ??
-            `https://api.dicebear.com/7.x/initials/svg?seed=${`${user?.firstName} ${user?.lastName}`}`
-          }
-          alt=""
-        />
+ 
+      
         <InputField
-          type="file"
-          placeholder="Profile-Image"
-          label="Profile-Image"
-          register={register("backgroundUrl", {
-            required: "Image Is Required",
-          })}
-          error={errors.profileUrl ? errors.profileUrl.message : ""}
-        />
-        <InputField
-          type="file"
-          placeholder="Profile-Image"
-          label="Profile-Image"
-          register={register("profileUrl", {
-            required: "Image Is Required",
-          })}
-          error={errors.profileUrl ? errors.profileUrl.message : ""}
+          type="text"
+          placeholder="Facebook Link"
+          label="Facebook Link"
+          register={register("facebook")}
         />
         <InputField
           type="text"
-          placeholder="First Name"
-          label="First Name"
-          register={register("firstName", {
-            required: "First Name is required.",
-          })}
-          error={errors.firstName ? errors.firstName.message : ""}
-        />
-        <InputField
-          type="text"
-          placeholder="Last Name"
-          label="Last Name"
-          register={register("lastName", {
-            required: "Last Name is required.",
-          })}
-          error={errors.lastName ? errors.lastName.message : ""}
+          placeholder="Instagram Link"
+          label="Instagram Link"
+          register={register("instagram")}
         />
 
         <InputField
           type="text"
-          placeholder="Add Location"
-          label="Add Location"
-          register={register("location", {
-            required: "Location is required.",
-          })}
-          error={errors.location ? errors.location.message : ""}
+          placeholder="Github Link"
+          label="Github Link"
+          register={register("github")}
         />
-        <InputField
-          type="text"
-          placeholder="Add Profession"
-          label="Add Profession"
-          register={register("profession", {
-            required: "Profession Is required.",
-          })}
-          error={errors.profession ? errors.profession.message : ""}
-        />
+       
 
         {errMsg && <div className="text-[red] text-sm">{errMsg.message}</div>}
         <CustomButton type={"submit"} title={"submit"} />

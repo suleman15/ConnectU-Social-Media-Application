@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateUserForm from "./Component/UpdateUserForm";
 import { Post } from "./Pages";
+import UpdateSocial from "./Component/UpdateSocial";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -38,11 +39,12 @@ function IfLogin() {
 }
 function App() {
   const { theme } = useSelector((state) => state.theme);
-  const { edit } = useSelector((state) => state.user);
+  const { edit, editSocial } = useSelector((state) => state.user);
   return (
-    <div data-theme={theme} className="w-full h-screen">
+    <div data-theme={theme} className="w-full min-h-screen  bg-bgColor">
       <ToastContainer />
       {edit && <UpdateUserForm />}
+      {editSocial && <UpdateSocial />}
       <Routes>
         {/* This is called Protected Route */}
         <Route element={<Layout />}>

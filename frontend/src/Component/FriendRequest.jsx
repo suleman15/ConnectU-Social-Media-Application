@@ -18,6 +18,33 @@ const FriendRequest = ({
 }) => {
   const { token } = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+<<<<<<< HEAD
+=======
+  const fetchRequest = async ({ token }) => {
+    try {
+      const friReq = await fetchFriendRequest({ token });
+      console.log(friReq);
+      setFriendRequest(friReq?.data);
+    } catch (error) {
+      console.log("FriendRequest Error");
+    }
+  };
+
+  const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
+    console.log("Accept Friend Request");
+    try {
+      const friReq = await acceptFriendRequest({ token, rid, status }).then(
+        (res) => {
+          fetchRequest({token})
+          dispatch(updateUser(fetchUser({ token })));
+        }
+      );
+      console.log(friendRequest);
+    } catch (error) {
+      console.log("FriendRequest Error");
+    }
+  };
+>>>>>>> deeca89e061d69f8eafa798900e9502ed4e6053f
 
   useEffect(() => {
     fetchRequest({ token });
