@@ -145,7 +145,6 @@ export const resetPassword = Async(async (req, res) => {
 
 export const changePassword = Async(async (req, res) => {
   try {
-    console.log(userId, password)
     const { userId, password } = req.body;
     const hashedPassword = await hashString(password);
     const user = await Users.findByIdAndUpdate(
@@ -154,8 +153,9 @@ export const changePassword = Async(async (req, res) => {
     );
     if (user) {
       await PasswordReset.findOneAndDelete({ userId });
-      const message = "Password Successfully Reset";
-      res.redirect(`/user/resetpassword?status=success&message=${message}`);
+      res.json({success: true})
+      // const message = "Password Successfully Reset";
+      // res.redirect(`/user/resetpassword?status=success&message=${message}`);
       return;
     }
     res.json({
