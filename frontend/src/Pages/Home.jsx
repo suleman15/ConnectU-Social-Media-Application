@@ -15,13 +15,15 @@ import { MdVerified } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
+  acceptFriendRequest,
   cancelUserReq,
+  fetchFriendRequest,
   fetchMainUser,
   fetchSentFriendRequest,
   fetchSuggestedFriend,
   sendFriendReq,
 } from "../api";
-import { updateUser } from "../features/userSlice";
+import { login, updateUser } from "../features/userSlice";
 
 const Home = () => {
   let {
@@ -30,6 +32,7 @@ const Home = () => {
   } = useSelector((state) => state.user);
   const [userSentRequest, setUserSentRequest] = useState([]);
   const [sugFriend, setSugFriend] = useState([]);
+  const [friendRequest, setFriendRequest] = useState([]);
 
   let dispatch = useDispatch();
 
@@ -57,6 +60,7 @@ const Home = () => {
 
   const fetchUser = async ({ token }) => {
     try {
+      console.log("FETCH USER FN RUNs");
       let response = await fetchMainUser({ token });
       console.log(response);
       dispatch(updateUser(response.user));
@@ -72,8 +76,6 @@ const Home = () => {
   };
   const cancelRequest = async ({ token, requestTo }) => {
     const res = await cancelUserReq({ token, requestTo }).then((res) => {
-      console.log(res);
-
       setUserSentRequest(res?.data);
       fetchSugFriend({ token });
       fetchUserSentRequest({ token });
@@ -81,6 +83,42 @@ const Home = () => {
     });
   };
 
+  const cancelFriendRequest = async ({ token, rid }) => {
+    try {
+      const friReq = await fetchFriendRequest({ token });
+      console.log(friReq);
+      setFriendRequest(friReq?.data);
+    } catch (error) {
+      console.log("FriendRequest Error FETCHREQUEST");
+    }
+  };
+
+  const fetchRequest = async ({ token }) => {
+    try {
+      const friReq = await fetchFriendRequest({ token });
+      console.log(friReq);
+      setFriendRequest(friReq?.data);
+    } catch (error) {
+      console.log("FriendRequest Error FETCHREQUEST");
+    }
+  };
+
+  const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
+    console.log("Accept Friend Request");
+    try {
+      const friReq = await acceptFriendRequest({ token, rid, status }).then(
+        async (res) => {
+          // const { rufToken, ...data } = res?.data;
+          // const data = { token: res.data?.token, ...res.data?.user };
+          await fetchUser({ token }).then((response) =>
+            fetchRequest({ token })
+          );
+        }
+      );
+    } catch (error) {
+      console.log("FriendRequest Error ACCEPTREQUEST");
+    }
+  };
   useEffect(() => {
     fetchUser(user);
     fetchUserSentRequest({ token });
@@ -102,7 +140,15 @@ const Home = () => {
               <AllPost user={user} />
             </div>
             <div>
-              <FriendRequest fetchUser={fetchUser} />
+              <FriendRequest
+                data={{
+                  friendRequest,
+                  setFriendRequest,
+                  fetchRequest,
+                  acceptRequest,
+                }}
+                fetchUser={fetchUser}
+              />
               {/* SENT USER FRIEND REQUEST FRINEd */}
               <div className="p-3 bg-white my-3 rounded-lg">
                 <div className="text-sm font-bold py-2 border-b-2 border-[gray]">

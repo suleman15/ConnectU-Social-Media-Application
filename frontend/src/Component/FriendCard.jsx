@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { NoProfile } from "../assets";
+import { MdVerified } from "react-icons/md";
 
 const FriendCard = ({ friends }) => {
   return (
@@ -14,12 +15,18 @@ const FriendCard = ({ friends }) => {
               <div className="flex gap-3 items-center text-xs ">
                 <img
                   className=" p-1 rounded-full overflow-hidden w-10"
-                  src={friend?.profileUrl ?? `https://api.dicebear.com/7.x/initials/svg?seed=${`${friend?.firstName} ${friend?.lastName}`}`}
+                  src={
+                    friend?.profileUrl ??
+                    `https://api.dicebear.com/7.x/initials/svg?seed=${`${friend?.firstName} ${friend?.lastName}`}`
+                  }
                   alt={friend?.email}
                 />
                 <div>
-                  <div className=" font-bold">
+                  <div className=" font-bold flex gap-3 capitalize items-center">
                     {friend?.firstName} {friend?.lastName}
+                    {friend?.verified && (
+                      <MdVerified className="text-[purple] text-xl" />
+                    )}
                   </div>
                   <div className="text-[gray]">
                     {friend?.profession ?? "No Profession"}

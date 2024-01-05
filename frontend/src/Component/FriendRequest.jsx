@@ -6,33 +6,18 @@ import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton";
 import { login, updateUser } from "../features/userSlice";
 
-const FriendRequest = ({ fetchUser }) => {
-  const [friendRequest, setFriendRequest] = useState([]);
+const FriendRequest = ({
+  fetchUser,
+  data: {
+    friendRequest,
+    setFriendRequest,
+    fetchRequest,
+    acceptRequest,
+    cancelFriendRequest,
+  },
+}) => {
   const { token } = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  const fetchRequest = async ({ token }) => {
-    try {
-      const friReq = await fetchFriendRequest({ token });
-      console.log(friReq);
-      setFriendRequest(friReq?.data);
-    } catch (error) {
-      console.log("FriendRequest Error");
-    }
-  };
-
-  const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
-    console.log("Accept Friend Request");
-    try {
-      const friReq = await acceptFriendRequest({ token, rid, status }).then(
-        (res) => {
-          dispatch(updateUser(fetchUser({ token })));
-        }
-      );
-      console.log(friendRequest);
-    } catch (error) {
-      console.log("FriendRequest Error");
-    }
-  };
 
   useEffect(() => {
     fetchRequest({ token });
@@ -60,11 +45,13 @@ const FriendRequest = ({ fetchUser }) => {
                     alt="avatar"
                   />
                 </Link>
-                <div>
-                  <div className=" font-bold">
+                <div className="flex flex-col gap-2">
+                  <div className=" font-bold flex gap-3 capitalize items-center">
                     {singleFriend?.requestFrom?.firstName}{" "}
                     {singleFriend?.requestFrom?.lastName}
-                    {singleFriend?.requestFrom?.verified && <MdVerified />}
+                    {singleFriend?.requestFrom?.verified && (
+                      <MdVerified className="text-[purple] text-xl" />
+                    )}
                   </div>
 
                   <div className="flex gap-3 justify-end">
@@ -80,6 +67,11 @@ const FriendRequest = ({ fetchUser }) => {
                       title={"Delete"}
                       styles={`py-[5px] bg-[#333] text-xs`}
                     />
+                    btnAttribute=
+                    {{
+                      onClick: () =>
+                        cancelFriendRequest({ token, rid: singleFriend?._id }),
+                    }}
                   </div>
                 </div>
               </div>
