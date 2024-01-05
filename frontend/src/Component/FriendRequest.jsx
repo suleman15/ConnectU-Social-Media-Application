@@ -8,11 +8,13 @@ import { login, updateUser } from "../features/userSlice";
 
 const FriendRequest = ({
   fetchUser,
-  friendRequest,
-  setFriendRequest,
-  fetchRequest,
-  acceptRequest,
-  cancelFriendRequest,
+  data: {
+    friendRequest,
+    setFriendRequest,
+    fetchRequest,
+    acceptRequest,
+    cancelFriendRequest,
+  },
 }) => {
   const { token } = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
@@ -63,12 +65,14 @@ const FriendRequest = ({
                     <CustomButton
                       title={"Delete"}
                       styles={`py-[5px] bg-[#333] text-xs`}
+                      btnAttribute={{
+                        onClick: () =>
+                          cancelFriendRequest({
+                            token,
+                            rid: singleFriend?._id,
+                          }),
+                      }}
                     />
-                    btnAttribute=
-                    {{
-                      onClick: () =>
-                        cancelFriendRequest({ token, rid: singleFriend?._id }),
-                    }}
                   </div>
                 </div>
               </div>
