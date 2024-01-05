@@ -12,7 +12,7 @@ export const register = Async(async (req, res, next) => {
     return;
   }
   try {
-    const userExist = await Users.findOne({ email });
+    const userExist = await Users.findOne({ email: email?.toLowerCase() });
     if (userExist) {
       next("Email Address already exists");
       return;
