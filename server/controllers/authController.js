@@ -48,12 +48,12 @@ export const Login = Async(async (req, res, next) => {
       next("Email  Doesn,t exist");
       return;
     }
-    // if (!user?.verified) {
-    //   next(
-    //     "User email is not verified. Check your email account and verify your email"
-    //   );
-    //   return;
-    // }
+    if (!user?.verified) {
+      next(
+        "User email is not verified. Check your email account and verify your email"
+      );
+      return;
+    }
     const isMatch = await compareString(password, user?.password);
     if (!isMatch) {
       next("Invalid Password");

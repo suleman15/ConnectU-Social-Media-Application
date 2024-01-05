@@ -88,8 +88,8 @@ function CreatePost({ user }) {
   };
 
   return (
-    <div className="bg-white rounded-lg ">
-      <div className="p-3 rounded-lg justify-center  flex gap-2 items-center">
+    <div className="bg-white rounded-lg p-3 ">
+      <div className="rounded-lg justify-center  flex gap-2 items-center">
         <img className="w-10 h-10 " src={user?.profileUrl} alt="avatar" />
         <form
           className="flex gap-3 items-center justify-center  w-full
@@ -110,7 +110,7 @@ function CreatePost({ user }) {
             register={register("image")}
             label={<BiImageAdd />}
             labelStyle={
-              " w-10 h-10 cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
+              " w-10 h-10 text-[1.5rem] cursor-pointer flex justify-center items-center text-[1.6rem]  rounded-full"
             }
             type={"file"}
             styles={"bg-[red] w-min hidden"}
@@ -140,7 +140,7 @@ function CreatePost({ user }) {
         </div>
       </div>
       {imagePreview && (
-        <div className="w-full max-h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+        <div className="w-full max-h-[400px] overflow-hidden rounded-lg my-5">
           <img src={imagePreview} className="w-full" alt={"postImage"} />
         </div>
       )}

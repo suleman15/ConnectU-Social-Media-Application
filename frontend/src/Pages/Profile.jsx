@@ -66,7 +66,6 @@ export default function Profile() {
 
                   <div className="px-[50px] w-full flex justify-between items-center">
                     <div>
-                      {JSON.stringify(user?.backgroundUrl)}
                       <div className=" font-bold flex gap-3 capitalize items-center">
                         {user?.firstName} {user?.lastName}
                         {user?.verified && (

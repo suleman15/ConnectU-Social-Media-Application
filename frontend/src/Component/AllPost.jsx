@@ -140,7 +140,7 @@ function AllPost({ user, userId }) {
                 {/* {post.description} */}
               </div>
               {post?.image && (
-                <div className="w-full max-h-[400px] overflow-hidden p-4 mb-10 rounded-lg">
+                <div className="w-full max-h-[400px] overflow-hidden p-4 mb-10 rounded-3xl">
                   <img src={post?.image} className="w-full" alt={"postImage"} />
                 </div>
               )}
