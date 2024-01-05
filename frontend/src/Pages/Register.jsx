@@ -70,7 +70,7 @@ export default function Register() {
           </div>
         </div>
         {/* RIGHT */}
-        <div className=" order-2 lg:order-1 lg:w-1/2  p-5 flex gap-3 flex-col">
+        <div className="order-2 lg:order-1 lg:w-1/2  p-5 flex gap-3 flex-col">
           <Link to={"/"}>
             {" "}
             <img className="h-8" src="/logo.png" />{" "}
@@ -80,9 +80,10 @@ export default function Register() {
             onSubmit={handleSubmit(onSubmit)}
             className="flex gap-3 flex-col"
           >
-            <div className="flex  gap-2 flex-col md:flex-row">
+            <div className="flex  gap-2 flex-col   md:flex-row">
               <InputField
                 type="text"
+                styles={"w-full"}
                 placeholder="First Name"
                 label="First Name: "
                 register={register("firstName", {
@@ -92,6 +93,7 @@ export default function Register() {
               />
               <InputField
                 type="text"
+                styles={"w-full"}
                 placeholder="Last Name"
                 label="Last Name: "
                 register={register("lastName", {
@@ -102,6 +104,7 @@ export default function Register() {
             </div>
             <InputField
               type="email"
+              styles={"w-full"}
               placeholder="email@example.com"
               label="Email: "
               register={register("email", {
@@ -113,6 +116,7 @@ export default function Register() {
               <InputField
                 type="password"
                 placeholder="Password"
+                styles={"w-full"}
                 label="Password: "
                 register={register("password", {
                   required: "Password  is required",
@@ -122,6 +126,7 @@ export default function Register() {
               <InputField
                 type="password"
                 placeholder="Confirm Password"
+                styles={"w-full"}
                 label="Password: "
                 register={register("cPassword", {
                   validate: (value) => {
@@ -151,7 +156,7 @@ export default function Register() {
           <div className="text-xs  flex items-center justify-center">
             Already have an account?
             <Link className="text-Clr mx-2 hover:text-Clrhv" to={"/login"}>
-              Loginw
+              Login
             </Link>
           </div>
           <div className="text-[gray] text-sm text-center">
