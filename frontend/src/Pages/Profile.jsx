@@ -66,6 +66,7 @@ export default function Profile() {
 
                   <div className="px-[50px] w-full flex justify-between items-center">
                     <div>
+                      git push{" "}
                       <div className=" font-bold flex gap-3 capitalize items-center">
                         {user?.firstName} {user?.lastName}
                         {user?.verified && (
