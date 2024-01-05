@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <meta
     http-equiv="Content-Security-Policy"
@@ -8,51 +7,17 @@
     <title>Verification</title>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
-      body {
-        font-family: Poppins;
-        margin: 0px;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(128, 128, 128, 0.247);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .card {
-        background-color: white;
-        padding: 20px 50px;
-        border-radius: 10px;
-      }
-      .card.success {
-        color: green;
-      }
-      #statusIcon {
-        font-size: xx-large;
-        text-align: center;
-      }
-      #statusMessage {
-        text-align: center;
-      }
-      a {
-        text-decoration: none;
-        text-align: center;
-        display: block;
-        background-color: green;
-        color: white;
-        text-transform: uppercase;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 20px 0px;
-      }
-      .hideBtn {
-        display: none;
-      }
-      .showBtn {
-        display: block;
-      }
+      @import
+      url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+      body { font-family: Poppins; margin: 0px; width: 100%; height: 100vh;
+      background-color: rgba(128, 128, 128, 0.247); display: flex;
+      justify-content: center; align-items: center; } .card { background-color:
+      white; padding: 20px 50px; border-radius: 10px; } .card.success { color:
+      green; } #statusIcon { font-size: xx-large; text-align: center; }
+      #statusMessage { text-align: center; } a { text-decoration: none;
+      text-align: center; display: block; background-color: green; color: white;
+      text-transform: uppercase; padding: 10px; border-radius: 5px; margin: 20px
+      0px; } .hideBtn { display: none; } .showBtn { display: block; }
     </style>
   </head>
   <body>
@@ -62,49 +27,30 @@
           <div id="statusIcon"></div>
         </div>
         <div id="statusMessage"></div>
-        <a href="http://localhost:8800/login" id="Btn">Login</a>
+        <a href="http://localhost:5173/login" id="Btn">Login</a>
       </div>
     </div>
 
     <script type="module">
-      // Get the params
-      const urlParams = new URLSearchParams(window.location.search);
-      const message = urlParams.get("message");
-      const status = urlParams.get("status");
-      const type = urlParams.get('type')
-      const id = urlParams.get("id")
-      //alpha
-      const card = document.querySelector(".card");
-      const statusIcon = document.querySelector("#statusIcon");
-      const statusMessage = document.querySelector("#statusMessage");
-      const btn = document.querySelector("#Btn ");
-      console.log(status);
-      if(type == 'reset' && id) {
-        card.innerHTML = "I am reset"
-      }
-      if (status == "success") {
-        statusIcon.innerHTML = "✔️✔️✔️";
-        statusMessage.textContent = message;
-        card.classList.add("success");
-        statusIcon.classList.add("success");
-        statusMessage.classList.add("success");
-        btn.classList.add("showBtn");
-      } else if (status == "error") {
-        statusIcon.innerHTML = "❌❌❌";
-        statusMessage.textContent = message;
-        card.classList.add("error");
-        statusIcon.classList.add("error");
-        statusMessage.classList.add("error");
-        btn.classList.add("hideBtn");
-      } else {
-        statusIcon.innerHTML = "❓❓❓";
-        statusMessage.textContent = "Not Found";
-
-        card.classList.add("notFound");
-        statusIcon.classList.add("error");
-        statusMessage.classList.add("error");
-        btn.classList.add("showBtn");
-      }
+      // Get the params const urlParams = new
+      URLSearchParams(window.location.search); const message =
+      urlParams.get("message"); const status = urlParams.get("status"); const
+      type = urlParams.get('type') const id = urlParams.get("id") //alpha const
+      card = document.querySelector(".card"); const statusIcon =
+      document.querySelector("#statusIcon"); const statusMessage =
+      document.querySelector("#statusMessage"); const btn =
+      document.querySelector("#Btn "); console.log(status); if(type == 'reset'
+      && id) { card.innerHTML = "I am reset" } if (status == "success") {
+      statusIcon.innerHTML = "✅"; statusMessage.textContent = message;
+      card.classList.add("success"); statusIcon.classList.add("success");
+      statusMessage.classList.add("success"); btn.classList.add("showBtn"); }
+      else if (status == "error") { statusIcon.innerHTML = "❌❌❌";
+      statusMessage.textContent = message; card.classList.add("error");
+      statusIcon.classList.add("error"); statusMessage.classList.add("error");
+      btn.classList.add("hideBtn"); } else { statusIcon.innerHTML = "❓❓❓";
+      statusMessage.textContent = "Not Found"; card.classList.add("notFound");
+      statusIcon.classList.add("error"); statusMessage.classList.add("error");
+      btn.classList.add("showBtn"); }
     </script>
   </body>
 </html>
