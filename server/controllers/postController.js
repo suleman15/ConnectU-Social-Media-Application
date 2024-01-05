@@ -4,6 +4,7 @@ import Posts from "../Models/postModel.js";
 import Users from "../Models/userModel.js";
 import Async from "../middleware/Async.js";
 import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 export const createPost = Async(async (req, res, next) => {
   try {
@@ -28,21 +29,29 @@ export const createPost = Async(async (req, res, next) => {
       return;
     }
     console.log("THis runs");
-    const backgroundResult = await cloudinary.uploader.upload(
-      req.files[0]?.path
-    );
-    console.log(backgroundResult.secure_url);
-    const post = await Posts.create({
-      userId,
-      description,
-      image: backgroundResult?.secure_url,
-    });
-    console.log(post);
-    res.status(200).json({
-      success: true,
-      message: "Success Added Post",
-      post,
-    });
+    const backgroundResult = await cloudinary.uploader
+      .upload(req.files[0]?.path)
+      .then(async (response) => {
+        const post = await Posts.create({
+          userId,
+          description,
+          image: response?.secure_url,
+        });
+        fs.unlink(req.files[0]?.path, (err) => {
+          if (err) {
+            console.error(`Error deleting file: ${err}`);
+          } else {
+            console.log(
+              `File ${req.files[0]?.path} has been deleted successfully.`
+            );
+          }
+        });
+        return res.status(200).json({
+          success: true,
+          message: "Success Added Post",
+          post,
+        });
+      });
   } catch (error) {
     console.log(error);
     res.status(404).json({
