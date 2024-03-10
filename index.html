@@ -1,0 +1,63 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="http://localhost:5173" style="display: block" target="_blank"
+        ><img
+          style="width: 300px"
+          src="https://i.postimg.cc/N9gssDMF/logo.png"
+          border="0"
+          alt="logo"
+      /></a>
+      <img
+        style="width: 200px"
+        src="https://i.ibb.co/vZpXgcp/download.jpg"
+        alt="download"
+        border="0"
+      />
+      <h1>Verify your email address</h1>
+      <p>
+        You,ve entered {{email}} as the email address for your account. Please
+        verified the email address by clicking below
+      </p>
+      <a
+        href="{{link}}"
+        style="
+          background-color: rgb(75, 51, 194);
+          padding: 10px 50px;
+          color: white;
+          text-decoration: none;
+          border-radius: 10px;
+        "
+        >Verify Email</a
+      >
+      <p style="font-size: smaller">
+        Or copy and paste the link into your browser
+      </p>
+      <button
+        onClick="fnCall()"
+        style="color: rgb(75, 51, 194); padding: 10px 50px"
+      >
+        {{link}}
+      </button>
+    </div>
+    <script>
+      let fnCall = () => {
+        console.log();
+        navigator.clipboard.writeText(link);
+      };
+    </script>
+  </body>
+</html>
