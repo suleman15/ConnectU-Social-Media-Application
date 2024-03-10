@@ -1,0 +1,55 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification</title>
+    <style>
+      body { font-family: 'Arial', sans-serif; background-color: #f4f4f4;
+      margin: 0; padding: 0; display: flex; align-items: center;
+      justify-content: center; height: 100vh; } .container { padding: 20px;
+      border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 80%;
+      text-align: center; } h2 { color: #333; } p { color: #666; } form {
+      margin-top: 20px; } input { width: 100%; padding: 10px; margin-bottom:
+      10px; box-sizing: border-box; } button { background-color: #4caf50; color:
+      #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor:
+      pointer; } button:hover { background-color: #45a049; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a
+        href="http://localhost:5173"
+        style="display: block"
+        target="_blank"
+      ><img
+          style="width: 300px"
+          src="https://i.postimg.cc/N9gssDMF/logo.png"
+          border="0"
+          alt="logo"
+        /></a>
+      <img
+        style="width: 200px"
+        src="https://i.ibb.co/vZpXgcp/download.jpg"
+        alt="download"
+        border="0"
+      />
+      <h1>Verify your email address</h1>
+      <p>
+        You,ve entered
+        {{email}}
+        as the email address for your account. Please verified the email address
+        by clicking below
+      </p>
+
+      <a href={{link}}><button type="submit">Verify Email</button></a>
+      <p style="font-size: smaller">
+        Or copy and paste the link into your browser
+        <p>
+          {{link}}
+        </p>
+      </p>
+
+    </div>
+
+  </body>
+</html>
