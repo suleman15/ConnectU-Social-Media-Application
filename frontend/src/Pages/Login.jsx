@@ -13,12 +13,10 @@ import {
   BiWifi,
 } from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
-import { axiosRequest } from "../api";
 import { login } from "../features/userSlice";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa6";
 import { setTheme } from "../features/themeSlice";
 import Logo from "../Component/Logo";
+import { loginUser } from "../api/authApi";
 
 export default function Login() {
   let {
@@ -33,27 +31,20 @@ export default function Login() {
   const navigate = useNavigate();
 
   let handleTheme = () => {
-    console.log("clicked");
     const themeValue = theme === "light" ? "dark" : "light";
     dispatch(setTheme(themeValue));
   };
 
   let onSubmit = async (data) => {
+    console.log("AUTH/LOGIN");
     setIsSubmitting(true);
     try {
-      console.log(data);
-      const res = await axiosRequest({
-        url: "auth/login",
-        data: data,
-        method: "POST",
-      });
-      console.log(res);
+      const res = await loginUser({ data });
       if (res?.status == "failed") {
         setErrMsg(res);
       } else {
         setErrMsg(res);
         const data = { token: res?.token, ...res?.user };
-        console.log(data);
         dispatch(login(data));
         if (res.message == "Login Successfully") {
           setTimeout(() => {
@@ -63,6 +54,7 @@ export default function Login() {
       }
       setIsSubmitting(false);
     } catch (error) {
+      console.log(error);
       setIsSubmitting(false);
     }
   };
@@ -76,35 +68,37 @@ export default function Login() {
           <BiSun className="bg-primary/70 hover:bg-primary/80  w-8 h-8 p-2 cursor-pointer rounded-full" />
         )}
       </button>
-      <div className="p-2 bg-secondary border-4 lg:flex-row flex-col md:w-full lg:w-[1024px]    rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
+      <div className="p-2 bg-secondary border-4 border-foreground/10 lg:flex-row flex-col md:w-full lg:w-[1024px]    rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
         {/* LEFT */}
         <div className="lg:w-1/2 w-full h-auto bg-cover bg-[url('assets/background.jpg')]  relative  py-10 rounded-lg  bg-black flex justify-center items-center">
-          <div className="text-center my-20 mx-2  p-3 rounded-lg ">
+          <div className="text-center my-20 mx-2 bg-secondary/70 backdrop-blur-lg  p-3 rounded-lg ">
             <div>Connect Your Friend & have share for fun.</div>
-            <div className="text-sm ">
+            <div className="text-sm  ">
               Share families with friends and the world
             </div>
           </div>
-          <div className="absolute   bottom-[10%] left-2  z-10 flex gap-3 items-center px-2 rounded-lg  ">
+          <div className="absolute   bottom-[10%] left-2  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg  ">
             <BiShareAlt />
             <span>Share</span>
           </div>
-          <div className="absolute  top-[20%] left-5  z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute  top-[20%] left-5  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg">
             <BiWifi />
             <span>Wifi</span>
           </div>
-          <div className="absolute  bottom-5 right-2  z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute  bottom-5 right-2  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg">
             <AiFillInteraction />
             <span>Interact</span>
           </div>
         </div>
         {/* RIGHT */}
         <div className="lg:w-1/2 w-full p-10 flex gap-3  md:w-full  flex-col">
-          <Link to={"/"} className="bg-[red] ">
-            {" "}
-            <Logo />
-            {/* <img className="h-8 backdrop-brightness-100" src="/logo.svg" /> */}
+          <Link to={"/"} className="flex ">
+            <Logo
+              fill={theme == "dark" ? "white" : "black"}
+              style={{ width: "30px", height: "auto" }}
+            />
           </Link>
+
           <p>Login in to your account</p>
           <span className="text-xs text-foreground/70">Welcome Back.</span>
           <form
@@ -151,7 +145,7 @@ export default function Login() {
           <span className="text-xs justify-center flex items-center">
             Dont have an account?
             <Link
-              className="text-primary/70 mx-1 hover:text-primary"
+              className="text-primary/70 mx-1  border-b border-primary/50 hover:border-primary hover:text-primary"
               to={"/register"}
             >
               Register

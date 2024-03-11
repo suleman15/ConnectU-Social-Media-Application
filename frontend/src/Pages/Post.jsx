@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  commentPost,
-  deleteSinglePost,
-  fetchSinglePost,
-  likePost,
-} from "../api";
+
 import moment from "moment";
 import {
   FaHeart,

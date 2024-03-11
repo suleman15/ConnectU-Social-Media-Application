@@ -42,6 +42,9 @@ function App() {
   const { edit, editSocial } = useSelector((state) => state.user);
   return (
     <div data-theme={theme} className="w-full min-h-screen  bg-background ">
+      {/* <div className="w-full h-screen bg-cover bg-[url('assets/bg.jpg')] fixed top-0 left-0 ">
+        <div className="w-full h-full bg-input/50 backdrop-blur-sm"></div>
+      </div> */}
       <ToastContainer />
       {edit && <UpdateUserForm />}
       {editSocial && <UpdateSocial />}

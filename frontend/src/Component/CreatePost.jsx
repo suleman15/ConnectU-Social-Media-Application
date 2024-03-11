@@ -9,9 +9,9 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { getPosts, replacePost, setTotalPost } from "../features/postSlice";
-import { fetchAllPost } from "../api";
 import { BiImageAdd } from "react-icons/bi";
 import Loading from "./Loading";
+import { fetchAllPost } from "../api/postApi";
 
 function CreatePost({ user }) {
   let dispatch = useDispatch();
@@ -126,7 +126,7 @@ function CreatePost({ user }) {
             register={register("image")}
             label={<BiImageAdd />}
             labelStyle={
-              " w-10 h-10 text-[30px] cursor-pointer flex justify-center items-center   rounded-full"
+              " w-10 h-10 text-[24px] bg-background text-primary hover:ring-2 cursor-pointer flex justify-center items-center   rounded-full"
             }
             type={"file"}
             styles={"bg-[red] w-min hidden"}
@@ -137,14 +137,14 @@ function CreatePost({ user }) {
 
         <div className="relative">
           <div
-            className={`p-3 rounded-lg bg-[#8080803d] text-xl ${
-              showEmoji && `bg-[#b9b9b9]`
+            className={`p-3 rounded-lg bg-background font-bold text-primary text-xl ${
+              showEmoji && `ring-2`
             }`}
             onClick={() => setShowEmoji(!showEmoji)}
           >
             <BsEmojiSmile />
           </div>
-          <div className="absolute right-0 top-[120%]">
+          <div className="absolute z-50 right-0 top-[120%]">
             {showEmoji && (
               <Picker
                 onEmojiClick={(emojiData) => {

@@ -3,7 +3,6 @@ import Comments from "../Models/commentsModel.js";
 export const getComment = async (req, res, next) => {
   try {
     const { postId } = req.params;
-    console.log(postId);
     const postComments = await Comments.find({ postId }).populate({
       path: "userId",
       select: "firstName lastName location profileUrl -password",

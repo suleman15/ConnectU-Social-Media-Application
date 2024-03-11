@@ -38,7 +38,11 @@ const InputField = React.forwardRef(
           aria-invalid={error ? true : false}
           {...rest}
         />
-        {error && <div className="text-xs text-muted">{error}</div>}
+        {error && (
+          <div className="text-xs bg-destructive px-4 py-1 text-[white]">
+            {error}
+          </div>
+        )}
       </div>
     );
   }

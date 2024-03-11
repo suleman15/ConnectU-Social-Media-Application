@@ -14,24 +14,26 @@ import {
 import { getComment } from "../controllers/getComment.js";
 
 const router = express.Router();
-//creating Post
+
+//Create POST
 router.post("/create-post", upload.array("image"), userAuth, createPost);
 
-// // //Getting Post
-router.post("/", userAuth, getPosts); //Getting all the post first owns the friends and then others
-// router.post("/", getPosts); //Getting all the post first owns the friends and then others
-router.post("/:id", userAuth, getPost); //getting single post with the help of _id
+//Find 10 by 10 Post
+router.post("/", userAuth, getPosts);
 
-// // Getting User Post
-// router.post("/get-user-post/:id", userAuth, userPost);
+//Find Single Post
+router.post("/:id", userAuth, getPost);
 
+//Like Single Post
 router.post("/like/:postId", userAuth, likePost);
 
+//Delete Single Post
 router.post("/delete/:postId", userAuth, deletePost);
 
-//creating post
+//Comment Single Post
 router.post("/comment/:postId", userAuth, commentPost);
-// //Getting Comment
+
+//Get Single Post Comments
 router.post("/comments/:postId", userAuth, getComment);
 
 export default router;

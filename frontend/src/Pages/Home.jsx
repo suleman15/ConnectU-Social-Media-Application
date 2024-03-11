@@ -48,7 +48,6 @@ const Home = () => {
   const sendFriendRequest = async ({ token, requestTo }) => {
     try {
       const res = await sendFriendReq({ token, requestTo }).then((res) => {
-        console.log(res);
         toast.error(res.message);
         fetchSugFriend({ token });
         fetchUserSentRequest({ token });
@@ -61,9 +60,7 @@ const Home = () => {
 
   const fetchUser = async ({ token }) => {
     try {
-      console.log("FETCH USER FN RUNs");
       let response = await fetchMainUser({ token });
-      console.log(response);
       dispatch(updateUser(response.user));
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -97,7 +94,6 @@ const Home = () => {
   const fetchRequest = async ({ token }) => {
     try {
       const friReq = await fetchFriendRequest({ token });
-      console.log(friReq);
       setFriendRequest(friReq?.data);
     } catch (error) {
       console.log("FriendRequest Error FETCHREQUEST");
@@ -105,7 +101,6 @@ const Home = () => {
   };
 
   const acceptRequest = async ({ token, rid, status = "Accepted" }) => {
-    console.log("Accept Friend Request");
     try {
       const friReq = await acceptFriendRequest({ token, rid, status }).then(
         async (res) => {
@@ -151,21 +146,23 @@ const Home = () => {
                 fetchUser={fetchUser}
               />
 
-              <div className="bg-white p-3 my-3 rounded-lg">
-                <div className="font-bold">Sent Friend Request</div>
+              <div className="bg-secondary border text-foreground p-3 my-3 rounded-lg">
+                <div className="font-bold  border-b-foreground border-b mb-5">
+                  Sent Friend Request
+                </div>
                 {!userSentRequest.length > 0 && (
-                  <div className="text-xs">
+                  <div className="text-xs text-center font-light">
                     Suggested Friend Request doesn't exist
                   </div>
                 )}
-                <div>
+                <div className="flex flex-col gap-2 ">
                   {userSentRequest?.map((item, index) => {
                     return (
                       <div key={index}>
-                        <div className="flex gap-3 ">
+                        <div className="flex justify-center items-center gap-2  pb-2 bg-background/30 p-3 rounded-lg">
                           <Link to={`/profile/${item?.requestTo?._id}`}>
                             <img
-                              className="p-1 rounded-full overflow-hidden  w-10 h-10"
+                              className="w-8 aspect-square rounded-full ring-2 ring-secondary ring-offset-2 ring-offset-background/30"
                               src={
                                 item?.requestTo?.profileUrl ??
                                 `https://api.dicebear.com/7.x/initials/svg?seed=${`${item?.requestTo?.firstName} ${item?.requestTo?.lastName}`}`
@@ -173,20 +170,22 @@ const Home = () => {
                               alt="avatar"
                             />
                           </Link>
-                          <div className="flex flex-col  ">
+                          <div className="w-full leading-3">
                             <Link to={`/profile/${item?.requestTo?._id}`}>
-                              <div className=" font-bold flex gap-3 capitalize items-center">
-                                {item?.requestTo?.firstName}{" "}
-                                {item?.requestTo?.lastName}
+                              <div className=" font-bold flex text-xs  gap-2   capitalize items-center">
+                                <div>
+                                  {item?.requestTo?.firstName}{" "}
+                                  {item?.requestTo?.lastName}
+                                </div>
                                 {item?.requestTo?.verified && (
-                                  <MdVerified className="text-[purple] text-xl" />
+                                  <MdVerified className="text-primary text-xl" />
                                 )}
                               </div>
                             </Link>
-                            <div className=" ">
+                            <div className=" w-full">
                               <CustomButton
                                 title={"cancel"}
-                                styles={`text-xs rounded-none py-[2px] `}
+                                styles={`text-xs py-[2px]  w-full font-font`}
                                 btnAttribute={{
                                   onClick: () =>
                                     cancelRequest({

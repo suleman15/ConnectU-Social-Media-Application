@@ -26,6 +26,7 @@ export const axiosRequest = async ({ url, token, data, method }) => {
 
 export const fetchSuggestedFriend = async ({ token }) => {
   try {
+    console.log("USERS/SUGGESTED-FRIENDS");
     let userData = await axiosRequest({
       url: "/users/suggested-friends",
       token: token,
@@ -39,6 +40,8 @@ export const fetchSuggestedFriend = async ({ token }) => {
 
 export const fetchFriendRequest = async ({ token }) => {
   try {
+    console.log("USERs/GET-FRIEND-REQUEST");
+
     let userData = await axiosRequest({
       url: "/users/get-friend-request",
       token: token,
@@ -52,6 +55,7 @@ export const fetchFriendRequest = async ({ token }) => {
 
 export const acceptFriendRequest = async ({ token, rid, status }) => {
   try {
+    console.log('"/USERS/ACCEPT-REQUEST"');
     let userData = await axiosRequest({
       url: "/users/accept-request",
       token: token,
@@ -67,6 +71,7 @@ export const acceptFriendRequest = async ({ token, rid, status }) => {
 export const fetchMainUser = async ({ token, id }) => {
   try {
     let url = !id ? `users/get-user` : `users/get-user/${id}`;
+    console.log(url);
     let userData = await axiosRequest({
       url,
       token: token,
@@ -78,88 +83,9 @@ export const fetchMainUser = async ({ token, id }) => {
   }
 };
 
-export const fetchAllPost = async ({ token, search, page }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: "/post/",
-      method: "post",
-      data: { search, page },
-      token,
-    }).then((res) => res.data);
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const deleteSinglePost = async ({ token, postId, uId }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: `/post/delete/${postId}`,
-      method: "post",
-      data: { postId, uId },
-      token,
-    }).then((res) => res);
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-export const likePost = async ({ token, postId }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: `/post/like/${postId}`,
-      method: "post",
-      token,
-    }).catch((err) => console.log(err));
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const commentPost = async ({ token, postId, comment }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: `/post/comment/${postId}`,
-      method: "post",
-      data: { comment },
-      token,
-    }).then((res) => res);
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const fetchComment = async ({ token, postId }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: `/post/comments/${postId}`,
-      method: "post",
-      token,
-    }).then((res) => res);
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const fetchSinglePost = async ({ token, postId }) => {
-  try {
-    let fetchData = await axiosRequest({
-      url: `/post/${postId}`,
-      method: "post",
-      token,
-    }).then((res) => res);
-    return fetchData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const fetchSentFriendRequest = async ({ token }) => {
   try {
+    console.log(`/USERS/SENT-FRIEND-REQUEST`);
     let fetchData = await axiosRequest({
       url: `/users/sent-friend-request`,
       method: "post",
@@ -173,6 +99,7 @@ export const fetchSentFriendRequest = async ({ token }) => {
 
 export const sendFriendReq = async ({ token, requestTo }) => {
   try {
+    console.log(`/USERS/FRIEND-REQUEST`);
     let fetchData = await axiosRequest({
       url: `/users/friend-request`,
       method: "post",
@@ -187,6 +114,7 @@ export const sendFriendReq = async ({ token, requestTo }) => {
 
 export const cancelUserReq = async ({ token, requestTo }) => {
   try {
+    console.log(`/USERS/CANCEL-USER-REQUEST`);
     let fetchData = await axiosRequest({
       url: `/users/cancel-user-request`,
       method: "post",
@@ -201,7 +129,7 @@ export const cancelUserReq = async ({ token, requestTo }) => {
 
 export const updateSocialApi = async ({ token, data }) => {
   try {
-    console.log(token, data);
+    console.log(`/USERS/UPDATE-SOCIAL`);
     let fetchData = await axiosRequest({
       url: `/users/update-social`,
       method: "put",
@@ -216,6 +144,7 @@ export const updateSocialApi = async ({ token, data }) => {
 
 export const viewProfile = async ({ token, id }) => {
   try {
+    console.log(`/USERS/PROFILE-VIEW`);
     let fetchData = await axiosRequest({
       url: `/users/profile-view`,
       method: "post",

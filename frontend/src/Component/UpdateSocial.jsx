@@ -43,7 +43,6 @@ const UpdateUserForm = () => {
     try {
       await updateSocialApi({ token, data }).then(async (res) => {
         const data = { token: res?.token, ...res?.findUser };
-        console.log(data);
         dispatch(login(data));
         toast.success(res?.message);
         return res.data;
@@ -55,17 +54,17 @@ const UpdateUserForm = () => {
   };
 
   return (
-    <div className="fixed w-full overflow-auto   h-screen  top-0 p-5 items-start   flex justify-center  bg-[#00000080] z-50">
+    <div className="fixed w-full overflow-auto   h-screen  top-0 p-5 items-start   flex justify-center  bg-background/30 backdrop-blur-lg z-50">
       <form
         onSubmit={handleSubmit(updateSocialMediaURL)}
-        className=" p-3 w-[500px] h-auto  gap-3 flex flex-col rounded-lg relative bg-white"
+        className=" p-3 w-[500px] h-auto  gap-5 flex flex-col rounded-lg relative bg-secondary border text-foreground"
         encType="multipart/form-data"
       >
-        <div className=" border-b-2 border-[#8080805d] p-3 flex justify-between items-center">
+        <div className=" border-b-2 border-primary/20 p-3 flex justify-between items-center">
           <div className="text-purple">Update Social </div>
 
           <div
-            className="bg-[#80008056] text-purple rounded-full  w-8 h-8 justify-center items-center flex cursor-pointer"
+            className="bg-primary text-purple rounded-full  w-8 h-8 justify-center items-center flex cursor-pointer"
             onClick={() => dispatch(updateSocial())}
           >
             <RxCross2 />

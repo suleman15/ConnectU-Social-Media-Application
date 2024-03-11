@@ -82,3 +82,6 @@ Content-Type: application/json
 
  ###
  ### SULEMAN 2704 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTZhY2Q2Yzk3MDM4Y2RlYzZmYjk5M2QiLCJpYXQiOjE3MDE0OTg2MTQsImV4cCI6MTcwMTU4NTAxNH0.w8Z0mIyLl5hO_2FBCUjGgX3uorgfJUXdDdukLFA_Zxs
+
+POST http://localhost:8800/users/get-friend-request
+

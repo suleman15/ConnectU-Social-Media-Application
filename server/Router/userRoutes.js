@@ -29,8 +29,9 @@ router.post("/request-resetpassword", requestPasswordReset); // @{Working Fine} 
 router.get("/reset-password/:userId/:token", resetPassword); // @{Working Fine} for redirect to especific path through provided params
 router.post("/password-reset", changePassword); // @{Working Fine} change the user password through form
 
-//user routes
-router.post("/get-user/:id?", userAuth, getUser); // get the user data from db
+// GET USER // CHECKED
+router.post("/get-user/:id?", userAuth, getUser);
+
 router.put(
   "/update-user",
   upload.fields([
@@ -39,23 +40,31 @@ router.put(
   ]),
   userAuth,
   updateUser
-); //update the user info
+);
+
+//UPDATE SOCIAL INFO OF THE USER PROFILE // CHECKED
 router.put("/update-social", userAuth, updateSocial);
 
 //friendrequest route
 router.post("/friend-request", userAuth, friendRequest);
+
+// GET ALL THE FRIEND REQUEST TO YOU
 router.post("/get-friend-request", userAuth, getFriendRequest);
+
+// SENT ALL THE FRIEND REQUEST TO YOU
 router.post("/sent-friend-request", userAuth, sentFriendRequest);
+
 router.post("/cancel-friend-request", userAuth);
+
 router.post("/cancel-user-request", userAuth, cancelUserSentRequest);
 
 // accept or deny friend request
 router.post("/accept-request", userAuth, acceptRequest);
 
-//View Profile
+//PROFILE VIEW
 router.post("/profile-view", userAuth, viewProfile);
 
-//Suggest Friend
+//SUGGESTED FRIENDS // CHECKED
 router.post("/suggested-friends", userAuth, suggestedFriends);
 
 router.get("/verified", scriptMiddleware, (req, res) => {

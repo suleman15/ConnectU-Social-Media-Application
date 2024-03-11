@@ -110,9 +110,9 @@
     --ring: 224.3 76.3% 48%;
   }
 } */
-
 @layer base {
   :root {
+    --font: `poppins-bold`;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -177,20 +177,19 @@
 @font-face {
   font-family: "Gordita-Bold";
   src: local("Gordita"),
-    url("../src/Font/Gordita-Font/Gordita-Black.otf") format("truetype");
+    url("../src/Font/Gordita-Font/Gordita-Semibold.otf") format("truetype");
   font-weight: bold;
 }
 
 @font-face {
   font-family: "poppins";
-  src: local("Gordita"),
+  src: local("Poppins"),
     url("../src/Font/Poppins/Poppins-Regular.ttf") format("truetype");
-  font-weight: bold;
 }
 @font-face {
-  font-family: "poppins-bold";
-  src: local("Gordita"),
-    url("../src/Font/Poppins/Poppins-Bold.ttf") format("truetype");
+  font-family: "poppins";
+  src: local("Poppins"),
+    url("../src/Font/Poppins/Poppins-Medium.ttf") format("truetype");
   font-weight: bold;
 }
 

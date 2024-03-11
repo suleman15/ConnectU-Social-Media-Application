@@ -4,10 +4,21 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa6";
-import { BiLogoGithub, BiShareAlt, BiWifi } from "react-icons/bi";
+import {
+  BiLogoFacebook,
+  BiLogoGithub,
+  BiLogoGoogle,
+  BiMoon,
+  BiShareAlt,
+  BiSun,
+  BiWifi,
+} from "react-icons/bi";
 import { AiFillInteraction } from "react-icons/ai";
 import { axiosRequest } from "../api";
 import { toast } from "react-toastify";
+import Logo from "../Component/Logo";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "../features/themeSlice";
 
 export default function Register() {
   let {
@@ -19,9 +30,16 @@ export default function Register() {
   const [errMsg, setErrMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
+
+  let handleTheme = () => {
+    const themeValue = theme === "light" ? "dark" : "light";
+    dispatch(setTheme(themeValue));
+  };
 
   let onSubmit = async (data) => {
-    console.log(data);
+    console.log("AUTH/REGISTER");
     setIsSubmitting(true);
     try {
       const res = await axiosRequest({
@@ -29,7 +47,6 @@ export default function Register() {
         data: data,
         method: "POST",
       });
-      console.log(res);
 
       if (res?.success == "failed") {
         setErrMsg(res);
@@ -46,44 +63,52 @@ export default function Register() {
   };
 
   return (
-    <div className=" bg-purple w-full lg:h-screen h-auto flex p-6  justify-center items-center md:p-20 ">
-      <div className="border-4 border-white lg:flex-row flex-col md:w-full lg:w-[1024px]   bg-primary rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
+    <div className="  w-full lg:h-screen text-foreground  bg-card h-auto flex p-6  justify-center items-center md:p-20 ">
+      <button onClick={handleTheme} className="absolute top-4 right-4 z-50">
+        {theme == "light" ? (
+          <BiMoon className="bg-primary/70 hover:bg-primary/80  w-8 h-8 p-2 cursor-pointer rounded-full" />
+        ) : (
+          <BiSun className="bg-primary/70 hover:bg-primary/80  w-8 h-8 p-2 cursor-pointer rounded-full" />
+        )}
+      </button>
+      <div className="p-2 bg-secondary border-4 border-foreground/10 lg:flex-row flex-col md:w-full lg:w-[1024px]    rounded-lg shadow-sm h-fit  overflow-hidden gap-3 flex ">
         {/* LEFT */}
-        <div className=" order-1 lg:order-2  lg:w-1/2 w-full h-auto bg-cover bg-[url('assets/background.jpg')] relative  py-10 rounded-lg  bg-black flex justify-center items-center">
-          <div className="text-center my-20 mx-2 bg-[#ffffff81] p-3 rounded-lg ">
+        <div className="lg:w-1/2 w-full h-auto bg-cover bg-[url('assets/background.jpg')]  relative  py-10 rounded-lg  bg-black flex justify-center items-center">
+          <div className="text-center my-20 mx-2 bg-secondary/70 backdrop-blur-lg  p-3 rounded-lg ">
             <div>Connect Your Friend & have share for fun.</div>
-            <div className="text-sm text-[#505050]">
+            <div className="text-sm  ">
               Share families with friends and the world
             </div>
           </div>
-          <div className="absolute   bottom-[10%] left-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg  ">
+          <div className="absolute   bottom-[10%] left-2  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg  ">
             <BiShareAlt />
             <span>Share</span>
           </div>
-          <div className="absolute  top-[20%] left-5 bg-white z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute  top-[20%] left-5  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg">
             <BiWifi />
             <span>Wifi</span>
           </div>
-          <div className="absolute  bottom-5 right-2 bg-white z-10 flex gap-3 items-center px-2 rounded-lg">
+          <div className="absolute  bottom-5 right-2  z-10 flex gap-3 bg-secondary/70 backdrop-blur-lg items-center px-2 rounded-lg">
             <AiFillInteraction />
             <span>Interact</span>
           </div>
         </div>
         {/* RIGHT */}
         <div className="order-2 lg:order-1 lg:w-1/2  p-5 flex gap-3 flex-col">
-          <Link to={"/"}>
-            {" "}
-            <img className="h-8" src="/logo.png" />{" "}
+          <Link to={"/"} className="flex ">
+            <Logo
+              fill={theme == "dark" ? "white" : "black"}
+              style={{ width: "30px", height: "auto" }}
+            />
           </Link>
           <p>Register your account</p>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex gap-3 flex-col"
+            className="flex gap-3 flex-col text-foreground"
           >
             <div className="flex  gap-2 flex-col   md:flex-row">
               <InputField
                 type="text"
-                styles={"w-full bg-field text-input"}
                 placeholder="First Name"
                 label="First Name: "
                 register={register("firstName", {
@@ -93,7 +118,6 @@ export default function Register() {
               />
               <InputField
                 type="text"
-                styles={"w-full bg-field text-input"}
                 placeholder="Last Name"
                 label="Last Name: "
                 register={register("lastName", {
@@ -104,7 +128,6 @@ export default function Register() {
             </div>
             <InputField
               type="email"
-              styles={"w-full bg-field text-input"}
               placeholder="email@example.com"
               label="Email: "
               register={register("email", {
@@ -116,7 +139,6 @@ export default function Register() {
               <InputField
                 type="password"
                 placeholder="Password"
-                styles={"w-full bg-field text-input"}
                 label="Password: "
                 register={register("password", {
                   required: "Password  is required",
@@ -126,7 +148,6 @@ export default function Register() {
               <InputField
                 type="password"
                 placeholder="Confirm Password"
-                styles={"w-full bg-field text-input"}
                 label="Password: "
                 register={register("cPassword", {
                   validate: (value) => {
@@ -155,17 +176,20 @@ export default function Register() {
           </form>
           <div className="text-xs  flex items-center justify-center">
             Already have an account?
-            <Link className="text-Clr mx-2 hover:text-Clrhv" to={"/login"}>
+            <Link
+              className="text-primary/70 mx-1  border-b border-primary/50 hover:border-primary hover:text-primary"
+              to={"/login"}
+            >
               Login
             </Link>
           </div>
           <div className="text-[gray] text-sm text-center">
             ------ OR ------
           </div>
-          <div className="flex justify-center gap-3 ">
-            <FcGoogle className="text-Clr rounded-full cursor-pointer  w-8 h-8 p-1 bg-[#8080804d]" />
-            <BiLogoGithub className="text-[#333333] rounded-full  cursor-pointer  w-8 h-8 p-[2px] bg-[#d4d4d498]" />
-            <FaFacebook className="text-[#395693] rounded-full  cursor-pointer  w-8 h-8 p-1 bg-[#d4d4d498]" />
+          <div className="flex justify-center gap-3 text-3xl text-primary">
+            <BiLogoGoogle className="bg-primary/80 hover:bg-primary rounded-lg p-1 text-secondary hover:ring-primary cursor-pointer ring-2 ring-offset-2 ring-offset-secondary" />
+            <BiLogoGithub className="bg-primary/80 hover:bg-primary rounded-lg p-1 text-secondary hover:ring-primary cursor-pointer ring-2 ring-offset-2 ring-offset-secondary" />
+            <BiLogoFacebook className="bg-primary/80 hover:bg-primary rounded-lg p-1 text-secondary hover:ring-primary cursor-pointer ring-2 ring-offset-2 ring-offset-secondary" />
           </div>
         </div>
       </div>
